@@ -34,6 +34,7 @@ jobs:
       - name: Run tests
         run: dart test
         if: always() && steps.install-deps.outcome == 'success'
+        
   analyze:
     runs-on: windows-latest
 
@@ -53,7 +54,8 @@ jobs:
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
         run: dart analyze --fatal-infos
-          if: always() && steps.install-deps.outcome == 'success'
+        if: always() && steps.install-deps.outcome == 'success'
+
   format:
     runs-on: windows-latest
 
