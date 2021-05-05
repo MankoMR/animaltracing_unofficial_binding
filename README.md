@@ -1,4 +1,11 @@
-A library for Dart developers.
+A library to interact with AnimalTracing.
+
+AnimalTracing is a Service which allows interaction with the Animal Traffic Database.
+For now aim of this project is to implement the following service operations:
+* WriteNewEarTagOrder
+* GetEarTagOrders
+* DeleteEarTagOrder
+
 
 Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
@@ -8,10 +15,7 @@ Created from templates made available by Stagehand under a BSD-style
 A simple usage example:
 
 ```dart
-import 'package:animaltracing_unofficial_binding/animaltracing_unofficial_binding.dart';
-
 main() {
-  var awesome = new Awesome();
 }
 ```
 
@@ -19,4 +23,4 @@ main() {
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/MankoMR/animaltracing_unofficial_binding/issues
