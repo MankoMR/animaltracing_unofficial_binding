@@ -12,7 +12,7 @@ on:
     branches: [ develop, main ]
 
 jobs:
-  test:
+  quality-ensurance-test:
     runs-on: windows-latest
 
     steps:
