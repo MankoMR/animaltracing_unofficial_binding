@@ -6,7 +6,8 @@ description: A library to make interaction with AnimalTracin easier.
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
-#dependencies:
+dependencies:
+  xml: ^5.1.0
 #  path: ^1.7.0
 
 dev_dependencies:
