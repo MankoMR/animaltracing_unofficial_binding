@@ -3,10 +3,10 @@
  * Filename: soap_request.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/src/xml_utils.dart';
 import 'package:xml/xml.dart';
 
 import '../../core/core.dart';
+import '../xml_utils.dart';
 
 class SoapRequest {
   final ServiceEndpointConfiguration serviceEndpointConfiguration;

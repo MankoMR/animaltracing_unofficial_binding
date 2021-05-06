@@ -3,7 +3,7 @@
  * Filename: 
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/exceptions/mal_formed_content_exception.dart';
+import 'mal_formed_content_exception.dart';
 
 class StringDecodingException extends FormatException
     implements MalFormedContentException {

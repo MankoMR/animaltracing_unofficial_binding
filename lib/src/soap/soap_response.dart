@@ -3,10 +3,10 @@
  * Filename: soap_response.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/exceptions/soap_exception.dart';
-import 'package:animaltracing_unofficial_binding/exceptions/xml_missing_element_exception.dart';
 import 'package:xml/xml.dart';
 
+import '../../exceptions/soap_exception.dart';
+import '../../exceptions/xml_missing_element_exception.dart';
 import '../../exceptions/xml_parse_exception.dart';
 import '../xml_utils.dart';
 

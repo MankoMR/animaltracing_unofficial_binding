@@ -3,8 +3,9 @@
  * Filename: 
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/exceptions/mal_formed_content_exception.dart';
 import 'package:xml/xml.dart';
+
+import 'mal_formed_content_exception.dart';
 
 ///Gets thrown when the response contained invalid xml or is missing
 ///really important Information.
