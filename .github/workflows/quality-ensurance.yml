@@ -40,7 +40,14 @@ jobs:
         run: dart analyze --fatal-infos
         if: always() && steps.install-deps.outcome == 'success'
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
+  code-format-check:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1.5
+        with:
+          channel: stable
+
       - name: Verify formatting
-        run: dart format --output=show --set-exit-if-changed .
-        if: always()
+        run: flutter format -n --set-exit-if-changed .
