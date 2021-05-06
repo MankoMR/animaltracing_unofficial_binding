@@ -11,4 +11,9 @@ class SoapException implements LibraryException {
   final String message;
 
   SoapException(this.errorCode, this.message);
+
+  @override
+  String toString() {
+    return '${super.toString()}: Envelope contained fault of type $errorCode: $message';
+  }
 }

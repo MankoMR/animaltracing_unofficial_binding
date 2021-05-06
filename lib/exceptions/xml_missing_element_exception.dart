@@ -12,4 +12,9 @@ class XmlMissingElementException implements LibraryException {
   final String? message;
 
   XmlMissingElementException(this.elementName, this.nameSpace, this.message);
+
+  @override
+  String toString() {
+    return '${super.toString()}: Missing $elementName from $nameSpace. $message';
+  }
 }
