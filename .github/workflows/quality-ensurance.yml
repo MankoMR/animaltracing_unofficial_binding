@@ -50,6 +50,6 @@ jobs:
           channel: stable
       - name: Disable flutter analytics
         run: flutter config --no-analytics
-        
+
       - name: Verify formatting
         run: flutter format -n --set-exit-if-changed .
