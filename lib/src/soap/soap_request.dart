@@ -23,7 +23,7 @@ class SoapRequest {
       this.requestData);
 
   /// Generates the content of message which will be sent to the service.
-  String generateEnvelope() {
+  XmlDocument generateEnvelope() {
     final builder = XmlBuilder(optimizeNamespaces: true);
 
     builder.element('Envelope',
@@ -42,6 +42,6 @@ class SoapRequest {
       });
     });
     //TODO: Revisit when text from User is sent. There could be problems with whitespace.
-    return builder.buildDocument().toXmlString(pretty: true);
+    return builder.buildDocument();
   }
 }

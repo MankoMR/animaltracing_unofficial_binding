@@ -42,7 +42,8 @@ class IOClient extends SoapClient {
         ContentType('application', 'soap+xml', charset: 'utf-8');
     request.headers
         .add('Authorization', authorizationToken, preserveHeaderCase: true);
-    request.write(soapRequest.generateEnvelope());
+    //TODO: Revisit when text from User is sent. There could be problems with whitespace.
+    request.write(soapRequest.generateEnvelope().toXmlString(pretty: true));
 
     final response = await request.close();
     client.close();
