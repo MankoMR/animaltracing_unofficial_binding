@@ -5,9 +5,10 @@
  */
 import '../soap/soap_request.dart';
 import '../soap/soap_response.dart';
-import 'base_client.dart';
+import 'soap_client.dart';
 
-class BrowserClient extends BaseClient {
+/// Implementation of [SoapClient] for when library is used in the browser.
+class BrowserClient extends SoapClient {
   BrowserClient(Duration? timeOutDuration) : super(timeOutDuration);
 
   @override
@@ -18,5 +19,7 @@ class BrowserClient extends BaseClient {
   }
 }
 
-BaseClient createClient(Duration? timeOutDuration) =>
+/// Function ist called depending which library is available. See the imports in
+/// the sourcecode for [SoapClient]
+SoapClient createClient(Duration? timeOutDuration) =>
     BrowserClient(timeOutDuration);

@@ -10,23 +10,23 @@ import '../../exceptions/xml_missing_element_exception.dart';
 import '../../exceptions/xml_parse_exception.dart';
 import '../xml_utils.dart';
 
-///SoapResponse is the parsed content of an soap:Envelope.
+/// SoapResponse is the parsed content of an soap:Envelope.
 class SoapResponse {
-  ///Contains the message for a service operation.
+  /// Contains the message for a service operation.
   late final XmlElement body;
 
-  ///Might contain some metadata in addition to the message.
+  /// Might contain some metadata in addition to the message.
   late final XmlElement? header;
 
-  ///Tries to parse [envelope] as soap:Envelope and does some
-  ///preliminary checks.
+  /// Tries to parse [envelope] as soap:Envelope and does some
+  /// preliminary checks.
   ///
-  ///It will throw [XmlParseException] if [envelope] is not a valid soap:Envelope
-  ///according the following [specification][spec].
+  /// It will throw [XmlParseException] if [envelope] is not a valid soap:Envelope
+  /// according the following [specification][spec].
   ///
-  ///It will throw [SoapException] according to the Exception-Model of the library.
+  /// It will throw [SoapException] according to the Exception-Model of the library.
   ///
-  ///[spec]: https://www.w3.org/2003/05/soap-envelope/
+  /// [spec]: https://www.w3.org/2003/05/soap-envelope/
   SoapResponse(String envelope) {
     final XmlDocument document;
     try {
@@ -50,8 +50,8 @@ class SoapResponse {
     _throwIfContainsFault(body);
   }
 
-  ///Checks if soap:Body contains a fault-message. If it has one throws it
-  ///as a [SoapException].
+  /// Checks if soap:Body contains a fault-message. If it has one throws it
+  /// as a [SoapException].
   ///
   /// If soap:Fault exists and it doesn't contain the soap:Reason element,
   /// it will throw a [XmlParseException].

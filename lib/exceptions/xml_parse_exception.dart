@@ -5,12 +5,11 @@
  */
 import 'package:xml/xml.dart';
 
-import 'mal_formed_content_exception.dart';
+import 'mal_formed_response_exception.dart';
 
-///Gets thrown when the response contained invalid xml or is missing
-///really important Information.
+/// Exception when the response contains invalid xml.
 class XmlParseException extends XmlParserException
-    implements MalFormedContentException {
+    implements MalFormedResponseException {
   XmlParseException(String message) : super(message);
   XmlParseException.from(XmlParserException exception)
       : super(exception.message,

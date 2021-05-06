@@ -3,10 +3,12 @@
  * Filename: 
  * Project: animaltracing_unofficial_binding.
  */
-import 'mal_formed_content_exception.dart';
+import 'mal_formed_response_exception.dart';
 
+/// Gets thrown when the response can't be interpreted as
+/// ascii, latin-1 or utf-8
 class StringDecodingException extends FormatException
-    implements MalFormedContentException {
+    implements MalFormedResponseException {
   StringDecodingException(FormatException exception)
       : super(exception.message, exception.source, exception.offset);
 }

@@ -5,13 +5,14 @@
  */
 import 'library_exception.dart';
 
-///Gets thrown when soap:Envelope contains a soap:Error.
+/// Gets thrown when soap:Envelope contains a soap:Error.
 class SoapException implements LibraryException {
   final String? errorCode;
   final String message;
 
   const SoapException(this.errorCode, this.message);
 
+  /// Returns readable Expression of the Exception
   @override
   String toString() {
     return '${super.toString()}: Envelope contained fault of type $errorCode: $message';

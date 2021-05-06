@@ -8,14 +8,21 @@ import 'package:xml/xml.dart';
 import '../../core/core.dart';
 import '../xml_utils.dart';
 
+/// Contains all the information needed to call a service operation.
 class SoapRequest {
+  /// Information about the service endpoint.
   final ServiceEndpointConfiguration serviceEndpointConfiguration;
+
+  /// Which service operation will be called.
   final String serviceOperation;
+
+  /// Information required to call the service operation.
   final RequestData requestData;
 
   SoapRequest(this.serviceEndpointConfiguration, this.serviceOperation,
       this.requestData);
 
+  /// Generates the content of message which will be sent to the service.
   String generateEnvelope() {
     final builder = XmlBuilder(optimizeNamespaces: true);
 

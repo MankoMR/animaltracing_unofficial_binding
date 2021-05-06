@@ -6,17 +6,29 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../core/core.dart';
 import '../../exceptions/http_exception.dart';
 import '../../exceptions/library_exception.dart';
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/string_decoding_exception.dart';
+import '../../exceptions/xml_missing_element_exception.dart';
+import '../../exceptions/xml_parse_exception.dart';
 import '../soap/soap_request.dart';
 import '../soap/soap_response.dart';
-import 'base_client.dart';
+import 'soap_client.dart';
 
-class IOClient extends BaseClient {
+/// Used in case when access to the dart:io library is available.
+///
+/// This implementation will be used in most cases.
+class IOClient extends SoapClient {
   IOClient(Duration? timeOutDuration) : super(timeOutDuration);
 
+  /// Sends the [soapRequest] to the service as specified in [ServiceEndpointConfiguration].
+  ///
+  /// May throw the following exceptions: [SoapException],[HttpException],
+  /// [StringDecodingException],[XmlParseException],[XmlMissingElementException].
+  ///
+  /// In some Scenarios it could also throw other Exceptions.
   @override
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken) async {
@@ -55,9 +67,9 @@ class IOClient extends BaseClient {
     throw UnimplementedError();
   }
 
-  ///Decodes content of response.
+  /// Decodes content of response.
   ///
-  /// Throws [FormatException] is response is according to charset specification.
+  /// Throws [StringDecodingException] is response is not according to charset specification.
   Future<String> _decodeContent(HttpClientResponse response) async {
     try {
       final typ = response.headers.contentType?.charset;
@@ -79,4 +91,6 @@ class IOClient extends BaseClient {
   }
 }
 
-BaseClient createClient(Duration? timeOutDuration) => IOClient(timeOutDuration);
+/// Function ist called depending which library is available. See the imports in
+/// the sourcecode for [SoapClient]
+SoapClient createClient(Duration? timeOutDuration) => IOClient(timeOutDuration);

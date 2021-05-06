@@ -4,7 +4,8 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'base_client.dart';
+import 'soap_client.dart';
 
-BaseClient createClient(Duration? timeOutDuration) =>
+/// Global function needed to instantiate correct implementation of [SoapClient]
+SoapClient createClient(Duration? timeOutDuration) =>
     throw UnimplementedError('Called on a unsupported Platform');
