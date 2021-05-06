@@ -8,7 +8,7 @@ import '../soap/soap_response.dart';
 import 'base_client.dart';
 
 class IOClient extends BaseClient {
-  IOClient(DateTime timeOutDuration) : super(timeOutDuration);
+  IOClient(Duration? timeOutDuration) : super(timeOutDuration);
 
   @override
   Future<SoapResponse> sendRequest(
@@ -17,4 +17,4 @@ class IOClient extends BaseClient {
   }
 }
 
-BaseClient createClient(DateTime timeOutDuration) => IOClient(timeOutDuration);
+BaseClient createClient(Duration? timeOutDuration) => IOClient(timeOutDuration);

@@ -11,14 +11,14 @@ import 'creation_stub.dart'
     if (dart.library.io) 'io_client.dart';
 
 abstract class BaseClient {
-  final DateTime timeOutDuration;
+  final Duration? timeOutDuration;
 
   BaseClient(this.timeOutDuration);
 
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken);
 
-  factory BaseClient.create(DateTime timeOutDuration) {
+  factory BaseClient.create(Duration? timeOutDuration) {
     return createClient(timeOutDuration);
   }
 }

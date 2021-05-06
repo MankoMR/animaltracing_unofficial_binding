@@ -6,5 +6,5 @@
 
 import 'base_client.dart';
 
-BaseClient createClient(DateTime timeOutDuration) =>
+BaseClient createClient(Duration? timeOutDuration) =>
     throw UnimplementedError('Called on a unsupported Platform');
