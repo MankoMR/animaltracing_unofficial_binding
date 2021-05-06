@@ -9,11 +9,12 @@ import 'package:xml/xml.dart';
 import '../../core/core.dart';
 
 class SoapRequest {
-  final String serviceEndPoint;
+  final ServiceEndpointConfiguration serviceEndpointConfiguration;
   final String serviceOperation;
   final RequestData requestData;
 
-  SoapRequest(this.serviceEndPoint, this.serviceOperation, this.requestData);
+  SoapRequest(this.serviceEndpointConfiguration, this.serviceOperation,
+      this.requestData);
 
   String generateEnvelope() {
     final builder = XmlBuilder(optimizeNamespaces: true);
@@ -23,8 +24,11 @@ class SoapRequest {
       builder.element('Header', namespace: soapNameSpace, nest: () {
         builder.element('Action',
             namespace: adressingNameSpace, nest: serviceOperation);
+        final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
+            '${serviceEndpointConfiguration.port}/'
+            '${serviceEndpointConfiguration.path}';
         builder.element('To',
-            namespace: adressingNameSpace, nest: serviceEndPoint);
+            namespace: adressingNameSpace, nest: serviceEndpoint);
       });
       builder.element('Body', namespace: soapNameSpace, nest: () {
         requestData.generateWith(builder, null);
