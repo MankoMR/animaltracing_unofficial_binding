@@ -11,7 +11,8 @@ class XmlMissingElementException implements LibraryException {
   final String? nameSpace;
   final String? message;
 
-  XmlMissingElementException(this.elementName, this.nameSpace, this.message);
+  const XmlMissingElementException(
+      this.elementName, this.nameSpace, this.message);
 
   @override
   String toString() {

@@ -10,7 +10,7 @@ class SoapException implements LibraryException {
   final String? errorCode;
   final String message;
 
-  SoapException(this.errorCode, this.message);
+  const SoapException(this.errorCode, this.message);
 
   @override
   String toString() {

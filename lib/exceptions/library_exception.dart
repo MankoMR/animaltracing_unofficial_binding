@@ -6,4 +6,6 @@
 ///An Exception implemented by all thrown exceptions by this Library.
 ///
 /// Useful for catching all exceptions.
-class LibraryException implements Exception {}
+class LibraryException implements Exception {
+  const LibraryException();
+}
