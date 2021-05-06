@@ -64,7 +64,7 @@ class SoapResponse {
           ?.innerText;
       //FaultCode is optional because the service does not always returns it.
       final faultCode = faultElement
-          .getElement('Code')
+          .getElement('Code', namespace: soapNameSpace)
           ?.getElement('Value', namespace: soapNameSpace)
           ?.innerText;
       if (faultReason == null) {
