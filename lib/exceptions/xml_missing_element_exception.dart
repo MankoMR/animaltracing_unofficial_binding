@@ -4,9 +4,9 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'library_exception.dart';
+import 'package:animaltracing_unofficial_binding/exceptions/mal_formed_content_exception.dart';
 
-class XmlMissingElementException implements LibraryException {
+class XmlMissingElementException implements MalFormedContentException {
   final String elementName;
   final String? nameSpace;
   final String? message;

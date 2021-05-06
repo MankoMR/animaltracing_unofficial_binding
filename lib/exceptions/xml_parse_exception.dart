@@ -3,13 +3,13 @@
  * Filename: 
  * Project: animaltracing_unofficial_binding.
  */
+import 'package:animaltracing_unofficial_binding/exceptions/mal_formed_content_exception.dart';
 import 'package:xml/xml.dart';
-
-import 'library_exception.dart';
 
 ///Gets thrown when the response contained invalid xml or is missing
 ///really important Information.
-class XmlParseException extends XmlParserException implements LibraryException {
+class XmlParseException extends XmlParserException
+    implements MalFormedContentException {
   XmlParseException(String message) : super(message);
   XmlParseException.from(XmlParserException exception)
       : super(exception.message,
