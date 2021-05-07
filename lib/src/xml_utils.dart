@@ -22,13 +22,18 @@ void buildNullableElement(
   Object? value,
 ) {
   if (value == null) {
-    builder.element(
-      elementName,
-      namespace: namespace,
-      nest: () {
-        builder.attribute('isNill', 'true');
-      },
-    );
+    switch (nullabilityType) {
+      case NullabilityType.optionalElement:
+        return;
+      case NullabilityType.nullable:
+        builder.element(
+          elementName,
+          namespace: namespace,
+          nest: () {
+            builder.attribute('isNill', 'true');
+          },
+        );
+        break;
   } else {
     builder.element(elementName, namespace: namespace, nest: value);
   }
