@@ -12,7 +12,7 @@ import 'test_utils.dart';
 void main() {
   group('TestUtils', () {
     test('validateXml throws InvalidXml with invalid xml.', () {
-      final invalidXml = buildXml(MockRequestData(), null);
+      final invalidXml = generateXml(MockRequestData(), null);
       expect(() async => await validateXml(invalidXml),
           throwsA(TypeMatcher<InvalidXmlException>()));
     });
