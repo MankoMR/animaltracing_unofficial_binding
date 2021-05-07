@@ -53,7 +53,6 @@ class IOClient extends SoapClient {
     //This code is added because the service could respond
     //with an soap:Envelope which could contain additional information
     //why its a bad request.
-    print(content);
     if (response.statusCode != HttpStatus.ok) {
       try {
         SoapResponse(content);
@@ -65,7 +64,6 @@ class IOClient extends SoapClient {
     } else {
       return SoapResponse(content);
     }
-    throw UnimplementedError();
   }
 
   /// Decodes content of response.
