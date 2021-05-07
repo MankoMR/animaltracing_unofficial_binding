@@ -27,6 +27,8 @@ abstract class RequestData {
 /// Base class which must be implemented by all data types which can be received
 /// as part of a response.
 abstract class ResponseData {
+  ResponseData();
+
   /// Signature which must be implemented.
   ///
   /// Exceptions thrown must implement [MalFormedResponseException]
