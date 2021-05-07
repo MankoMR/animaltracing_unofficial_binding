@@ -1,0 +1,9 @@
+#Copyright (c) 2021, Manuel Koloska. All Rights reserved.
+#Filename: dart_test.yaml
+#Project: animaltracing_unofficial_binding.
+
+tags:
+  # Tests which test part of the exception-model are tagged with errors
+  errors:
+  # Integration-Tests are tagged with this tag.
+  integration-tests:
