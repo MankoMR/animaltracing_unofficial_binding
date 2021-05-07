@@ -7,7 +7,8 @@ import 'package:animaltracing_unofficial_binding/core/core.dart';
 import 'package:animaltracing_unofficial_binding/src/soap/soap_request.dart';
 import 'package:animaltracing_unofficial_binding/src/xml_utils.dart';
 import 'package:test/test.dart';
-import 'package:xml/src/xml/builder.dart';
+
+import 'test_utils.dart';
 
 void main() {
   group('SoapRequest', () {
@@ -57,11 +58,4 @@ void main() {
       expect(mockRequestElement?.innerText, 'testData');
     });
   });
-}
-
-class MockRequestData extends RequestData {
-  @override
-  void generateWith(XmlBuilder builder, String? elementName) {
-    builder.element(elementName ?? 'MockRequestData', nest: 'testData');
-  }
 }
