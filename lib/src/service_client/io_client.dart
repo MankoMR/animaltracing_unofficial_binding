@@ -85,6 +85,8 @@ class IOClient extends SoapClient {
           return await utf8.decoder.bind(response).join();
       }
     } on FormatException catch (exception) {
+      //Drain to avoid leaking resources.
+      await response.drain();
       throw StringDecodingException(exception);
     }
   }
