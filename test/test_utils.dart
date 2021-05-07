@@ -4,6 +4,7 @@
  * Project: animaltracing_unofficial_binding.
  */
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:animaltracing_unofficial_binding/core/core.dart';
@@ -40,4 +41,37 @@ Future<HttpServer> createServer(RequestHandler requestHandler) async {
     requestHandler(request);
   });
   return server;
+}
+
+String buildXml(RequestData data, String? elementName) {
+  final builder = XmlBuilder(optimizeNamespaces: true);
+  data.generateWith(builder, elementName);
+  return builder.buildDocument().toXmlString(pretty: true);
+}
+
+Future<void> validateXml(String xml) async {
+  final encodedXml = base64.encode(xml.codeUnits);
+
+  //Todo: Change after project is finished and support for additional systems will be added.
+  final processingResult = await Process.run(
+      '.\\tool\\xml_validator\\windows-x86\\animaltracing_xml_validator.exe',
+      ['--xmlBase64=$encodedXml']);
+
+  ///
+  switch (processingResult.exitCode) {
+    case 0:
+      return;
+    case 2:
+    case 3:
+      throw InvalidXmlException(processingResult.stdout);
+    case 1:
+    case 4:
+    default:
+      throw Exception(
+          'Something Unexpected happend: ${processingResult.stdout}');
+  }
+}
+
+class InvalidXmlException extends FormatException {
+  InvalidXmlException(String message) : super(message);
 }
