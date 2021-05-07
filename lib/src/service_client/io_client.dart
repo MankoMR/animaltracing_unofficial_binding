@@ -61,9 +61,8 @@ class IOClient extends SoapClient {
       } on LibraryException {
         throw HttpException(response.statusCode, response.reasonPhrase);
       }
-    } else {
-      return SoapResponse(content);
     }
+    return SoapResponse(content);
   }
 
   /// Decodes content of response.
