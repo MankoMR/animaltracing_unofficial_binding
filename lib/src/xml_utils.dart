@@ -6,12 +6,17 @@
 
 import 'package:xml/xml.dart';
 
+import '../exceptions/xml_missing_element_exception.dart';
+
 const String soapNameSpace = 'http://www.w3.org/2003/05/soap-envelope';
 const String adressingNameSpace = 'http://www.w3.org/2005/08/addressing';
+const String animalTracingNameSpace =
+    'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1';
 
 const nameSpaceMapping = {
   soapNameSpace: 'soap',
   adressingNameSpace: 'wsa',
+  animalTracingNameSpace: 'antra',
 };
 
 T? extractValue<T>(XmlElement parent, String name, String nameSpace,
