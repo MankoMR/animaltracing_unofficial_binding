@@ -14,6 +14,54 @@ const nameSpaceMapping = {
   adressingNameSpace: 'wsa',
 };
 
+T? extractValue<T>(XmlElement parent, String name, String nameSpace,
+    [NullabilityType nullabilityType = NullabilityType.required]) {
+  final element = parent.getElement(name, namespace: nameSpace);
+  switch (nullabilityType) {
+    case NullabilityType.optionalElement:
+      if (element == null) return null;
+      break;
+    case NullabilityType.nullable:
+      if (element == null) {
+        throw XmlMissingElementException(
+            name, nameSpace, 'Is a required Element.');
+      }
+      if (element.getAttribute('nillable') == 'true') {
+        return null;
+      }
+      break;
+    case NullabilityType.required:
+      if (element == null) {
+        throw XmlMissingElementException(
+            name, nameSpace, 'Is a required Element.');
+      }
+      if (element.innerText.isEmpty) {
+        throw FormatException(
+            '$name from $nameSpace does not contain a value. But its required');
+      }
+      break;
+    default:
+      throw UnimplementedError('Handle additional $nullabilityType');
+  }
+  final value = element.innerText;
+  //Catch all Format exceptions to enrich with additional information
+  try {
+    switch (T) {
+      case int:
+        return int.parse(value) as T;
+      case String:
+        return value as T;
+      default:
+        throw UnimplementedError('Implement conversion to $T');
+    }
+  } on FormatException catch (exception) {
+    throw FormatException(
+        '$name of $nameSpace contains invalid value: ${exception.message}',
+        exception.source,
+        exception.offset);
+  }
+}
+
 void buildNullableElement(
   XmlBuilder builder,
   String elementName,
@@ -34,6 +82,10 @@ void buildNullableElement(
           },
         );
         break;
+      case NullabilityType.required:
+        throw UnsupportedError(
+            'Should not be called with a nullabilityType set to required');
+    }
   } else {
     builder.element(elementName, namespace: namespace, nest: value);
   }
@@ -70,4 +122,5 @@ void buildList<T>(
 enum NullabilityType {
   optionalElement,
   nullable,
+  required,
 }
