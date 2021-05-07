@@ -11,13 +11,13 @@ import 'test_utils.dart';
 
 void main() {
   group('TestUtils', () {
-    test('validateXml throws InvalidXml with invalid xml.', () {
+    test('validateXml confirms invalidXml is invalid xml.', () async {
       final invalidXml = generateXml(MockRequestData(), null);
-      expect(() async => await validateXml(invalidXml),
-          throwsA(TypeMatcher<InvalidXmlException>()));
+      final result = await validateXml(invalidXml);
+      expect(result.isValidXml, false, reason: result.message);
     });
-    test('validateXml returns normal with valid xml', () {
-      const envelopeWithFault =
+    test('validateXml confirms validXml is valid xml', () async {
+      const validXml =
           '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
    <env:Body>
       <env:Fault>
@@ -30,7 +30,8 @@ void main() {
       </env:Fault>
    </env:Body>
 </env:Envelope>''';
-      expect(() async => await validateXml(envelopeWithFault), returnsNormally);
+      final result = await validateXml(validXml);
+      expect(result.isValidXml, true, reason: result.message);
     });
   });
 }
