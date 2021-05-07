@@ -20,7 +20,7 @@ const schemaInstanceNameSpace = 'http://www.w3.org/2001/XMLSchema-instance';
 const nameSpaceMapping = {
   soapNameSpace: 'soap',
   adressingNameSpace: 'wsa',
-  animalTracingNameSpace: 'antra',
+  animalTracingNameSpace: 'tns',
   schemaInstanceNameSpace: 'sch'
 };
 
