@@ -13,10 +13,15 @@ const String adressingNameSpace = 'http://www.w3.org/2005/08/addressing';
 const String animalTracingNameSpace =
     'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1';
 
+//I had to look at code from the mockservice to get the correct namespace for
+// the Xml-Attribute 'nil'
+const schemaInstanceNameSpace = 'http://www.w3.org/2001/XMLSchema-instance';
+
 const nameSpaceMapping = {
   soapNameSpace: 'soap',
   adressingNameSpace: 'wsa',
   animalTracingNameSpace: 'antra',
+  schemaInstanceNameSpace: 'sch'
 };
 
 T? extractValue<T>(XmlElement parent, String name, String nameSpace,
@@ -83,7 +88,12 @@ void buildNullableElement(
           elementName,
           namespace: namespace,
           nest: () {
-            builder.attribute('isNill', 'true');
+            //I had to look at code from the mockservice to get the correct
+            // Xml-Attribute name for element which are marked with
+            // nillable="true" in the wsdl-Definition file
+            //and the specific namespace in schemaInstanceNameSpace
+            builder.attribute('nil', 'true',
+                namespace: schemaInstanceNameSpace);
           },
         );
         break;
