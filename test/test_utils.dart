@@ -4,6 +4,7 @@
  * Project: animaltracing_unofficial_binding.
  */
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:animaltracing_unofficial_binding/core/core.dart';
@@ -40,4 +41,64 @@ Future<HttpServer> createServer(RequestHandler requestHandler) async {
     requestHandler(request);
   });
   return server;
+}
+
+/// Validates [data] against the schemas contained in the wsdl-Definiton of
+/// AnimalTracing.
+///
+/// Returns normally if xml generated with [generateWith] on [data] passed the
+/// XML-schema validation.
+///
+/// Throws [InvalidXmlException] which contains information what about generated
+/// xml does not conform according to the wsdl-Definition.
+///
+/// Throws [UnsupportedError] if something is fundamentally wrong.
+Future<void> validDateRequestData(RequestData data, String? elementName) async {
+  await validateXml(generateXml(data, elementName));
+}
+
+/// Simplifies getting xml-String from [data].
+String generateXml(RequestData data, String? elementName) {
+  final builder = XmlBuilder(optimizeNamespaces: true);
+  data.generateWith(builder, elementName);
+  return builder.buildDocument().toXmlString(pretty: true);
+}
+
+/// Validates [xml] against the schemas contained in the wsdl-Definiton of
+/// AnimalTracing.
+///
+/// Returns normally if xml passed the XML-schema validation.
+///
+/// Throws [InvalidXmlException] which contains information what about [xml]
+/// does not conform according to the wsdl-Definition.
+///
+/// Throws [UnsupportedError] if something is fundamentally wrong.
+Future<void> validateXml(String xml) async {
+  final encodedXml = base64.encode(xml.codeUnits);
+
+  //Todo: Change after project is finished and support for additional systems will be added.
+  final processingResult = await Process.run(
+      '.\\tool\\xml_validator\\windows-x86\\animaltracing_xml_validator.exe',
+      ['--xmlBase64=$encodedXml']);
+
+  //I called animaltracing_xml_validator.exe --help to get information
+  // which exitCode means what.
+  switch (processingResult.exitCode) {
+    case 0:
+      return;
+    case 2:
+    case 3:
+      throw InvalidXmlException(processingResult.stdout);
+    case 1:
+    case 4:
+    default:
+
+      //In this case something needs to be reworked.
+      throw UnsupportedError(
+          'Something Unexpected happend: ${processingResult.stdout}');
+  }
+}
+
+class InvalidXmlException extends FormatException {
+  InvalidXmlException(String message) : super(message);
 }
