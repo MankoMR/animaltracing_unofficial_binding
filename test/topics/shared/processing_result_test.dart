@@ -4,8 +4,7 @@
  * Project: animaltracing_unofficial_binding.
  */
 import 'package:animaltracing_unofficial_binding/shared_types/processing_result.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
 void main() {
