@@ -59,8 +59,21 @@ T? extractValue<T>(XmlElement parent, String name, String nameSpace,
     switch (T) {
       case int:
         return int.parse(value) as T;
+      case BigInt:
+        return BigInt.parse(value) as T;
+      case bool:
+        final processedValue = value.trim().toLowerCase();
+        if (processedValue == 'true') {
+          return true as T;
+        } else if (processedValue == 'false') {
+          return false as T;
+        } else {
+          throw FormatException('Could not parse source as bool.', value);
+        }
       case String:
         return value as T;
+      case DateTime:
+        return DateTime.parse(value) as T;
       default:
         throw UnimplementedError('Implement conversion to $T');
     }
