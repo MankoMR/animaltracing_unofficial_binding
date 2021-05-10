@@ -78,7 +78,7 @@ class EarTagOrderData extends ResponseData {
 }
 
 @visibleForTesting
-extension HelperFunctions on EarTagOrderData {
+extension EarTagOrderDataResultTestHelp on EarTagOrderData {
   @visibleForTesting
   bool areSame(EarTagOrderData other) {
     return other is EarTagOrderData &&

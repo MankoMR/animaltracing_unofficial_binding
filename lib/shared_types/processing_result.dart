@@ -32,7 +32,7 @@ class ProcessingResult extends ResponseData {
 @visibleForTesting
 extension ProcessingResultTestHelp on ProcessingResult {
   @visibleForTesting
-  bool areSame(Object other) {
+  bool areSame(ProcessingResult other) {
     return other is ProcessingResult &&
         code == other.code &&
         description == other.description &&
