@@ -9,7 +9,6 @@ import 'package:xml/xml.dart';
 import '../core/core.dart';
 import '../src/xml_utils.dart';
 
-@immutable
 ///Stores processing information to a service request.
 class ProcessingResult extends ResponseData {
   /// Error code of a request. 1 means that processing of request was a success.
