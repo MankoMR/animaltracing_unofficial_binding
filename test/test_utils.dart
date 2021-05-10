@@ -67,7 +67,6 @@ String generateXml(RequestData data, String? elementName) {
 ///
 /// Throws [UnsupportedError] if something is fundamentally wrong.
 Future<ValidationResult> validateXml(String xml) async {
-  print(xml);
   final encodedXml = base64.encode(xml.codeUnits);
 
   //Todo: Change after project is finished and support for additional systems will be added.
@@ -77,8 +76,6 @@ Future<ValidationResult> validateXml(String xml) async {
 
   //I called animaltracing_xml_validator.exe --help to get information
   // which exitCode means what.
-  print(processingResult.exitCode);
-  print(processingResult.stdout);
   switch (processingResult.exitCode) {
     case 0:
     case 2:
