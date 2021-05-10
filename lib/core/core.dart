@@ -3,6 +3,7 @@
  * Filename: core.dart
  * Projekt animaltracing_unofficial_binding.
  */
+import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../exceptions/mal_formed_response_exception.dart';
@@ -27,6 +28,7 @@ abstract class RequestData {
   ///
   /// Must be implemented by all data types which will be sent to a service
   /// endpoint.
+  @mustCallSuper
   void generateWith(XmlBuilder builder, String? elementName);
 }
 
