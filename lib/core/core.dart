@@ -21,13 +21,15 @@ abstract class TopicBase {
 /// [generateWith] must be called at the approriate position in [generateWith]
 /// the data type.
 abstract class RequestData {
+  const RequestData();
+
   void generateWith(XmlBuilder builder, String? elementName);
 }
 
 /// Base class which must be implemented by all data types which can be received
 /// as part of a response.
 abstract class ResponseData {
-  ResponseData();
+  const ResponseData();
 
   /// Signature which must be implemented.
   ///

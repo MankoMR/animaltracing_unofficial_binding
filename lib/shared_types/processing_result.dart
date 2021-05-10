@@ -13,7 +13,7 @@ class ProcessingResult extends ResponseData {
   final String? description;
   final int status;
 
-  ProcessingResult(this.code, this.description, this.status);
+  const ProcessingResult(this.code, this.description, this.status);
 
   factory ProcessingResult.fromXml(XmlElement element) {
     final code = element.extractValue<int>('Code', animalTracingNameSpace);

@@ -20,7 +20,7 @@ class EarTagOrderData extends ResponseData {
   final String? text1;
   final String? text2;
 
-  EarTagOrderData(
+  const EarTagOrderData(
       this.notificationId,
       this.earTagType,
       this.amount,
