@@ -11,7 +11,7 @@ import '../src/xml_utils.dart';
 class GetEarTagOrdersRequest extends RequestData {
   final String? manufacturerKey;
   final int lcid;
-  final tvdNumber;
+  final int tvdNumber;
   final DateTime searchDateFrom;
   final DateTime searchDateTo;
   final List<int> articleFilter;
