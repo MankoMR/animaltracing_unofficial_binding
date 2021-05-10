@@ -3,10 +3,11 @@
  * Filename: ear_tag_order_data.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/src/xml_utils.dart';
+import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
+import '../src/xml_utils.dart';
 
 class EarTagOrderData extends ResponseData {
   final BigInt notificationId;
@@ -73,5 +74,23 @@ class EarTagOrderData extends ResponseData {
         earTagNumberTo,
         text1,
         text2);
+  }
+}
+
+@visibleForTesting
+extension HelperFunctions on EarTagOrderData {
+  @visibleForTesting
+  bool areSame(EarTagOrderData other) {
+    return other is EarTagOrderData &&
+        notificationId == other.notificationId &&
+        earTagType == other.earTagType &&
+        amount == other.amount &&
+        isExpress == other.isExpress &&
+        orderStatus == other.orderStatus &&
+        orderStatusDate.isAtSameMomentAs(other.orderStatusDate) &&
+        earTagNumberFrom == other.earTagNumberFrom &&
+        earTagNumberTo == other.earTagNumberTo &&
+        text1 == other.text1 &&
+        text2 == other.text2;
   }
 }
