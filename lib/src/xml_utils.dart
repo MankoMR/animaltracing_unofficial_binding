@@ -95,7 +95,9 @@ extension Parsing on XmlElement {
       ItemConstructor<T> itemConstructor,
       [NullabilityType listNullabilityTyp = NullabilityType.required]) {
     final list = <T>[];
-    for (final element in children.filterWithType<XmlElement>()) {
+    for (final element in children
+        .where((node) => node.nodeType == XmlNodeType.ELEMENT)
+        .cast<XmlElement>()) {
       if (element.name.local == childrenName &&
           element.name.namespaceUri == childrenNamespace) {
         list.add(itemConstructor(element));
@@ -184,14 +186,4 @@ enum NullabilityType {
   optionalElement,
   nullable,
   required,
-}
-
-extension ChildrenElementFilter on List<XmlNode> {
-  Iterable<T> filterWithType<T extends XmlNode>() sync* {
-    for (final node in this) {
-      if (node.nodeType is T) {
-        yield node as T;
-      }
-    }
-  }
 }
