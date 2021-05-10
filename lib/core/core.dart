@@ -23,6 +23,10 @@ abstract class TopicBase {
 abstract class RequestData {
   const RequestData();
 
+  /// Generates the xml for the corresponding service operation.
+  ///
+  /// Must be implemented by all data types which will be sent to a service
+  /// endpoint.
   void generateWith(XmlBuilder builder, String? elementName);
 }
 
@@ -46,16 +50,21 @@ class ServiceEndpointConfiguration {
   ///
   /// Could be ipAddress or domain name.
   final String host;
+
+  /// The port number on which the service is available.
   final int port;
 
   /// Path of the webadress.
   ///
   /// Example: Livestock/AnimalTracing/3
+  ///
+  /// There should be no '/' at the beginning.
   final String path;
 
+  ///
   final Duration? timeOutDuration;
 
   ServiceEndpointConfiguration(
       this.host, this.port, String path, this.timeOutDuration)
-      : path = path.split('/').join('/');
+      : path = path;
 }

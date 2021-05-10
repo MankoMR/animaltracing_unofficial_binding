@@ -9,18 +9,49 @@ import 'package:xml/xml.dart';
 import '../core/core.dart';
 import '../src/xml_utils.dart';
 
+/// Represents an eartag order from a farm.
+///
+/// Is often used by service operations in [Eartags].
 class EarTagOrderData extends ResponseData {
+  /// The identification number of an order.
+  ///
+  /// Is used as parameter in some service operations like deleteEarTagOrder.
   final BigInt notificationId;
+
+  /// The eartag type of an order.
+  ///
+  /// The type documents for which animal and which kind of eartag is
+  /// referenced.
   final int earTagType;
+
+  /// How many eartags are ordered.
   final int amount;
+
+  /// Wether the order will be sent faster than usual.
   final bool isExpress;
+
+  /// In which stage of processing the order is.
+  ///
+  /// Shortly after the creation of an order, the order can be canceled. The
+  /// [orderStatus] is a key piece in determining this.
   final int orderStatus;
+
+  /// Time when the [orderStatus] got updated.
   final DateTime orderStatusDate;
+
+  /// Defines the start of the first connected series.
+  ///
+  /// When possible eartagnumbers are given as connected series of numbers.
   final String? earTagNumberFrom;
+
+  /// Defines the end of the first connected series.
+  ///
+  /// When possible eartagnumbers are given as connected series of numbers.
   final String? earTagNumberTo;
   final String? text1;
   final String? text2;
 
+  ///Creates [EarTagOrderData] with custom information.
   const EarTagOrderData(
       this.notificationId,
       this.earTagType,
@@ -33,6 +64,7 @@ class EarTagOrderData extends ResponseData {
       this.text1,
       this.text2);
 
+  /// Used to create [EarTagOrderData] from a service response.
   factory EarTagOrderData.fromXml(XmlElement element) {
     final notificationId =
         element.extractValue<BigInt>('NotificationID', animalTracingNameSpace);
@@ -77,6 +109,8 @@ class EarTagOrderData extends ResponseData {
   }
 }
 
+/// Is used to make the testing code more succinct without polluting
+/// [EarTagOrderData] with code which could only be helpful in limited scenarios.
 @visibleForTesting
 extension EarTagOrderDataResultTestHelp on EarTagOrderData {
   @visibleForTesting

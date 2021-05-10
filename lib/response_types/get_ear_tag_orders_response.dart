@@ -3,6 +3,7 @@
  * Filename: get_ear_tag_orders_response.dart
  * Project: animaltracing_unofficial_binding.
  */
+import 'package:animaltracing_unofficial_binding/request_types/get_ear_tag_orders_request.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
@@ -10,12 +11,22 @@ import '../shared_types/ear_tag_order_data.dart';
 import '../shared_types/processing_result.dart';
 import '../src/xml_utils.dart';
 
+/// The response to getEarTagOrders.
+///
+/// Look at [ProcessingResult] and [EarTagOrderData] for more information.
 class GetEarTagOrdersResponse extends ResponseData {
+  /// Contains information how the request got processed.
   final ProcessingResult? result;
+
+  /// List of filtered eartag orders according to [GetEarTagOrdersRequest].
   final List<EarTagOrderData>? resultDetails;
 
+  /// Create [GetEarTagOrdersResponse]
   const GetEarTagOrdersResponse(this.result, this.resultDetails);
 
+  /// Used to create [EarTagOrderData] from a service response.
+  ///
+  /// The [element] should be xml-element in which the information is stored.
   factory GetEarTagOrdersResponse.fromXml(XmlElement element) {
     if (element.name.local != 'GetEarTagOrdersResponse') {
       throw FormatException(

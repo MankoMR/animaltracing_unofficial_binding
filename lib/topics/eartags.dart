@@ -11,12 +11,26 @@ import '../src/service_client/soap_client.dart';
 import '../src/soap/soap_request.dart';
 import '../src/xml_utils.dart';
 
+/// Eartags contains all service operations that involve eartags.
+///
 class Eartags extends TopicBase {
+  /// stores the configuration for connecting to a service endpoint.
   @override
   final ServiceEndpointConfiguration serviceEndpointConfiguration;
 
+  /// Creates [Eartags] with [serviceEndpointConfiguration].
+  ///
+  /// Storing [serviceEndpointConfiguration] in a topic reduces the overhead to
+  /// to use the service operations.
   Eartags(this.serviceEndpointConfiguration);
 
+  /// Get the eartag-orders made in a certain time span.
+  ///
+  /// See [GetEarTagOrdersRequest] for detailed information how to create a
+  /// request.
+  ///
+  /// The user needs to be a farm owner or a mandate holder for a farm, to use
+  /// this operation. The government can also call this operation.
   Future<GetEarTagOrdersResponse> getEarTagOrders(
       GetEarTagOrdersRequest requestData, String authorizationToken) async {
     const serviceOperationName =
