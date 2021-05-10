@@ -41,7 +41,6 @@ class GetEarTagOrdersResponse extends ResponseData {
         getEarTagOrdersResultElement.extractValue<XmlElement>(
             'Resultdetails', animalTracingNameSpace, NullabilityType.required);
 
-    print(resultDetailsElement!.toXmlString(pretty: true));
     List<EarTagOrderData>? resultDetails;
     if (resultDetailsElement != null) {
       resultDetails = resultDetailsElement.extractList<EarTagOrderData>(
