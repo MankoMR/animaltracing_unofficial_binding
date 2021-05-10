@@ -3,11 +3,13 @@
  * Filename: processing_result.dart
  * Project: animaltracing_unofficial_binding.
  */
+import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
 import '../src/xml_utils.dart';
 
+@immutable
 class ProcessingResult extends ResponseData {
   final int code;
   final String? description;
@@ -24,5 +26,16 @@ class ProcessingResult extends ResponseData {
     final status = element.extractValue<int>('Status', animalTracingNameSpace);
 
     return ProcessingResult(code!, description, status!);
+  }
+}
+
+@visibleForTesting
+extension ProcessingResultTestHelp on ProcessingResult {
+  @visibleForTesting
+  bool areSame(Object other) {
+    return other is ProcessingResult &&
+        code == other.code &&
+        description == other.description &&
+        status == other.status;
   }
 }
