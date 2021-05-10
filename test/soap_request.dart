@@ -37,12 +37,12 @@ void main() {
       final headerElement = envelope.rootElement.firstElementChild;
       expect(
           headerElement
-              ?.getElement('To', namespace: adressingNameSpace)
+              ?.getElement('To', namespace: addressingNameSpace)
               ?.innerText,
           'localhost:1/test');
       expect(
           headerElement
-              ?.getElement('Action', namespace: adressingNameSpace)
+              ?.getElement('Action', namespace: addressingNameSpace)
               ?.innerText,
           'serviceOperation');
     });

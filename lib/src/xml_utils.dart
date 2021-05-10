@@ -9,7 +9,7 @@ import 'package:xml/xml.dart';
 import '../exceptions/xml_missing_element_exception.dart';
 
 const String soapNameSpace = 'http://www.w3.org/2003/05/soap-envelope';
-const String adressingNameSpace = 'http://www.w3.org/2005/08/addressing';
+const String addressingNameSpace = 'http://www.w3.org/2005/08/addressing';
 const String animalTracingNameSpace =
     'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1';
 
@@ -19,7 +19,7 @@ const schemaInstanceNameSpace = 'http://www.w3.org/2001/XMLSchema-instance';
 
 const nameSpaceMapping = {
   soapNameSpace: 'soap',
-  adressingNameSpace: 'wsa',
+  addressingNameSpace: 'wsa',
   animalTracingNameSpace: 'tns',
   schemaInstanceNameSpace: 'sch'
 };
