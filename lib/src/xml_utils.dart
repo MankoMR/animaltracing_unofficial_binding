@@ -8,6 +8,8 @@ import 'package:xml/xml.dart';
 
 import '../exceptions/xml_missing_element_exception.dart';
 
+typedef ItemConstructor<T> = T Function(XmlElement element);
+
 const String soapNameSpace = 'http://www.w3.org/2003/05/soap-envelope';
 const String addressingNameSpace = 'http://www.w3.org/2005/08/addressing';
 const String animalTracingNameSpace =
@@ -24,64 +26,95 @@ const nameSpaceMapping = {
   schemaInstanceNameSpace: 'sch'
 };
 
-T? extractValue<T>(XmlElement parent, String name, String nameSpace,
-    [NullabilityType nullabilityType = NullabilityType.required]) {
-  final element = parent.getElement(name, namespace: nameSpace);
-  switch (nullabilityType) {
-    case NullabilityType.optionalElement:
-      if (element == null) return null;
-      break;
-    case NullabilityType.nullable:
-      if (element == null) {
-        throw XmlMissingElementException(
-            name, nameSpace, 'Is a required Element.');
-      }
-      if (element.getAttribute('nillable') == 'true') {
-        return null;
-      }
-      break;
-    case NullabilityType.required:
-      if (element == null) {
-        throw XmlMissingElementException(
-            name, nameSpace, 'Is a required Element.');
-      }
-      if (element.innerText.isEmpty) {
-        throw FormatException(
-            '$name from $nameSpace does not contain a value. But its required');
-      }
-      break;
-    default:
-      throw UnimplementedError('Handle additional $nullabilityType');
-  }
-  final value = element.innerText;
-  //Catch all Format exceptions to enrich with additional information
-  try {
-    switch (T) {
-      case int:
-        return int.parse(value) as T;
-      case BigInt:
-        return BigInt.parse(value) as T;
-      case bool:
-        final processedValue = value.trim().toLowerCase();
-        if (processedValue == 'true') {
-          return true as T;
-        } else if (processedValue == 'false') {
-          return false as T;
-        } else {
-          throw FormatException('Could not parse source as bool.', value);
+extension Parsing on XmlElement {
+  T? extractValue<T>(String name, String nameSpace,
+      [NullabilityType nullabilityType = NullabilityType.required]) {
+    final element = getElement(name, namespace: nameSpace);
+    switch (nullabilityType) {
+      case NullabilityType.optionalElement:
+        if (element == null) return null;
+        break;
+      case NullabilityType.nullable:
+        if (element == null) {
+          throw XmlMissingElementException(
+              name, nameSpace, 'Is a required Element.');
         }
-      case String:
-        return value as T;
-      case DateTime:
-        return DateTime.parse(value) as T;
+        if (element.getAttribute('nil', namespace: schemaInstanceNameSpace) ==
+            'true') {
+          return null;
+        }
+        break;
+      case NullabilityType.required:
+        if (element == null) {
+          throw XmlMissingElementException(
+              name, nameSpace, 'Is a required Element.');
+        }
+        if (element.innerText.isEmpty) {
+          throw FormatException(
+              '$name from $nameSpace does not contain a value. But its required');
+        }
+        break;
       default:
-        throw UnimplementedError('Implement conversion to $T');
+        throw UnimplementedError('Handle additional $nullabilityType');
     }
-  } on FormatException catch (exception) {
-    throw FormatException(
-        '$name of $nameSpace contains invalid value: ${exception.message}',
-        exception.source,
-        exception.offset);
+    final value = element.innerText;
+    //Catch all Format exceptions to enrich with additional information
+    try {
+      switch (T) {
+        case int:
+          return int.parse(value) as T;
+        case BigInt:
+          return BigInt.parse(value) as T;
+        case bool:
+          final processedValue = value.trim().toLowerCase();
+          if (processedValue == 'true') {
+            return true as T;
+          } else if (processedValue == 'false') {
+            return false as T;
+          } else {
+            throw FormatException('Could not parse source as bool.', value);
+          }
+        case String:
+          return value as T;
+        case DateTime:
+          return DateTime.parse(value) as T;
+        case XmlElement:
+          return element as T;
+        default:
+          throw UnimplementedError('Implement conversion to $T');
+      }
+    } on FormatException catch (exception) {
+      throw FormatException(
+          '$name of $nameSpace contains invalid value: ${exception.message}',
+          exception.source,
+          exception.offset);
+    }
+  }
+
+  List<T>? extractList<T>(String childrenName, String childrenNamespace,
+      ItemConstructor<T> itemConstructor,
+      [NullabilityType listNullabilityTyp = NullabilityType.required]) {
+    final list = <T>[];
+    for (final element in children.filterWithType<XmlElement>()) {
+      if (element.name.local == childrenName &&
+          element.name.namespaceUri == childrenNamespace) {
+        list.add(itemConstructor(element));
+      } else {
+        throw FormatException(
+            '${name.local} from ${name.namespaceUri} should not contain ${element.name.local} from '
+            '${element.name.namespaceUri}. It should contain $childrenName from $childrenNamespace.',
+            element.toXmlString(pretty: true));
+      }
+    }
+    switch (listNullabilityTyp) {
+      case NullabilityType.optionalElement:
+      case NullabilityType.nullable:
+        return list.isEmpty ? null : list;
+      case NullabilityType.required:
+        return list;
+      default:
+        throw UnimplementedError('Handle additional $listNullabilityTyp');
+    }
   }
 }
 
@@ -151,4 +184,14 @@ enum NullabilityType {
   optionalElement,
   nullable,
   required,
+}
+
+extension ChildrenElementFilter on List<XmlNode> {
+  Iterable<T> filterWithType<T extends XmlNode>() sync* {
+    for (final node in this) {
+      if (node.nodeType is T) {
+        yield node as T;
+      }
+    }
+  }
 }

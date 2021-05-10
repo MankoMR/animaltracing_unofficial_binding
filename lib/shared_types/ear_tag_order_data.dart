@@ -34,33 +34,33 @@ class EarTagOrderData extends ResponseData {
 
   factory EarTagOrderData.fromXml(XmlElement element) {
     final notificationId =
-        extractValue<BigInt>(element, 'NotificationID', animalTracingNameSpace);
+        element.extractValue<BigInt>('NotificationID', animalTracingNameSpace);
 
     final earTagType =
-        extractValue<int>(element, 'EarTagType', animalTracingNameSpace);
+        element.extractValue<int>('EarTagType', animalTracingNameSpace);
 
-    final amount = extractValue<int>(element, 'Amount', animalTracingNameSpace);
+    final amount = element.extractValue<int>('Amount', animalTracingNameSpace);
 
     final isExpress =
-        extractValue<bool>(element, 'IsExpress', animalTracingNameSpace);
+        element.extractValue<bool>('IsExpress', animalTracingNameSpace);
 
     final orderStatus =
-        extractValue<int>(element, 'OrderStatus', animalTracingNameSpace);
+        element.extractValue<int>('OrderStatus', animalTracingNameSpace);
 
-    final orderStatusDate = extractValue<DateTime>(
-        element, 'OrderStatusDate', animalTracingNameSpace);
+    final orderStatusDate = element.extractValue<DateTime>(
+        'OrderStatusDate', animalTracingNameSpace);
 
-    final earTagNumberFrom = extractValue<String>(element, 'EarTagNumberFrom',
-        animalTracingNameSpace, NullabilityType.nullable);
+    final earTagNumberFrom = element.extractValue<String>(
+        'EarTagNumberFrom', animalTracingNameSpace, NullabilityType.nullable);
 
-    final earTagNumberTo = extractValue<String>(element, 'EarTagNumberTo',
-        animalTracingNameSpace, NullabilityType.nullable);
+    final earTagNumberTo = element.extractValue<String>(
+        'EarTagNumberTo', animalTracingNameSpace, NullabilityType.nullable);
 
-    final text1 = extractValue<String>(
-        element, 'Text1', animalTracingNameSpace, NullabilityType.nullable);
+    final text1 = element.extractValue<String>(
+        'Text1', animalTracingNameSpace, NullabilityType.nullable);
 
-    final text2 = extractValue<String>(
-        element, 'Text2', animalTracingNameSpace, NullabilityType.nullable);
+    final text2 = element.extractValue<String>(
+        'Text2', animalTracingNameSpace, NullabilityType.nullable);
 
     return EarTagOrderData(
         notificationId!,

@@ -16,10 +16,12 @@ class ProcessingResult extends ResponseData {
   ProcessingResult(this.code, this.description, this.status);
 
   factory ProcessingResult.fromXml(XmlElement element) {
-    final code = extractValue<int>(element, 'Code', animalTracingNameSpace);
-    final description = extractValue<String>(element, 'Description',
-        animalTracingNameSpace, NullabilityType.nullable);
-    final status = extractValue<int>(element, 'Status', animalTracingNameSpace);
+    final code = element.extractValue<int>('Code', animalTracingNameSpace);
+
+    final description = element.extractValue<String>(
+        'Description', animalTracingNameSpace, NullabilityType.nullable);
+
+    final status = element.extractValue<int>('Status', animalTracingNameSpace);
 
     return ProcessingResult(code!, description, status!);
   }
