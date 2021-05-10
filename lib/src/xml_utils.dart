@@ -6,6 +6,7 @@
 
 import 'package:xml/xml.dart';
 
+import '../core/core.dart';
 import '../exceptions/xml_missing_element_exception.dart';
 
 typedef ItemConstructor<T> = T Function(XmlElement element);
@@ -120,37 +121,39 @@ extension Parsing on XmlElement {
   }
 }
 
-void buildNullableElement(
-  XmlBuilder builder,
-  String elementName,
-  String namespace,
-  NullabilityType nullabilityType,
-  Object? value,
-) {
-  if (value == null) {
-    switch (nullabilityType) {
-      case NullabilityType.optionalElement:
-        return;
-      case NullabilityType.nullable:
-        builder.element(
-          elementName,
-          namespace: namespace,
-          nest: () {
-            //I had to look at code from the mockservice to get the correct
-            // Xml-Attribute name for element which are marked with
-            // nillable="true" in the wsdl-Definition file
-            //and the specific namespace in schemaInstanceNameSpace
-            builder.attribute('nil', 'true',
-                namespace: schemaInstanceNameSpace);
-          },
-        );
-        break;
-      case NullabilityType.required:
-        throw UnsupportedError(
-            'Should not be called with a nullabilityType set to required');
+extension RequestDataExtension on RequestData {
+  void buildNullableElement(
+    XmlBuilder builder,
+    String elementName,
+    String namespace,
+    NullabilityType nullabilityType,
+    Object? value,
+  ) {
+    if (value == null) {
+      switch (nullabilityType) {
+        case NullabilityType.optionalElement:
+          return;
+        case NullabilityType.nullable:
+          builder.element(
+            elementName,
+            namespace: namespace,
+            nest: () {
+              //I had to look at code from the mockservice to get the correct
+              // Xml-Attribute name for element which are marked with
+              // nillable="true" in the wsdl-Definition file
+              //and the specific namespace in schemaInstanceNameSpace
+              builder.attribute('nil', 'true',
+                  namespace: schemaInstanceNameSpace);
+            },
+          );
+          break;
+        case NullabilityType.required:
+          throw UnsupportedError(
+              'Should not be called with a nullabilityType set to required');
+      }
+    } else {
+      builder.element(elementName, namespace: namespace, nest: value);
     }
-  } else {
-    builder.element(elementName, namespace: namespace, nest: value);
   }
 }
 
