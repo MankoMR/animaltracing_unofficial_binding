@@ -53,6 +53,9 @@ class ServiceEndpointConfiguration {
   /// Example: Livestock/AnimalTracing/3
   final String path;
 
-  ServiceEndpointConfiguration(this.host, this.port, String path)
+  final Duration? timeOutDuration;
+
+  ServiceEndpointConfiguration(
+      this.host, this.port, String path, this.timeOutDuration)
       : path = path.split('/').join('/');
 }

@@ -29,7 +29,7 @@ const _portNumber = 4041;
 
 /// ServiceEndpointConfiguration used to connect temporary test servers. See [createServer]
 final testServerConfiguration =
-    ServiceEndpointConfiguration('localhost', _portNumber, 'test');
+    ServiceEndpointConfiguration('localhost', _portNumber, 'test', null);
 
 /// Sets up a Server with the following Configuration:
 /// IPAddress: loopbackIPv4, port: 4041
