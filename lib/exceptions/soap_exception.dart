@@ -3,12 +3,19 @@
  * Filename: soap_exception.dart
  * Project: animaltracing_unofficial_binding
  */
+import '../src/xml_utils.dart';
 
 /// Gets thrown when soap:Envelope contains a soap:Error.
 class SoapException {
+  /// See [soapNameSpace] for possible values.
   final String? errorCode;
+
+  /// Explanation what went wrong.
+  ///
+  /// There is no guarantee in which language the [message] is.
   final String message;
 
+  /// Create a [SoapException]
   const SoapException(this.errorCode, this.message);
 
   /// Returns readable Expression of the Exception
