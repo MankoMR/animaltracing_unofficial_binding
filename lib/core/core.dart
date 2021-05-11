@@ -6,8 +6,6 @@
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
-import '../exceptions/mal_formed_response_exception.dart';
-
 /// Base class for all Topics.
 ///
 /// Specifies how to get the [ServiceEndpointConfiguration]

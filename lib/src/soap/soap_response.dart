@@ -7,7 +7,6 @@ import 'package:xml/xml.dart';
 
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/xml_missing_element_exception.dart';
-import '../../exceptions/xml_parse_exception.dart';
 import '../xml_utils.dart';
 
 /// SoapResponse is the parsed content of an soap:Envelope.
@@ -21,7 +20,7 @@ class SoapResponse {
   /// Tries to parse [envelope] as soap:Envelope and does some
   /// preliminary checks.
   ///
-  /// It will throw [XmlParseException] if [envelope] is not a valid soap:Envelope
+  /// It will throw [XmlParseException] or [XmlMissingElementException] if [envelope] is not a valid soap:Envelope
   /// according the following [specification][spec].
   ///
   /// It will throw [SoapException] according to the Exception-Model of the library.
@@ -29,11 +28,7 @@ class SoapResponse {
   /// [spec]: https://www.w3.org/2003/05/soap-envelope/
   SoapResponse(String envelope) {
     final XmlDocument document;
-    try {
-      document = XmlDocument.parse(envelope);
-    } on XmlParserException catch (exception) {
-      throw XmlParseException.from(exception);
-    }
+    document = XmlDocument.parse(envelope);
     final rootElement = document.rootElement;
     if (rootElement.name.namespaceUri != soapNameSpace &&
         rootElement.name.local != 'Envelope') {
