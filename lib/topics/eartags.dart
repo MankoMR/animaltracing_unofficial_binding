@@ -3,13 +3,18 @@
  * Filename: eartags.dart
  * Project: animaltracing_unofficial_binding.
  */
+import 'dart:io';
+
+import 'package:xml/xml.dart';
+
 import '../core/core.dart';
+import '../exceptions/soap_exception.dart';
 import '../exceptions/xml_missing_element_exception.dart';
 import '../request_types/get_ear_tag_orders_request.dart';
 import '../response_types/get_ear_tag_orders_response.dart';
 import '../src/service_client/soap_client.dart';
 import '../src/soap/soap_request.dart';
-import '../src/xml_utils.dart';
+import '../src/xml_utils/shared.dart';
 
 /// Eartags contains all service operations that involve eartags.
 ///
@@ -31,6 +36,15 @@ class Eartags extends TopicBase {
   ///
   /// The user needs to be a farm owner or a mandate holder for a farm, to use
   /// this operation. The government can also call this operation.
+  ///
+  /// May throw the following exceptions: [SoapException],[HttpException],
+  /// [SocketException]. Those exception require special attention as they
+  /// signal some issue that the library is unable to handle.
+  ///
+  /// If an error occurred while parsing an Exception that implements
+  /// [FormatException] will be thrown. Here some examples what exceptions may
+  /// be thrown: [StringDecodingException],[XmlParserException],
+  /// [XmlMissingElementException].
   Future<GetEarTagOrdersResponse> getEarTagOrders(
       GetEarTagOrdersRequest requestData, String authorizationToken) async {
     const serviceOperationName =
@@ -42,11 +56,11 @@ class Eartags extends TopicBase {
             .sendRequest(soapRequest, authorizationToken);
 
     final children = response.body.getElement('GetEarTagOrdersResponse',
-        namespace: animalTracingNameSpace);
+        namespace: Namespaces.animalTracing);
 
     if (children == null) {
       throw XmlMissingElementException(
-          'GetEarTagOrdersResponse', animalTracingNameSpace, null);
+          'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
     }
     return GetEarTagOrdersResponse.fromXml(children);
   }

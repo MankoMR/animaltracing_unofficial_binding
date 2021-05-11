@@ -20,19 +20,24 @@ main() {
 ```
 
 ## Exception-Model
-The library is expected to throw the following Exceptions:
-
+May throw the following exceptions: 
 * SocketException: Will be thrown if there are issues with connecting to a service.
-The Following Exceptions implement LibraryException:
 * SoapException: Will be thrown if the soap:Envelope of response 
   to a service-operation contains a soap:Fault. 
 * HttpException: If the status code is something other than OK. (If the http-content 
   can be parsed as soap:Envelope with a soap:Fault, a SoapException will be thrown instead.)
-The Following Exceptions implement MalformedContentException. MalformedException is a LibraryException
-* XmlParseException: Will be thrown if the received XML is invalid.
-* XmlMissingElemenException: Will be thrown if a required XmlElement is not found
-* FormatException: Will be thrown if some content of an element can't be parsed to a specific type.
+  
+Those exception require special attention as they signal some issue that the library is unable to
+handle.
 
+If an error occurred while parsing, an Exception that implements
+FormatException will be thrown. Here some examples what exceptions may
+be thrown: 
+* StringDecodingException
+* XmlParserException
+* XmlMissingElementException
+
+Please note that in certain situations other Exceptions than listed above can be thrown.
 
 ## Features and bugs
 

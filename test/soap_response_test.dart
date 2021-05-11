@@ -6,21 +6,21 @@
 
 import 'package:animaltracing_unofficial_binding/exceptions/soap_exception.dart';
 import 'package:animaltracing_unofficial_binding/exceptions/xml_missing_element_exception.dart';
-import 'package:animaltracing_unofficial_binding/exceptions/xml_parse_exception.dart';
 import 'package:animaltracing_unofficial_binding/src/soap/soap_response.dart';
 import 'package:test/test.dart';
+import 'package:xml/xml.dart';
 
 void main() {
   group('SoapResponse', () {
     test('throws XmlParseException with invalid Xml', () {
       const invalidXml = '<<>';
       expect(() => SoapResponse(invalidXml),
-          throwsA(TypeMatcher<XmlParseException>()));
+          throwsA(TypeMatcher<XmlParserException>()));
     }, tags: ['errors']);
     test('throws not XmlParseException with valid Xml', () {
       const invalidXml = '<Hello/>';
       expect(() => SoapResponse(invalidXml),
-          throwsA(isNot(isA<XmlParseException>())));
+          throwsA(isNot(isA<XmlParserException>())));
     }, tags: ['errors']);
     test('throws  XmlMissingElementException when something is missing', () {
       const invalidXml = '<Hello/>';

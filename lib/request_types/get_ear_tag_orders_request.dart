@@ -3,11 +3,11 @@
  * Filename: get_ear_tag_orders_request.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/topics/eartags.dart';
 import 'package:xml/src/xml/builder.dart';
 
 import '../core/core.dart';
-import '../src/xml_utils.dart';
+import '../src/xml_utils/generation.dart';
+import '../topics/eartags.dart';
 
 /// Holds the necessary information to call [getEarTagOrders] in [Eartags].
 class GetEarTagOrdersRequest extends RequestData {
@@ -53,31 +53,32 @@ class GetEarTagOrdersRequest extends RequestData {
   @override
   void generateWith(XmlBuilder builder, String? elementName) {
     builder.element(elementName ?? 'GetEarTagOrders',
-        namespace: animalTracingNameSpace,
-        namespaces: nameSpaceMapping, nest: () {
-      buildNullableElement(builder, 'p_ManufacturerKey', animalTracingNameSpace,
-          NullabilityType.nullable, manufacturerKey);
+        namespace: Namespaces.animalTracing,
+        namespaces: Namespaces.nameSpacesNames, nest: () {
+      buildNullableElement(builder, 'p_ManufacturerKey',
+          Namespaces.animalTracing, NullabilityType.nullable, manufacturerKey);
 
-      builder.element('p_LCID', namespace: animalTracingNameSpace, nest: lcid);
+      builder.element('p_LCID',
+          namespace: Namespaces.animalTracing, nest: lcid);
 
       builder.element('p_TVDNumber',
-          namespace: animalTracingNameSpace, nest: tvdNumber);
+          namespace: Namespaces.animalTracing, nest: tvdNumber);
 
       builder.element('p_SearchDateFrom',
-          namespace: animalTracingNameSpace,
+          namespace: Namespaces.animalTracing,
           nest: searchDateFrom.toIso8601String());
 
       builder.element('p_SearchDateTo',
-          namespace: animalTracingNameSpace,
+          namespace: Namespaces.animalTracing,
           nest: searchDateTo.toIso8601String());
 
       builder.element(
         'p_ArticleFilter',
-        namespace: animalTracingNameSpace,
+        namespace: Namespaces.animalTracing,
         nest: () {
           for (final articleType in articleFilter) {
             builder.element('IntItem',
-                namespace: animalTracingNameSpace, nest: articleType);
+                namespace: Namespaces.animalTracing, nest: articleType);
           }
         },
       );

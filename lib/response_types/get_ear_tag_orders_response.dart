@@ -3,13 +3,13 @@
  * Filename: get_ear_tag_orders_response.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/request_types/get_ear_tag_orders_request.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
+import '../request_types/get_ear_tag_orders_request.dart';
 import '../shared_types/ear_tag_order_data.dart';
 import '../shared_types/processing_result.dart';
-import '../src/xml_utils.dart';
+import '../src/xml_utils/parsing.dart';
 
 /// The response to getEarTagOrders.
 ///
@@ -31,18 +31,18 @@ class GetEarTagOrdersResponse extends ResponseData {
     if (element.name.local != 'GetEarTagOrdersResponse') {
       throw FormatException(
           'element passed to GetEarTagOrdersResponse.fromXml is not a '
-          'GetEarTagOrdersResponse from $animalTracingNameSpace',
+          'GetEarTagOrdersResponse from ${Namespaces.animalTracing}',
           element.toXmlString(pretty: true));
     }
     final getEarTagOrdersResultElement = element.extractValue<XmlElement>(
-        'GetEarTagOrdersResult', animalTracingNameSpace,
+        'GetEarTagOrdersResult', Namespaces.animalTracing,
         isNillable: true, isElementOptional: true);
     if (getEarTagOrdersResultElement == null) {
       return GetEarTagOrdersResponse(null, null);
     }
 
     final resultElement = getEarTagOrdersResultElement.extractValue<XmlElement>(
-        'Result', animalTracingNameSpace,
+        'Result', Namespaces.animalTracing,
         isNillable: true);
     ProcessingResult? result;
     if (resultElement != null) {
@@ -50,14 +50,14 @@ class GetEarTagOrdersResponse extends ResponseData {
     }
 
     final resultDetailsElement = getEarTagOrdersResultElement
-        .extractValue<XmlElement>('Resultdetails', animalTracingNameSpace,
+        .extractValue<XmlElement>('Resultdetails', Namespaces.animalTracing,
             isNillable: true);
 
     List<EarTagOrderData>? resultDetails;
     if (resultDetailsElement != null) {
       resultDetails = resultDetailsElement.extractList<EarTagOrderData>(
           'EarTagOrderDataItem',
-          animalTracingNameSpace,
+          Namespaces.animalTracing,
           (element) => EarTagOrderData.fromXml(element),
           NullabilityType.required);
     }

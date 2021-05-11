@@ -6,13 +6,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:xml/xml.dart';
+
 import '../../core/core.dart';
 import '../../exceptions/http_exception.dart';
-import '../../exceptions/library_exception.dart';
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/string_decoding_exception.dart';
 import '../../exceptions/xml_missing_element_exception.dart';
-import '../../exceptions/xml_parse_exception.dart';
 import '../soap/soap_request.dart';
 import '../soap/soap_response.dart';
 import 'soap_client.dart';
@@ -26,7 +26,7 @@ class IOClient extends SoapClient {
   /// Sends the [soapRequest] to the service as specified in [ServiceEndpointConfiguration].
   ///
   /// May throw the following exceptions: [SoapException],[HttpException],
-  /// [StringDecodingException],[XmlParseException],[XmlMissingElementException].
+  /// [StringDecodingException],[XmlParserException],[XmlMissingElementException].
   ///
   /// In some Scenarios it could also throw other Exceptions.
   @override
@@ -58,7 +58,7 @@ class IOClient extends SoapClient {
         SoapResponse(content);
       } on SoapException {
         rethrow;
-      } on LibraryException {
+      } on XmlParserException {
         throw HttpException(response.statusCode, response.reasonPhrase);
       }
     }
@@ -72,20 +72,23 @@ class IOClient extends SoapClient {
     try {
       final typ = response.headers.contentType?.charset;
       switch (typ) {
-        case 'ascii':
+        /*
+        //Needs a better look at the names of the charset.
         case 'us-ascii':
           return await ascii.decoder.bind(response).join();
-        case 'latin-1':
         case 'iso-8859-1':
           return await latin1.decoder.bind(response).join();
+
+         */
         case 'utf-8':
-        case null:
-        default:
           return await utf8.decoder.bind(response).join();
+        default:
+          throw FormatException(
+              '$typ is unsupported. Support can be added if necessary.');
       }
     } on FormatException catch (exception) {
-      //Drain to avoid leaking resources.
-      await response.drain();
+      //Drain to avoid leaking resources. Needs to be better investigated.
+      //await response.drain();
       throw StringDecodingException(exception);
     }
   }

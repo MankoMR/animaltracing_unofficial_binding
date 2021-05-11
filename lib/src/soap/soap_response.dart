@@ -7,8 +7,7 @@ import 'package:xml/xml.dart';
 
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/xml_missing_element_exception.dart';
-import '../../exceptions/xml_parse_exception.dart';
-import '../xml_utils.dart';
+import '../../src/xml_utils/shared.dart';
 
 /// SoapResponse is the parsed content of an soap:Envelope.
 class SoapResponse {
@@ -21,7 +20,7 @@ class SoapResponse {
   /// Tries to parse [envelope] as soap:Envelope and does some
   /// preliminary checks.
   ///
-  /// It will throw [XmlParseException] if [envelope] is not a valid soap:Envelope
+  /// It will throw [XmlParseException] or [XmlMissingElementException] if [envelope] is not a valid soap:Envelope
   /// according the following [specification][spec].
   ///
   /// It will throw [SoapException] according to the Exception-Model of the library.
@@ -29,21 +28,17 @@ class SoapResponse {
   /// [spec]: https://www.w3.org/2003/05/soap-envelope/
   SoapResponse(String envelope) {
     final XmlDocument document;
-    try {
-      document = XmlDocument.parse(envelope);
-    } on XmlParserException catch (exception) {
-      throw XmlParseException.from(exception);
-    }
+    document = XmlDocument.parse(envelope);
     final rootElement = document.rootElement;
-    if (rootElement.name.namespaceUri != soapNameSpace &&
+    if (rootElement.name.namespaceUri != Namespaces.soap &&
         rootElement.name.local != 'Envelope') {
-      throw XmlMissingElementException('Envelope', soapNameSpace, null);
+      throw XmlMissingElementException('Envelope', Namespaces.soap, null);
     }
-    header = rootElement.getElement('Header', namespace: soapNameSpace);
+    header = rootElement.getElement('Header', namespace: Namespaces.soap);
     final supposedBody =
-        rootElement.getElement('Body', namespace: soapNameSpace);
+        rootElement.getElement('Body', namespace: Namespaces.soap);
     if (supposedBody == null) {
-      throw XmlMissingElementException('Body', soapNameSpace, null);
+      throw XmlMissingElementException('Body', Namespaces.soap, null);
     } else {
       body = supposedBody;
     }
@@ -56,19 +51,20 @@ class SoapResponse {
   /// If soap:Fault exists and it doesn't contain the soap:Reason element,
   /// it will throw a [XmlParseException].
   static void _throwIfContainsFault(XmlElement body) {
-    final faultElement = body.getElement('Fault', namespace: soapNameSpace);
+    final faultElement = body.getElement('Fault', namespace: Namespaces.soap);
     if (faultElement != null) {
       final faultReason = faultElement
-          .getElement('Reason', namespace: soapNameSpace)
-          ?.getElement('Text', namespace: soapNameSpace)
+          .getElement('Reason', namespace: Namespaces.soap)
+          ?.getElement('Text', namespace: Namespaces.soap)
           ?.innerText;
       //FaultCode is optional because the service does not always returns it.
       final faultCode = faultElement
-          .getElement('Code', namespace: soapNameSpace)
-          ?.getElement('Value', namespace: soapNameSpace)
+          .getElement('Code', namespace: Namespaces.soap)
+          ?.getElement('Value', namespace: Namespaces.soap)
           ?.innerText;
       if (faultReason == null) {
-        throw XmlMissingElementException('Reason or Text', soapNameSpace, null);
+        throw XmlMissingElementException(
+            'Reason or Text', Namespaces.soap, null);
       } else {
         throw SoapException(faultCode, faultReason);
       }

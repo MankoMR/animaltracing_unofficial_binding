@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
-import '../src/xml_utils.dart';
+import '../src/xml_utils/parsing.dart';
 
 ///Stores processing information to a service request.
 class ProcessingResult extends ResponseData {
@@ -31,13 +31,14 @@ class ProcessingResult extends ResponseData {
 
   /// Used to create [ProcessingResult] from a service response.
   factory ProcessingResult.fromXml(XmlElement element) {
-    final code = element.extractValue<int>('Code', animalTracingNameSpace);
+    final code = element.extractValue<int>('Code', Namespaces.animalTracing);
 
     final description = element.extractValue<String>(
-        'Description', animalTracingNameSpace,
+        'Description', Namespaces.animalTracing,
         isNillable: true);
 
-    final status = element.extractValue<int>('Status', animalTracingNameSpace);
+    final status =
+        element.extractValue<int>('Status', Namespaces.animalTracing);
 
     return ProcessingResult(code!, description, status!);
   }
