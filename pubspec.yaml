@@ -1,0 +1,15 @@
+name: animaltracing_unofficial_binding
+description: A library to make interaction with AnimalTracin easier.
+# version: 0.0.1
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  xml: ^5.1.0
+#  path: ^1.7.0
+
+dev_dependencies:
+  pedantic: ^1.11.0
+  test: ^1.17.3
