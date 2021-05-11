@@ -6,7 +6,7 @@
 import 'package:xml/xml.dart';
 
 import '../../core/core.dart';
-import '../xml_utils.dart';
+import '../../src/xml_utils/namespaces.dart';
 
 /// Contains all the information needed to call a service operation.
 class SoapRequest {
@@ -27,17 +27,18 @@ class SoapRequest {
     final builder = XmlBuilder(optimizeNamespaces: true);
 
     builder.element('Envelope',
-        namespace: soapNameSpace, namespaces: nameSpaceMapping, nest: () {
-      builder.element('Header', namespace: soapNameSpace, nest: () {
+        namespace: Namespaces.soap,
+        namespaces: Namespaces.nameSpacesNames, nest: () {
+      builder.element('Header', namespace: Namespaces.soap, nest: () {
         builder.element('Action',
-            namespace: addressingNameSpace, nest: serviceOperation);
+            namespace: Namespaces.addressing, nest: serviceOperation);
         final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
             '${serviceEndpointConfiguration.port}/'
             '${serviceEndpointConfiguration.path}';
         builder.element('To',
-            namespace: addressingNameSpace, nest: serviceEndpoint);
+            namespace: Namespaces.addressing, nest: serviceEndpoint);
       });
-      builder.element('Body', namespace: soapNameSpace, nest: () {
+      builder.element('Body', namespace: Namespaces.soap, nest: () {
         requestData.generateWith(builder, null);
       });
     });

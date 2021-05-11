@@ -5,7 +5,7 @@
  */
 import 'package:animaltracing_unofficial_binding/core/core.dart';
 import 'package:animaltracing_unofficial_binding/src/soap/soap_request.dart';
-import 'package:animaltracing_unofficial_binding/src/xml_utils.dart';
+import 'package:animaltracing_unofficial_binding/src/xml_utils/namespaces.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';
@@ -19,14 +19,14 @@ void main() {
               MockRequestData())
           .generateEnvelope();
       expect(envelope.rootElement.name.local, 'Envelope');
-      expect(envelope.rootElement.name.namespaceUri, soapNameSpace);
+      expect(envelope.rootElement.name.namespaceUri, Namespaces.soap);
       expect(envelope.rootElement.firstElementChild?.name.local, 'Header');
       expect(envelope.rootElement.firstElementChild?.name.namespaceUri,
-          soapNameSpace);
+          Namespaces.soap);
 
       expect(envelope.rootElement.lastElementChild?.name.local, 'Body');
       expect(envelope.rootElement.firstElementChild?.name.namespaceUri,
-          soapNameSpace);
+          Namespaces.soap);
     });
     test('soap:Header contains action and to with correct value', () {
       final envelope = SoapRequest(
@@ -37,12 +37,12 @@ void main() {
       final headerElement = envelope.rootElement.firstElementChild;
       expect(
           headerElement
-              ?.getElement('To', namespace: addressingNameSpace)
+              ?.getElement('To', namespace: Namespaces.addressing)
               ?.innerText,
           'localhost:1/test');
       expect(
           headerElement
-              ?.getElement('Action', namespace: addressingNameSpace)
+              ?.getElement('Action', namespace: Namespaces.addressing)
               ?.innerText,
           'serviceOperation');
     });

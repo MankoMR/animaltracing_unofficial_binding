@@ -8,29 +8,13 @@ import 'package:xml/xml.dart';
 
 import '../core/core.dart';
 import '../exceptions/xml_missing_element_exception.dart';
+import 'xml_utils/namespaces.dart';
 
 /// Function signature definition used in [ValueExtraction].extractList.
 ///
 /// Implementers of this Function will usually return type extending
 /// ResponseData.
 typedef ItemConstructor<T> = T Function(XmlElement element);
-
-const String soapNameSpace = 'http://www.w3.org/2003/05/soap-envelope';
-const String addressingNameSpace = 'http://www.w3.org/2005/08/addressing';
-const String animalTracingNameSpace =
-    'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1';
-
-//I had to look at code from the mockservice to get the correct namespace for
-// the Xml-Attribute 'nil'
-const schemaInstanceNameSpace = 'http://www.w3.org/2001/XMLSchema-instance';
-
-///Used to define name of a namespace.
-const nameSpaceMapping = {
-  soapNameSpace: 'soap',
-  addressingNameSpace: 'wsa',
-  animalTracingNameSpace: 'tns',
-  schemaInstanceNameSpace: 'sch'
-};
 
 /// Helper functions to extract a value from xml.
 extension ValueExtraction on XmlElement {
@@ -48,7 +32,7 @@ extension ValueExtraction on XmlElement {
           name, nameSpace, 'Is a required Element.');
     }
     if (isNillable &&
-        element.getAttribute('nil', namespace: schemaInstanceNameSpace) ==
+        element.getAttribute('nil', namespace: Namespaces.schemaInstance) ==
             'true') {
       return null;
     }
@@ -142,7 +126,7 @@ extension XmlBuilding on RequestData {
               // nillable="true" in the wsdl-Definition file
               //and the specific namespace in schemaInstanceNameSpace
               builder.attribute('nil', 'true',
-                  namespace: schemaInstanceNameSpace);
+                  namespace: Namespaces.schemaInstance);
             },
           );
           break;

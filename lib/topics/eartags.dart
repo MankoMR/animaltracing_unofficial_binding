@@ -14,7 +14,7 @@ import '../request_types/get_ear_tag_orders_request.dart';
 import '../response_types/get_ear_tag_orders_response.dart';
 import '../src/service_client/soap_client.dart';
 import '../src/soap/soap_request.dart';
-import '../src/xml_utils.dart';
+import '../src/xml_utils/namespaces.dart';
 
 /// Eartags contains all service operations that involve eartags.
 ///
@@ -56,11 +56,11 @@ class Eartags extends TopicBase {
             .sendRequest(soapRequest, authorizationToken);
 
     final children = response.body.getElement('GetEarTagOrdersResponse',
-        namespace: animalTracingNameSpace);
+        namespace: Namespaces.animalTracing);
 
     if (children == null) {
       throw XmlMissingElementException(
-          'GetEarTagOrdersResponse', animalTracingNameSpace, null);
+          'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
     }
     return GetEarTagOrdersResponse.fromXml(children);
   }
