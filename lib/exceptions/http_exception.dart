@@ -4,7 +4,6 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'library_exception.dart';
 import 'soap_exception.dart';
 
 /// Gets thrown when service response contains a status code other than
@@ -12,7 +11,7 @@ import 'soap_exception.dart';
 ///
 /// In case the response contains a valid soap:Envelope with soap:Fault,
 /// a [SoapException] will be thrown instead.
-class HttpException extends LibraryException {
+class HttpException {
   /// The status code from the response
   final int statusCode;
 
