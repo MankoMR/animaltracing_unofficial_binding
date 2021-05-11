@@ -22,13 +22,13 @@ main() {
 ## Exception-Model
 May throw the following exceptions: 
 * SocketException: Will be thrown if there are issues with connecting to a service.
-The Following Exceptions implement LibraryException:
 * SoapException: Will be thrown if the soap:Envelope of response 
   to a service-operation contains a soap:Fault. 
 * HttpException: If the status code is something other than OK. (If the http-content 
   can be parsed as soap:Envelope with a soap:Fault, a SoapException will be thrown instead.)
   
-Those exception require special attention as they signal some issue that the library is unable to handle.
+Those exception require special attention as they signal some issue that the library is unable to
+handle.
 
 If an error occurred while parsing, an Exception that implements
 FormatException will be thrown. Here some examples what exceptions may
@@ -36,6 +36,8 @@ be thrown:
 * StringDecodingException
 * XmlParserException
 * XmlMissingElementException
+
+Please note that in certain situations other Exceptions than listed above can be thrown.
 
 ## Features and bugs
 
