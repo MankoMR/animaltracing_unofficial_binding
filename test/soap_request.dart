@@ -5,7 +5,7 @@
  */
 import 'package:animaltracing_unofficial_binding/core/core.dart';
 import 'package:animaltracing_unofficial_binding/src/soap/soap_request.dart';
-import 'package:animaltracing_unofficial_binding/src/xml_utils/namespaces.dart';
+import 'package:animaltracing_unofficial_binding/src/xml_utils/shared.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';

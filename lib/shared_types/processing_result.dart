@@ -7,8 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../core/core.dart';
-import '../src/xml_utils.dart';
-import '../src/xml_utils/namespaces.dart';
+import '../src/xml_utils/parsing.dart';
 
 ///Stores processing information to a service request.
 class ProcessingResult extends ResponseData {

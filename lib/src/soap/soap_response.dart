@@ -7,7 +7,7 @@ import 'package:xml/xml.dart';
 
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/xml_missing_element_exception.dart';
-import '../../src/xml_utils/namespaces.dart';
+import '../../src/xml_utils/shared.dart';
 
 /// SoapResponse is the parsed content of an soap:Envelope.
 class SoapResponse {

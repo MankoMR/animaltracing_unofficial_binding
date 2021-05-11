@@ -9,8 +9,7 @@ import '../core/core.dart';
 import '../request_types/get_ear_tag_orders_request.dart';
 import '../shared_types/ear_tag_order_data.dart';
 import '../shared_types/processing_result.dart';
-import '../src/xml_utils.dart';
-import '../src/xml_utils/namespaces.dart';
+import '../src/xml_utils/parsing.dart';
 
 /// The response to getEarTagOrders.
 ///

@@ -6,8 +6,7 @@
 import 'package:xml/src/xml/builder.dart';
 
 import '../core/core.dart';
-import '../src/xml_utils.dart';
-import '../src/xml_utils/namespaces.dart';
+import '../src/xml_utils/generation.dart';
 import '../topics/eartags.dart';
 
 /// Holds the necessary information to call [getEarTagOrders] in [Eartags].

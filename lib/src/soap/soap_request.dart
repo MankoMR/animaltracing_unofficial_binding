@@ -6,7 +6,7 @@
 import 'package:xml/xml.dart';
 
 import '../../core/core.dart';
-import '../../src/xml_utils/namespaces.dart';
+import '../../src/xml_utils/shared.dart';
 
 /// Contains all the information needed to call a service operation.
 class SoapRequest {
