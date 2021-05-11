@@ -66,6 +66,11 @@ class ServiceEndpointConfiguration {
   ///
   final Duration? timeOutDuration;
 
+  /// Create [ServiceEndpointConfiguration].
+  ///
+  /// [path] should not start with '/' at the beginning.
+  ///
+  /// See documentation of the members for additional infos.
   ServiceEndpointConfiguration(
       this.host, this.port, String path, this.timeOutDuration)
       : path = path;

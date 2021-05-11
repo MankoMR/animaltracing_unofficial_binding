@@ -9,6 +9,10 @@ import 'package:xml/xml.dart';
 import '../core/core.dart';
 import '../exceptions/xml_missing_element_exception.dart';
 
+/// Function signature definition used in [ValueExtraction].extractList.
+///
+/// Implementers of this Function will usually return type extending
+/// ResponseData.
 typedef ItemConstructor<T> = T Function(XmlElement element);
 
 const String soapNameSpace = 'http://www.w3.org/2003/05/soap-envelope';
@@ -20,6 +24,7 @@ const String animalTracingNameSpace =
 // the Xml-Attribute 'nil'
 const schemaInstanceNameSpace = 'http://www.w3.org/2001/XMLSchema-instance';
 
+///Used to define name of a namespace.
 const nameSpaceMapping = {
   soapNameSpace: 'soap',
   addressingNameSpace: 'wsa',
@@ -27,7 +32,10 @@ const nameSpaceMapping = {
   schemaInstanceNameSpace: 'sch'
 };
 
-extension Parsing on XmlElement {
+/// Helper functions to extract a value from xml.
+extension ValueExtraction on XmlElement {
+  /// This Function is purposely doing multiple things. This is to simplify the
+  /// parsing in the Response Types and to maximize the reusability of code.
   T? extractValue<T>(String name, String nameSpace,
       {bool isNillable = false, bool isElementOptional = false}) {
     final element = getElement(name, namespace: nameSpace);
@@ -110,7 +118,9 @@ extension Parsing on XmlElement {
   }
 }
 
-extension RequestDataExtension on RequestData {
+/// Helper functions  to simplify generating xml in classes which
+/// implement [RequestData].
+extension XmlBuilding on RequestData {
   void buildNullableElement(
     XmlBuilder builder,
     String elementName,
@@ -147,6 +157,7 @@ extension RequestDataExtension on RequestData {
 }
 
 /*
+///May be used in code that will be implemented later. Used as reference.
 typedef ItemBuilder<T> = void Function(XmlBuilder builder, T value);
 void buildList<T>(
   XmlBuilder builder,
@@ -174,8 +185,14 @@ void buildList<T>(
 }
  */
 
+/// Defines the way in which an element is null in xml.
 enum NullabilityType {
+  /// The XmlElement is optional.
   optionalElement,
+
+  /// The XmlElement has attribute 'nill' set to 'true'.
   nullable,
+
+  /// The XmlElement is required to exist and have a value.
   required,
 }
