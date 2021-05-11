@@ -44,8 +44,8 @@ void main() {
         () {
       final client = IOClient(Duration(milliseconds: 500));
       final soapRequest = SoapRequest(
-          ServiceEndpointConfiguration(
-              'localhost', 4042, 'Livestock/AnimalTracing/3'),
+          ServiceEndpointConfiguration('localhost', 4042,
+              'Livestock/AnimalTracing/3', Duration(milliseconds: 500)),
           'serviceOperation',
           MockRequestData());
       expect(

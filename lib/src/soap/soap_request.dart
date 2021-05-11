@@ -30,12 +30,12 @@ class SoapRequest {
         namespace: soapNameSpace, namespaces: nameSpaceMapping, nest: () {
       builder.element('Header', namespace: soapNameSpace, nest: () {
         builder.element('Action',
-            namespace: adressingNameSpace, nest: serviceOperation);
+            namespace: addressingNameSpace, nest: serviceOperation);
         final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
             '${serviceEndpointConfiguration.port}/'
             '${serviceEndpointConfiguration.path}';
         builder.element('To',
-            namespace: adressingNameSpace, nest: serviceEndpoint);
+            namespace: addressingNameSpace, nest: serviceEndpoint);
       });
       builder.element('Body', namespace: soapNameSpace, nest: () {
         requestData.generateWith(builder, null);

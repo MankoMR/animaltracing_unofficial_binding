@@ -14,7 +14,7 @@ void main() {
   group('SoapRequest', () {
     test('root element is soap:Envelop', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test'),
+              ServiceEndpointConfiguration('localhost', 1, 'test', null),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();
@@ -30,25 +30,25 @@ void main() {
     });
     test('soap:Header contains action and to with correct value', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test'),
+              ServiceEndpointConfiguration('localhost', 1, 'test', null),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();
       final headerElement = envelope.rootElement.firstElementChild;
       expect(
           headerElement
-              ?.getElement('To', namespace: adressingNameSpace)
+              ?.getElement('To', namespace: addressingNameSpace)
               ?.innerText,
           'localhost:1/test');
       expect(
           headerElement
-              ?.getElement('Action', namespace: adressingNameSpace)
+              ?.getElement('Action', namespace: addressingNameSpace)
               ?.innerText,
           'serviceOperation');
     });
     test('soap:Body contains correct data', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test'),
+              ServiceEndpointConfiguration('localhost', 1, 'test', null),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();

@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animaltracing_unofficial_binding/core/core.dart';
+import 'package:test/expect.dart';
 import 'package:xml/xml.dart';
 
 /// A mock implementation of a type used for making a request.
@@ -28,7 +29,7 @@ const _portNumber = 4041;
 
 /// ServiceEndpointConfiguration used to connect temporary test servers. See [createServer]
 final testServerConfiguration =
-    ServiceEndpointConfiguration('localhost', _portNumber, 'test');
+    ServiceEndpointConfiguration('localhost', _portNumber, 'test', null);
 
 /// Sets up a Server with the following Configuration:
 /// IPAddress: loopbackIPv4, port: 4041
@@ -46,15 +47,10 @@ Future<HttpServer> createServer(RequestHandler requestHandler) async {
 /// Validates [data] against the schemas contained in the wsdl-Definiton of
 /// AnimalTracing.
 ///
-/// Returns normally if xml generated with [generateWith] on [data] passed the
-/// XML-schema validation.
-///
-/// Throws [InvalidXmlException] which contains information what about generated
-/// xml does not conform according to the wsdl-Definition.
-///
 /// Throws [UnsupportedError] if something is fundamentally wrong.
-Future<void> validDateRequestData(RequestData data, String? elementName) async {
-  await validateXml(generateXml(data, elementName));
+Future<void> expectIsValidXml(RequestData data, String? elementName) async {
+  final result = await validateXml(generateXml(data, elementName));
+  expect(result.isValidXml, true, reason: result.message);
 }
 
 /// Simplifies getting xml-String from [data].
@@ -67,13 +63,10 @@ String generateXml(RequestData data, String? elementName) {
 /// Validates [xml] against the schemas contained in the wsdl-Definiton of
 /// AnimalTracing.
 ///
-/// Returns normally if xml passed the XML-schema validation.
-///
-/// Throws [InvalidXmlException] which contains information what about [xml]
-/// does not conform according to the wsdl-Definition.
+/// Returns [ValidationResult] with information about XML-schema validation.
 ///
 /// Throws [UnsupportedError] if something is fundamentally wrong.
-Future<void> validateXml(String xml) async {
+Future<ValidationResult> validateXml(String xml) async {
   final encodedXml = base64.encode(xml.codeUnits);
 
   //Todo: Change after project is finished and support for additional systems will be added.
@@ -85,20 +78,24 @@ Future<void> validateXml(String xml) async {
   // which exitCode means what.
   switch (processingResult.exitCode) {
     case 0:
-      return;
     case 2:
     case 3:
-      throw InvalidXmlException(processingResult.stdout);
+      return ValidationResult(
+          processingResult.exitCode, processingResult.stdout as String);
     case 1:
     case 4:
     default:
-
       //In this case something needs to be reworked.
       throw UnsupportedError(
           'Something Unexpected happend: ${processingResult.stdout}');
   }
 }
 
-class InvalidXmlException extends FormatException {
-  InvalidXmlException(String message) : super(message);
+class ValidationResult {
+  final int code;
+  final String message;
+
+  bool get isValidXml => code == 0;
+
+  ValidationResult(this.code, this.message);
 }
