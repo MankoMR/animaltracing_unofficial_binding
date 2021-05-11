@@ -84,16 +84,18 @@ class EarTagOrderData extends ResponseData {
         'OrderStatusDate', animalTracingNameSpace);
 
     final earTagNumberFrom = element.extractValue<String>(
-        'EarTagNumberFrom', animalTracingNameSpace, NullabilityType.nullable);
+        'EarTagNumberFrom', animalTracingNameSpace,
+        isNillable: true);
 
     final earTagNumberTo = element.extractValue<String>(
-        'EarTagNumberTo', animalTracingNameSpace, NullabilityType.nullable);
+        'EarTagNumberTo', animalTracingNameSpace,
+        isNillable: true);
 
-    final text1 = element.extractValue<String>(
-        'Text1', animalTracingNameSpace, NullabilityType.nullable);
+    final text1 = element.extractValue<String>('Text1', animalTracingNameSpace,
+        isNillable: true);
 
-    final text2 = element.extractValue<String>(
-        'Text2', animalTracingNameSpace, NullabilityType.nullable);
+    final text2 = element.extractValue<String>('Text2', animalTracingNameSpace,
+        isNillable: true);
 
     return EarTagOrderData(
         notificationId!,

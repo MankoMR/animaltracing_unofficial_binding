@@ -34,7 +34,8 @@ class ProcessingResult extends ResponseData {
     final code = element.extractValue<int>('Code', animalTracingNameSpace);
 
     final description = element.extractValue<String>(
-        'Description', animalTracingNameSpace, NullabilityType.nullable);
+        'Description', animalTracingNameSpace,
+        isNillable: true);
 
     final status = element.extractValue<int>('Status', animalTracingNameSpace);
 

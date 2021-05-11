@@ -29,34 +29,23 @@ const nameSpaceMapping = {
 
 extension Parsing on XmlElement {
   T? extractValue<T>(String name, String nameSpace,
-      [NullabilityType nullabilityType = NullabilityType.required]) {
+      {bool isNillable = false, bool isElementOptional = false}) {
     final element = getElement(name, namespace: nameSpace);
-    switch (nullabilityType) {
-      case NullabilityType.optionalElement:
-        if (element == null) return null;
-        break;
-      case NullabilityType.nullable:
-        if (element == null) {
-          throw XmlMissingElementException(
-              name, nameSpace, 'Is a required Element.');
-        }
-        if (element.getAttribute('nil', namespace: schemaInstanceNameSpace) ==
+
+    if (isElementOptional && element == null) {
+      return null;
+    }
+    if (element == null) {
+      throw XmlMissingElementException(
+          name, nameSpace, 'Is a required Element.');
+    }
+    if (isNillable &&
+        element.getAttribute('nil', namespace: schemaInstanceNameSpace) ==
             'true') {
-          return null;
-        }
-        break;
-      case NullabilityType.required:
-        if (element == null) {
-          throw XmlMissingElementException(
-              name, nameSpace, 'Is a required Element.');
-        }
-        if (element.innerText.isEmpty) {
-          throw FormatException(
-              '$name from $nameSpace does not contain a value. But its required');
-        }
-        break;
-      default:
-        throw UnimplementedError('Handle additional $nullabilityType');
+      return null;
+    }
+    if (element.innerText.isEmpty) {
+      throw FormatException('$name from $nameSpace needs to contain a value.');
     }
     final value = element.innerText;
     //Catch all Format exceptions to enrich with additional information
