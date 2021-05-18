@@ -11,6 +11,9 @@ linter:
      - lines_longer_than_80_chars # avoid
      - package_api_docs # prefer
      - public_member_api_docs # prefer
+     - implementation_imports
+     - avoid_relative_lib_imports
+     - prefer_relative_imports
      - unnecessary_const
      - avoid_catching_errors
      - avoid_print

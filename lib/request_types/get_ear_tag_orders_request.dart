@@ -3,7 +3,8 @@
  * Filename: get_ear_tag_orders_request.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:xml/src/xml/builder.dart';
+
+import 'package:xml/xml.dart';
 
 import '../core/core.dart';
 import '../src/xml_utils/generation.dart';
