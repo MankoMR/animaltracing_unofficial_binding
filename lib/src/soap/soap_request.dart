@@ -19,6 +19,8 @@ class SoapRequest {
   /// Information required to call the service operation.
   final RequestData requestData;
 
+  /// Creates a [SoapRequest] with [serviceEndpointConfiguration],
+  /// [serviceOperation] and [requestData] set to corresponding values.
   SoapRequest(this.serviceEndpointConfiguration, this.serviceOperation,
       this.requestData);
 

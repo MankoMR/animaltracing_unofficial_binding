@@ -48,11 +48,11 @@ class ProcessingResult extends ResponseData {
 /// [EarTagOrderData] with code which could only be helpful in limited scenarios.
 @visibleForTesting
 extension ProcessingResultTestHelp on ProcessingResult {
+  /// Checks if this [ProcessingResult] has the same values as the [other].
   @visibleForTesting
-  bool areSame(ProcessingResult other) {
-    return other is ProcessingResult &&
-        code == other.code &&
-        description == other.description &&
-        status == other.status;
-  }
+  bool areSame(ProcessingResult other) =>
+      other is ProcessingResult &&
+      code == other.code &&
+      description == other.description &&
+      status == other.status;
 }

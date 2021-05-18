@@ -18,5 +18,7 @@ class HttpException {
   /// The reason phrase for the [statusCode]
   final String reasonPhrase;
 
+  /// Creates a [HttpException] with [statusCode] and [reasonPhrase] set to
+  /// corresponding values.
   const HttpException(this.statusCode, this.reasonPhrase);
 }

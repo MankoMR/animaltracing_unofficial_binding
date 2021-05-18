@@ -44,3 +44,19 @@ Please note that in certain situations other Exceptions than listed above can be
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/MankoMR/animaltracing_unofficial_binding/issues
+
+
+
+## Coding-Style
+
+See [analyis_options](analysis_options.yaml) for which lints will be used. 
+
+###AVOID public late final fields without initializers.
+
+Unlike other final fields, a late final field without an initializer does define a setter. If that field is public, then the setter is public. This is rarely what you want. Fields are usually marked late so that they can be initialized internally at some point in the instance’s lifetime, often inside the constructor body.
+
+Unless you do want users to call the setter, it’s better to pick one of the following solutions:
+
+ * Don’t use late.
+ * Use late, but initialize the late field at its declaration.
+ * Use late, but make the late field private and define a public getter for it.

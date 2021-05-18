@@ -9,8 +9,11 @@ import 'soap_client.dart';
 
 /// Implementation of [SoapClient] for when library is used in the browser.
 class BrowserClient extends SoapClient {
+  /// Creates a [BrowserClient] with the specified [timeOutDuration].
   BrowserClient(Duration? timeOutDuration) : super(timeOutDuration);
 
+  /// Sends the [soapRequest] to the service as specified in
+  /// [ServiceEndpointConfiguration].
   @override
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken) async {
@@ -19,7 +22,9 @@ class BrowserClient extends SoapClient {
   }
 }
 
-/// Function ist called depending which library is available. See the imports in
-/// the sourcecode for [SoapClient]
+/// Creates a [BrowserClient] with the specified [timeOutDuration].
+///
+/// Function ist called depending on which library is available.
+/// See the imports in the sourcecode for [SoapClient]
 SoapClient createClient(Duration? timeOutDuration) =>
     BrowserClient(timeOutDuration);

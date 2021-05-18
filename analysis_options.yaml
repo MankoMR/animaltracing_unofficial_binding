@@ -7,6 +7,8 @@ include: package:pedantic/analysis_options.yaml
 # Uncomment to specify additional rules.
 linter:
   rules:
+     - package_api_docs # prefer
+     - public_member_api_docs # prefer
      - avoid_catching_errors
      - avoid_print
      - avoid_void_async

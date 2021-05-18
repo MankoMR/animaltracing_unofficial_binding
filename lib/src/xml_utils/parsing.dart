@@ -75,6 +75,14 @@ extension ValueExtraction on XmlElement {
   }
 
   List<T>? extractList<T>(String childrenName, String childrenNamespace,
+  /// Extracts  a List of type [T] from this, where [childrenName] and
+  /// [childrenNamespace] determine which children [XmlElement]s are passed to
+  /// the [itemConstructor].
+  ///
+  /// [itemConstructor] is the method which creates a [T] per selected
+  /// children.
+  ///
+  /// [listNullabilityTyp] will be removed in a later version.
       ItemConstructor<T> itemConstructor,
       [NullabilityType listNullabilityTyp = NullabilityType.required]) {
     final list = <T>[];

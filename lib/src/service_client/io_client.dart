@@ -21,6 +21,7 @@ import 'soap_client.dart';
 ///
 /// This implementation will be used in most cases.
 class IOClient extends SoapClient {
+  /// Creates a [IOClient] with the specified [timeOutDuration].
   IOClient(Duration? timeOutDuration) : super(timeOutDuration);
 
   /// Sends the [soapRequest] to the service as specified in [ServiceEndpointConfiguration].
@@ -94,6 +95,8 @@ class IOClient extends SoapClient {
   }
 }
 
-/// Function ist called depending which library is available. See the imports in
-/// the sourcecode for [SoapClient]
+/// Creates a [IOClient] with the specified [timeOutDuration].
+///
+/// Function ist called depending on which library is available.
+/// See the imports in the sourcecode for [SoapClient]
 SoapClient createClient(Duration? timeOutDuration) => IOClient(timeOutDuration);

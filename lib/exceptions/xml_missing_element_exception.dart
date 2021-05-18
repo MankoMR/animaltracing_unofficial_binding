@@ -12,7 +12,7 @@ class XmlMissingElementException extends FormatException {
   /// Namespace to which the missed element belongs
   final String? nameSpace;
 
-  //  Create [XmlMissingElementException]
+  ///  Create [XmlMissingElementException]
   const XmlMissingElementException(
       this.elementName, this.nameSpace, String? message)
       : super(message ?? 'Missing XmlElement');
