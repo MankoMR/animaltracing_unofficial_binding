@@ -7,7 +7,7 @@
 import '../src/xml_utils/generation.dart';
 
 /// Gets thrown when soap:Envelope contains a soap:Error.
-class SoapException {
+class SoapException implements Exception {
   /// See [Namespaces] for possible values.
   final String? errorCode;
 

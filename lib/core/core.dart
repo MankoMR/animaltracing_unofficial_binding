@@ -49,8 +49,6 @@ abstract class ResponseData {
   const ResponseData();
 
   /// Signature which must be implemented.
-  ///
-  /// Exceptions thrown must implement [MalFormedResponseException]
   factory ResponseData.fromXml(XmlElement element) {
     throw UnimplementedError(
         'call constructor from classes which extend or implement from '
