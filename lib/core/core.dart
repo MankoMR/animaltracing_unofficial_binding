@@ -49,6 +49,7 @@ abstract class ResponseData {
   const ResponseData();
 
   /// Signature which must be implemented.
+  // ignore: avoid_unused_constructor_parameters
   factory ResponseData.fromXml(XmlElement element) {
     throw UnimplementedError(
         'call constructor from classes which extend or implement from '
@@ -91,6 +92,5 @@ class ServiceEndpointConfiguration {
   ///
   /// See documentation of the members for additional infos.
   ServiceEndpointConfiguration(
-      this.host, this.port, String path, this.timeOutDuration)
-      : path = path;
+      this.host, this.port, this.path, this.timeOutDuration);
 }
