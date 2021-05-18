@@ -28,44 +28,44 @@ void main() {
           throwsA(isA<XmlMissingElementException>()));
     }, tags: ['errors']);
     test('throws  XmlMissingElementException when soap:Body is missing', () {
-      const envelopeWithmissingBody =
-          '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-</env:Envelope>''';
-      expect(() => SoapResponse(envelopeWithmissingBody),
+      const envelopeWithMissingBody = '''
+      <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+      </env:Envelope>''';
+      expect(() => SoapResponse(envelopeWithMissingBody),
           throwsA(isA<XmlMissingElementException>()));
     }, tags: ['errors']);
     test(
-        'throws  XmlMissingElementException when soap:Reason is missing (partially)',
-        () {
-      const envelopeWithmissingReasong =
-          '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>env:Sender</env:Value>
-         </env:Code>
-         <env:Reason>
-         </env:Reason>
-      </env:Fault>
-   </env:Body>
-</env:Envelope>''';
+        'throws  XmlMissingElementException when soap:Reason is missing '
+        '(partially)', () {
+      const envelopeWithmissingReasong = '''
+      <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+         <env:Body>
+            <env:Fault>
+               <env:Code>
+                  <env:Value>env:Sender</env:Value>
+               </env:Code>
+               <env:Reason>
+               </env:Reason>
+            </env:Fault>
+         </env:Body>
+      </env:Envelope>''';
       expect(() => SoapResponse(envelopeWithmissingReasong),
           throwsA(isA<XmlMissingElementException>()));
     }, tags: ['errors']);
     test('throws SoapException', () {
-      const envelopeWithFault =
-          '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>env:Sender</env:Value>
-         </env:Code>
-         <env:Reason>
-            <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
-         </env:Reason>
-      </env:Fault>
-   </env:Body>
-</env:Envelope>''';
+      const envelopeWithFault = '''
+      <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+         <env:Body>
+            <env:Fault>
+               <env:Code>
+                  <env:Value>env:Sender</env:Value>
+               </env:Code>
+               <env:Reason>
+                  <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
+               </env:Reason>
+            </env:Fault>
+         </env:Body>
+      </env:Envelope>''';
       expect(
           () => SoapResponse(envelopeWithFault), throwsA(isA<SoapException>()));
       try {

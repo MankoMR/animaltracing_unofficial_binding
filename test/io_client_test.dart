@@ -82,19 +82,19 @@ void main() {
       setUp(() async {
         server = await createServer((request) async {
           request.response.statusCode = HttpStatus.badRequest;
-          const envelopeWithFault =
-              '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>env:Sender</env:Value>
-         </env:Code>
-         <env:Reason>
-            <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
-         </env:Reason>
-      </env:Fault>
-   </env:Body>
-</env:Envelope>''';
+          const envelopeWithFault = '''
+          <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+             <env:Body>
+                <env:Fault>
+                   <env:Code>
+                      <env:Value>env:Sender</env:Value>
+                   </env:Code>
+                   <env:Reason>
+                      <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
+                   </env:Reason>
+                </env:Fault>
+             </env:Body>
+          </env:Envelope>''';
           request.response.writeln(envelopeWithFault);
           request.response.headers.contentType =
               ContentType('application', 'soap+xml', charset: 'utf-8');
