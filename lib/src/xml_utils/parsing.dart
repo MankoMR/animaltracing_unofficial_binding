@@ -74,9 +74,21 @@ extension ValueExtraction on XmlElement {
     }
   }
 
-  List<T>? extractList<T>(String childrenName, String childrenNamespace,
+  /// Extracts  a List of type [T] from this, where [childrenName] and
+  /// [childrenNamespace] determine which children [XmlElement]s are passed to
+  /// the [itemConstructor].
+  ///
+  /// [itemConstructor] is the method which creates a [T] per selected
+  /// children.
+  ///
+  /// [listNullabilityTyp] will be removed in a later version.
+  List<T>? extractList<T>(
+      String childrenName,
+      String childrenNamespace,
       ItemConstructor<T> itemConstructor,
-      [NullabilityType listNullabilityTyp = NullabilityType.required]) {
+      [@Deprecated('Handling of NullabilityType of the list should be done '
+          'outside of this function.')
+          NullabilityType listNullabilityTyp = NullabilityType.required]) {
     final list = <T>[];
     for (final element in children
         .where((node) => node.nodeType == XmlNodeType.ELEMENT)
@@ -86,8 +98,9 @@ extension ValueExtraction on XmlElement {
         list.add(itemConstructor(element));
       } else {
         throw FormatException(
-            '${name.local} from ${name.namespaceUri} should not contain ${element.name.local} from '
-            '${element.name.namespaceUri}. It should contain $childrenName from $childrenNamespace.',
+            '${name.local} from ${name.namespaceUri} should not contain '
+            '${element.name.local} from ${element.name.namespaceUri}. '
+            'It should contain $childrenName from $childrenNamespace.',
             element.toXmlString(pretty: true));
       }
     }

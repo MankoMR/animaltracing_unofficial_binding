@@ -20,10 +20,12 @@ class SoapResponse {
   /// Tries to parse [envelope] as soap:Envelope and does some
   /// preliminary checks.
   ///
-  /// It will throw [XmlParseException] or [XmlMissingElementException] if [envelope] is not a valid soap:Envelope
+  /// It will throw [XmlParseException] or [XmlMissingElementException] if
+  /// [envelope] is not a valid soap:Envelope
   /// according the following [specification][spec].
   ///
-  /// It will throw [SoapException] according to the Exception-Model of the library.
+  /// It will throw [SoapException] according to the Exception-Model of the
+  /// library.
   ///
   /// [spec]: https://www.w3.org/2003/05/soap-envelope/
   SoapResponse(String envelope) {
@@ -32,13 +34,13 @@ class SoapResponse {
     final rootElement = document.rootElement;
     if (rootElement.name.namespaceUri != Namespaces.soap &&
         rootElement.name.local != 'Envelope') {
-      throw XmlMissingElementException('Envelope', Namespaces.soap, null);
+      throw const XmlMissingElementException('Envelope', Namespaces.soap, null);
     }
     header = rootElement.getElement('Header', namespace: Namespaces.soap);
     final supposedBody =
         rootElement.getElement('Body', namespace: Namespaces.soap);
     if (supposedBody == null) {
-      throw XmlMissingElementException('Body', Namespaces.soap, null);
+      throw const XmlMissingElementException('Body', Namespaces.soap, null);
     } else {
       body = supposedBody;
     }
@@ -63,7 +65,7 @@ class SoapResponse {
           ?.getElement('Value', namespace: Namespaces.soap)
           ?.innerText;
       if (faultReason == null) {
-        throw XmlMissingElementException(
+        throw const XmlMissingElementException(
             'Reason or Text', Namespaces.soap, null);
       } else {
         throw SoapException(faultCode, faultReason);

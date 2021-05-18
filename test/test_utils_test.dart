@@ -17,19 +17,19 @@ void main() {
       expect(result.isValidXml, false, reason: result.message);
     });
     test('validateXml confirms validXml is valid xml', () async {
-      const validXml =
-          '''<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>env:Sender</env:Value>
-         </env:Code>
-         <env:Reason>
-            <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
-         </env:Reason>
-      </env:Fault>
-   </env:Body>
-</env:Envelope>''';
+      const validXml = '''
+      <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+         <env:Body>
+            <env:Fault>
+               <env:Code>
+                  <env:Value>env:Sender</env:Value>
+               </env:Code>
+               <env:Reason>
+                  <env:Text>FormatException: Add To from http://www.w3.org/2005/08/addressing to Header</env:Text>
+               </env:Reason>
+            </env:Fault>
+         </env:Body>
+      </env:Envelope>''';
       final result = await validateXml(validXml);
       expect(result.isValidXml, true, reason: result.message);
     });

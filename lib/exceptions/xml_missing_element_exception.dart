@@ -12,14 +12,13 @@ class XmlMissingElementException extends FormatException {
   /// Namespace to which the missed element belongs
   final String? nameSpace;
 
-  //  Create [XmlMissingElementException]
+  ///  Create [XmlMissingElementException]
   const XmlMissingElementException(
       this.elementName, this.nameSpace, String? message)
       : super(message ?? 'Missing XmlElement');
 
   /// Returns readable Expression of the Exception
   @override
-  String toString() {
-    return '${super.toString()}: Missing $elementName from $nameSpace. $message';
-  }
+  String toString() =>
+      '${super.toString()}: Missing $elementName from $nameSpace. $message';
 }

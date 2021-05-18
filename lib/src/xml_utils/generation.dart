@@ -14,6 +14,22 @@ export 'shared.dart';
 /// Helper functions  to simplify generating xml in classes which
 /// implement [RequestData].
 extension XmlBuilding on RequestData {
+  ///Adds an [XmlElement] to the call hierarchy of [builder].
+  ///
+  ///[elementName] and [namespace] determine name of the [XmlElement] to create,
+  ///while [value] is the content of the [XmlElement]. See [XmlBuilder.element]
+  ///for more details as to what values should be assigned to  [value].
+  ///
+  /// [nullabilityType] determines how a null value will be handled. If its set
+  /// to [NullabilityType.nullable], the created [XmlElement] will get the
+  /// following attribute if [value] is null: 'nil="true"'.
+  ///
+  /// If [nullabilityType] is set to  [NullabilityType.optionalElement] and if
+  /// [value] is null, no [XmlElement] will be created.
+  ///
+  /// [nullabilityType] set to [NullabilityType.required] is not supported and
+  /// will throw an [UnsupportedError].
+  ///
   void buildNullableElement(
     XmlBuilder builder,
     String elementName,

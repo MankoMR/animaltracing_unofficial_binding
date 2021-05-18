@@ -21,19 +21,21 @@ import 'soap_client.dart';
 ///
 /// This implementation will be used in most cases.
 class IOClient extends SoapClient {
+  /// Creates a [IOClient] with the specified [timeOutDuration].
   IOClient(Duration? timeOutDuration) : super(timeOutDuration);
 
-  /// Sends the [soapRequest] to the service as specified in [ServiceEndpointConfiguration].
+  /// Sends the [soapRequest] to the service as specified in
+  /// [ServiceEndpointConfiguration].
   ///
   /// May throw the following exceptions: [SoapException],[HttpException],
-  /// [StringDecodingException],[XmlParserException],[XmlMissingElementException].
+  /// [StringDecodingException],[XmlParserException],
+  /// [XmlMissingElementException].
   ///
   /// In some Scenarios it could also throw other Exceptions.
   @override
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken) async {
-    final client = HttpClient();
-    client.connectionTimeout = timeOutDuration;
+    final client = HttpClient()..connectionTimeout = timeOutDuration;
     final request = await client.post(
         soapRequest.serviceEndpointConfiguration.host,
         soapRequest.serviceEndpointConfiguration.port,
@@ -42,7 +44,9 @@ class IOClient extends SoapClient {
         ContentType('application', 'soap+xml', charset: 'utf-8');
     request.headers
         .add('Authorization', authorizationToken, preserveHeaderCase: true);
-    //TODO: Revisit when text from User is sent. There could be problems with whitespace.
+
+    // ignore: lines_longer_than_80_chars
+    //TODO: Revisit when text from User is sent. Possible problems with whitespace.
     request.write(soapRequest.generateEnvelope().toXmlString(pretty: true));
 
     final response = await request.close();
@@ -67,7 +71,8 @@ class IOClient extends SoapClient {
 
   /// Decodes content of response.
   ///
-  /// Throws [StringDecodingException] is response is not according to charset specification.
+  /// Throws [StringDecodingException] is response is not according to charset
+  /// specification.
   Future<String> _decodeContent(HttpClientResponse response) async {
     try {
       final typ = response.headers.contentType?.charset;
@@ -94,6 +99,8 @@ class IOClient extends SoapClient {
   }
 }
 
-/// Function ist called depending which library is available. See the imports in
-/// the sourcecode for [SoapClient]
+/// Creates a [IOClient] with the specified [timeOutDuration].
+///
+/// Function ist called depending on which library is available.
+/// See the imports in the sourcecode for [SoapClient]
 SoapClient createClient(Duration? timeOutDuration) => IOClient(timeOutDuration);

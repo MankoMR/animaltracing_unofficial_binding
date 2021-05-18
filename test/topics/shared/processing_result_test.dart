@@ -21,8 +21,8 @@ void main() {
       final typedData = ProcessingResult.fromXml(parsedXml.rootElement);
 
       expect(
-          typedData.areSame(
-              ProcessingResult(1, 'Verarbeitung erfolgreich durchgeführt', 1)),
+          typedData.areSame(const ProcessingResult(
+              1, 'Verarbeitung erfolgreich durchgeführt', 1)),
           true);
     });
     test('parses required fields', () {
@@ -36,7 +36,7 @@ void main() {
       final parsedXml = XmlDocument.parse(rawXml);
       final typedData = ProcessingResult.fromXml(parsedXml.rootElement);
 
-      expect(typedData.areSame(ProcessingResult(1, null, 1)), true);
+      expect(typedData.areSame(const ProcessingResult(1, null, 1)), true);
     });
   });
 }

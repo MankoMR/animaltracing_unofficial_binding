@@ -3,13 +3,14 @@
  * Filename: get_ear_tag_orders_request.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:xml/src/xml/builder.dart';
+
+import 'package:xml/xml.dart';
 
 import '../core/core.dart';
 import '../src/xml_utils/generation.dart';
 import '../topics/eartags.dart';
 
-/// Holds the necessary information to call [getEarTagOrders] in [Eartags].
+/// Holds the necessary information to call [Eartags.getEarTagOrders].
 class GetEarTagOrdersRequest extends RequestData {
   /// The [manufacturerKey] to identify which program calls an operation.
   final String? manufacturerKey;
@@ -58,30 +59,26 @@ class GetEarTagOrdersRequest extends RequestData {
       buildNullableElement(builder, 'p_ManufacturerKey',
           Namespaces.animalTracing, NullabilityType.nullable, manufacturerKey);
 
-      builder.element('p_LCID',
-          namespace: Namespaces.animalTracing, nest: lcid);
-
-      builder.element('p_TVDNumber',
-          namespace: Namespaces.animalTracing, nest: tvdNumber);
-
-      builder.element('p_SearchDateFrom',
+      builder
+        ..element('p_LCID', namespace: Namespaces.animalTracing, nest: lcid)
+        ..element('p_TVDNumber',
+            namespace: Namespaces.animalTracing, nest: tvdNumber)
+        ..element('p_SearchDateFrom',
+            namespace: Namespaces.animalTracing,
+            nest: searchDateFrom.toIso8601String())
+        ..element('p_SearchDateTo',
+            namespace: Namespaces.animalTracing,
+            nest: searchDateTo.toIso8601String())
+        ..element(
+          'p_ArticleFilter',
           namespace: Namespaces.animalTracing,
-          nest: searchDateFrom.toIso8601String());
-
-      builder.element('p_SearchDateTo',
-          namespace: Namespaces.animalTracing,
-          nest: searchDateTo.toIso8601String());
-
-      builder.element(
-        'p_ArticleFilter',
-        namespace: Namespaces.animalTracing,
-        nest: () {
-          for (final articleType in articleFilter) {
-            builder.element('IntItem',
-                namespace: Namespaces.animalTracing, nest: articleType);
-          }
-        },
-      );
+          nest: () {
+            for (final articleType in articleFilter) {
+              builder.element('IntItem',
+                  namespace: Namespaces.animalTracing, nest: articleType);
+            }
+          },
+        );
     });
   }
 }

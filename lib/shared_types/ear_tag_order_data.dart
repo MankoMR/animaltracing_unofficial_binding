@@ -48,7 +48,11 @@ class EarTagOrderData extends ResponseData {
   ///
   /// When possible eartagnumbers are given as connected series of numbers.
   final String? earTagNumberTo;
+
+  /// Custom text which appears (generally first?) on eartags.
   final String? text1;
+
+  /// Custom text which appears (generally after [text1]) on eartags.
   final String? text2;
 
   ///Creates [EarTagOrderData] with custom information.
@@ -56,6 +60,8 @@ class EarTagOrderData extends ResponseData {
       this.notificationId,
       this.earTagType,
       this.amount,
+      // This will be fixed in another rewrite.
+      // ignore: avoid_positional_boolean_parameters
       this.isExpress,
       this.orderStatus,
       this.orderStatusDate,
@@ -115,21 +121,23 @@ class EarTagOrderData extends ResponseData {
 }
 
 /// Is used to make the testing code more succinct without polluting
-/// [EarTagOrderData] with code which could only be helpful in limited scenarios.
+/// [EarTagOrderData] with code which could only be helpful in limited
+/// scenarios.
 @visibleForTesting
 extension EarTagOrderDataResultTestHelp on EarTagOrderData {
   @visibleForTesting
-  bool areSame(EarTagOrderData other) {
-    return other is EarTagOrderData &&
-        notificationId == other.notificationId &&
-        earTagType == other.earTagType &&
-        amount == other.amount &&
-        isExpress == other.isExpress &&
-        orderStatus == other.orderStatus &&
-        orderStatusDate.isAtSameMomentAs(other.orderStatusDate) &&
-        earTagNumberFrom == other.earTagNumberFrom &&
-        earTagNumberTo == other.earTagNumberTo &&
-        text1 == other.text1 &&
-        text2 == other.text2;
-  }
+
+  /// Checks if this [EarTagOrderData] has the same values as the [other].
+  bool areSame(EarTagOrderData other) =>
+      other is EarTagOrderData &&
+      notificationId == other.notificationId &&
+      earTagType == other.earTagType &&
+      amount == other.amount &&
+      isExpress == other.isExpress &&
+      orderStatus == other.orderStatus &&
+      orderStatusDate.isAtSameMomentAs(other.orderStatusDate) &&
+      earTagNumberFrom == other.earTagNumberFrom &&
+      earTagNumberTo == other.earTagNumberTo &&
+      text1 == other.text1 &&
+      text2 == other.text2;
 }

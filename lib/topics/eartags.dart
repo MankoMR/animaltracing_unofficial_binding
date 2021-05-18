@@ -19,7 +19,7 @@ import '../src/xml_utils/shared.dart';
 /// Eartags contains all service operations that involve eartags.
 ///
 class Eartags extends TopicBase {
-  /// stores the configuration for connecting to a service endpoint.
+  /// Stores the configuration for connecting to a service endpoint.
   @override
   final ServiceEndpointConfiguration serviceEndpointConfiguration;
 
@@ -59,7 +59,7 @@ class Eartags extends TopicBase {
         namespace: Namespaces.animalTracing);
 
     if (children == null) {
-      throw XmlMissingElementException(
+      throw const XmlMissingElementException(
           'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
     }
     return GetEarTagOrdersResponse.fromXml(children);

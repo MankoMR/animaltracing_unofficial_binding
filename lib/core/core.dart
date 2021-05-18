@@ -3,6 +3,8 @@
  * Filename: core.dart
  * Projekt animaltracing_unofficial_binding.
  */
+import 'dart:io';
+
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
@@ -10,16 +12,23 @@ import 'package:xml/xml.dart';
 ///
 /// Specifies how to get the [ServiceEndpointConfiguration]
 abstract class TopicBase {
+  ///Contains necessary information for connecting to a service-endpoint.
+  ///
+  /// See [ServiceEndpointConfiguration] for more information.
   ServiceEndpointConfiguration get serviceEndpointConfiguration;
 }
 
-/// Base class which must be implemented by all data types which can be sent with
-/// a request.
+/// Base class which must be implemented by all data types which can be sent
+/// with a request.
 ///
 /// If a data types contains other classes which implement [RequestData],
 /// [generateWith] must be called at the approriate position in [generateWith]
 /// the data type.
 abstract class RequestData {
+  /// Creates a [RequestData].
+  ///
+  /// Used to Classes which extend [RequestData] to have a const constructors,
+  /// as well as generative Constructors.
   const RequestData();
 
   /// Generates the xml for the corresponding service operation.
@@ -33,14 +42,18 @@ abstract class RequestData {
 /// Base class which must be implemented by all data types which can be received
 /// as part of a response.
 abstract class ResponseData {
+  /// Creates a [ResponseData].
+  ///
+  /// Used to Classes which extend [ResponseData] to have a const constructors,
+  /// as well as generative Constructors.
   const ResponseData();
 
   /// Signature which must be implemented.
-  ///
-  /// Exceptions thrown must implement [MalFormedResponseException]
+  // ignore: avoid_unused_constructor_parameters
   factory ResponseData.fromXml(XmlElement element) {
     throw UnimplementedError(
-        'call constructor from classes which extend or implement from ResponseData');
+        'call constructor from classes which extend or implement from '
+        'ResponseData');
   }
 }
 
@@ -61,7 +74,16 @@ class ServiceEndpointConfiguration {
   /// There should be no '/' at the beginning.
   final String path;
 
+  /// Gets and sets the connection timeout.
   ///
+  /// When connecting to a new host exceeds this timeout, a [SocketException]
+  /// is thrown. The timeout applies only to connections initiated after the
+  /// timeout is set.
+  ///
+  /// When this is `null`, the OS default timeout is used. The default is
+  /// `null`.
+  ///
+  /// See [HttpClient.connectionTimeout] for more details.
   final Duration? timeOutDuration;
 
   /// Create [ServiceEndpointConfiguration].
@@ -70,6 +92,5 @@ class ServiceEndpointConfiguration {
   ///
   /// See documentation of the members for additional infos.
   ServiceEndpointConfiguration(
-      this.host, this.port, String path, this.timeOutDuration)
-      : path = path;
+      this.host, this.port, this.path, this.timeOutDuration);
 }

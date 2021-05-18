@@ -27,7 +27,8 @@ typedef RequestHandler = Future<void> Function(HttpRequest request);
 /// Portnumber on which a testserver listens.
 const _portNumber = 4041;
 
-/// ServiceEndpointConfiguration used to connect temporary test servers. See [createServer]
+/// ServiceEndpointConfiguration used to connect temporary test servers. See
+/// [createServer].
 final testServerConfiguration =
     ServiceEndpointConfiguration('localhost', _portNumber, 'test', null);
 
@@ -69,9 +70,10 @@ String generateXml(RequestData data, String? elementName) {
 Future<ValidationResult> validateXml(String xml) async {
   final encodedXml = base64.encode(xml.codeUnits);
 
+  // ignore: lines_longer_than_80_chars
   //Todo: Change after project is finished and support for additional systems will be added.
   final processingResult = await Process.run(
-      '.\\tool\\xml_validator\\windows-x86\\animaltracing_xml_validator.exe',
+      r'.\tool\xml_validator\windows-x86\animaltracing_xml_validator.exe',
       ['--xmlBase64=$encodedXml']);
 
   //I called animaltracing_xml_validator.exe --help to get information

@@ -24,6 +24,7 @@ abstract class SoapClient {
   /// Excerpt from [HttpClient.connectionTimeout]
   final Duration? timeOutDuration;
 
+  /// Creates a [SoapClient] with the specified [timeOutDuration].
   SoapClient(this.timeOutDuration);
 
   /// The communication with a service is here implemented.
@@ -31,7 +32,6 @@ abstract class SoapClient {
       SoapRequest soapRequest, String authorizationToken);
 
   /// Called to create a SoapClient independent of the platform.
-  factory SoapClient.create(Duration? timeOutDuration) {
-    return createClient(timeOutDuration);
-  }
+  factory SoapClient.create(Duration? timeOutDuration) =>
+      createClient(timeOutDuration);
 }

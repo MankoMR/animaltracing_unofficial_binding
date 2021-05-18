@@ -11,12 +11,14 @@ import 'soap_exception.dart';
 ///
 /// In case the response contains a valid soap:Envelope with soap:Fault,
 /// a [SoapException] will be thrown instead.
-class HttpException {
+class HttpException implements Exception {
   /// The status code from the response
   final int statusCode;
 
   /// The reason phrase for the [statusCode]
   final String reasonPhrase;
 
+  /// Creates a [HttpException] with [statusCode] and [reasonPhrase] set to
+  /// corresponding values.
   const HttpException(this.statusCode, this.reasonPhrase);
 }

@@ -7,7 +7,7 @@
 import '../src/xml_utils/generation.dart';
 
 /// Gets thrown when soap:Envelope contains a soap:Error.
-class SoapException {
+class SoapException implements Exception {
   /// See [Namespaces] for possible values.
   final String? errorCode;
 
@@ -21,7 +21,6 @@ class SoapException {
 
   /// Returns readable Expression of the Exception
   @override
-  String toString() {
-    return '${super.toString()}: Envelope contained fault of type $errorCode: $message';
-  }
+  String toString() => '${super.toString()}: Envelope contained fault of '
+      'type $errorCode: $message';
 }

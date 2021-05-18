@@ -38,7 +38,7 @@ class GetEarTagOrdersResponse extends ResponseData {
         'GetEarTagOrdersResult', Namespaces.animalTracing,
         isNillable: true, isElementOptional: true);
     if (getEarTagOrdersResultElement == null) {
-      return GetEarTagOrdersResponse(null, null);
+      return const GetEarTagOrdersResponse(null, null);
     }
 
     final resultElement = getEarTagOrdersResultElement.extractValue<XmlElement>(
@@ -59,6 +59,7 @@ class GetEarTagOrdersResponse extends ResponseData {
           'EarTagOrderDataItem',
           Namespaces.animalTracing,
           (element) => EarTagOrderData.fromXml(element),
+          // ignore: deprecated_member_use_from_same_package
           NullabilityType.required);
     }
     return GetEarTagOrdersResponse(result, resultDetails);

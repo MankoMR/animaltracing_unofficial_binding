@@ -17,7 +17,8 @@ class ProcessingResult extends ResponseData {
   /// meaning.
   final int code;
 
-  /// A translated description of an error. Use [lcid] to determine the language.
+  /// A translated description of an error. Use [lcid] to determine the
+  /// language.
   final String? description;
 
   /// The error level of [ProcessingResult].
@@ -45,14 +46,15 @@ class ProcessingResult extends ResponseData {
 }
 
 /// Is used to make the testing code more succinct without polluting
-/// [EarTagOrderData] with code which could only be helpful in limited scenarios.
+/// [EarTagOrderData] with code which could only be helpful in limited
+/// scenarios.
 @visibleForTesting
 extension ProcessingResultTestHelp on ProcessingResult {
+  /// Checks if this [ProcessingResult] has the same values as the [other].
   @visibleForTesting
-  bool areSame(ProcessingResult other) {
-    return other is ProcessingResult &&
-        code == other.code &&
-        description == other.description &&
-        status == other.status;
-  }
+  bool areSame(ProcessingResult other) =>
+      other is ProcessingResult &&
+      code == other.code &&
+      description == other.description &&
+      status == other.status;
 }
