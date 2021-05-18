@@ -33,8 +33,7 @@ void main() {
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
-            () async =>
-                await client.sendRequest(soapRequest, 'authorizationToken'),
+            () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
         //TODO: remove skipping test once reason Test fails is clear
       },
@@ -51,9 +50,7 @@ void main() {
               'Livestock/AnimalTracing/3', const Duration(milliseconds: 500)),
           'serviceOperation',
           MockRequestData());
-      expect(
-          () async =>
-              await client.sendRequest(soapRequest, 'authorizationToken'),
+      expect(() async => client.sendRequest(soapRequest, 'authorizationToken'),
           throwsA(const TypeMatcher<SocketException>()));
     }, tags: ['errors']);
     group('HttpStatusCodeNot200Setup', () {
@@ -72,8 +69,7 @@ void main() {
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
-            () async =>
-                await client.sendRequest(soapRequest, 'authorizationToken'),
+            () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
       }, tags: ['errors']);
     });
@@ -109,8 +105,7 @@ void main() {
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
-            () async =>
-                await client.sendRequest(soapRequest, 'authorizationToken'),
+            () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<SoapException>()));
       }, tags: ['errors']);
     });

@@ -23,6 +23,7 @@ linter:
      #- prefer_const_constructors_in_immutables #https://dart-lang.github.io/linter/lints/prefer_const_constructors_in_immutables.html
      - prefer_const_declarations #https://dart-lang.github.io/linter/lints/prefer_const_declarations.html
      - prefer_const_literals_to_create_immutables #https://dart-lang.github.io/linter/lints/prefer_const_literals_to_create_immutables.html
+     - unnecessary_await_in_return #https://dart-lang.github.io/linter/lints/unnecessary_await_in_return.html
 
 analyzer:
 #   exclude:
