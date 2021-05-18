@@ -73,7 +73,7 @@ Future<ValidationResult> validateXml(String xml) async {
   // ignore: lines_longer_than_80_chars
   //Todo: Change after project is finished and support for additional systems will be added.
   final processingResult = await Process.run(
-      '.\\tool\\xml_validator\\windows-x86\\animaltracing_xml_validator.exe',
+      r'.\tool\xml_validator\windows-x86\animaltracing_xml_validator.exe',
       ['--xmlBase64=$encodedXml']);
 
   //I called animaltracing_xml_validator.exe --help to get information
