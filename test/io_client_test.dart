@@ -21,7 +21,7 @@ void main() {
       late HttpServer server;
       setUp(() async {
         server = await createServer((request) async {
-          await Future.delayed(Duration(days: 10));
+          await Future.delayed(const Duration(days: 10));
           await request.response.close();
         });
       });
@@ -29,15 +29,18 @@ void main() {
         server.close(force: true);
       });
       test('throws SocketException', () async {
-        final client = IOClient(Duration(milliseconds: 500));
+        final client = IOClient(const Duration(milliseconds: 500));
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
             () async =>
                 await client.sendRequest(soapRequest, 'authorizationToken'),
-            throwsA(TypeMatcher<HttpException>()));
+            throwsA(const TypeMatcher<HttpException>()));
         //TODO: remove skipping test once reason Test fails is clear
-      }, tags: ['errors'], timeout: Timeout(Duration(seconds: 5)), skip: true);
+      },
+          tags: ['errors'],
+          timeout: const Timeout(Duration(seconds: 5)),
+          skip: true);
     });
     test(
         'ServiceEndpointConfiguration pointing to not existing Service throws '
@@ -45,13 +48,13 @@ void main() {
       final client = IOClient(const Duration(milliseconds: 500));
       final soapRequest = SoapRequest(
           ServiceEndpointConfiguration('localhost', 4042,
-              'Livestock/AnimalTracing/3', Duration(milliseconds: 500)),
+              'Livestock/AnimalTracing/3', const Duration(milliseconds: 500)),
           'serviceOperation',
           MockRequestData());
       expect(
           () async =>
               await client.sendRequest(soapRequest, 'authorizationToken'),
-          throwsA(TypeMatcher<SocketException>()));
+          throwsA(const TypeMatcher<SocketException>()));
     }, tags: ['errors']);
     group('HttpStatusCodeNot200Setup', () {
       late HttpServer server;
@@ -65,13 +68,13 @@ void main() {
         server.close(force: true);
       });
       test('throws HttpException', () {
-        final client = IOClient(Duration(milliseconds: 500));
+        final client = IOClient(const Duration(milliseconds: 500));
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
             () async =>
                 await client.sendRequest(soapRequest, 'authorizationToken'),
-            throwsA(TypeMatcher<HttpException>()));
+            throwsA(const TypeMatcher<HttpException>()));
       }, tags: ['errors']);
     });
     group('HttpStatusCodeNot200WithSoapEnvelopeSetup', () {
@@ -102,14 +105,14 @@ void main() {
         server.close(force: true);
       });
       test('throws SoapException', () {
-        final client = IOClient(Duration(milliseconds: 500));
+        final client = IOClient(const Duration(milliseconds: 500));
         final soapRequest = SoapRequest(
             testServerConfiguration, 'serviceOperation', MockRequestData());
         expect(
             () async =>
                 await client.sendRequest(soapRequest, 'authorizationToken'),
-            throwsA(TypeMatcher<SoapException>()));
+            throwsA(const TypeMatcher<SoapException>()));
       }, tags: ['errors']);
     });
-  }, onPlatform: {'!dart-vm': Skip('Might not support IOClient')});
+  }, onPlatform: const {'!dart-vm': Skip('Might not support IOClient')});
 }

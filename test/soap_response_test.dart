@@ -15,7 +15,7 @@ void main() {
     test('throws XmlParseException with invalid Xml', () {
       const invalidXml = '<<>';
       expect(() => SoapResponse(invalidXml),
-          throwsA(TypeMatcher<XmlParserException>()));
+          throwsA(const TypeMatcher<XmlParserException>()));
     }, tags: ['errors']);
     test('throws not XmlParseException with valid Xml', () {
       const invalidXml = '<Hello/>';

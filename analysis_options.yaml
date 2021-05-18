@@ -7,14 +7,20 @@ include: package:pedantic/analysis_options.yaml
 # Uncomment to specify additional rules.
 linter:
   rules:
+     - constant_identifier_names # prefer
      - lines_longer_than_80_chars # avoid
      - package_api_docs # prefer
      - public_member_api_docs # prefer
+     - unnecessary_const
      - avoid_catching_errors
      - avoid_print
      - avoid_void_async
      - cancel_subscriptions
      - only_throw_errors #https://dart-lang.github.io/linter/lints/only_throw_errors.html
+     - prefer_const_constructors #https://dart-lang.github.io/linter/lints/prefer_const_constructors.html
+     #- prefer_const_constructors_in_immutables #https://dart-lang.github.io/linter/lints/prefer_const_constructors_in_immutables.html
+     - prefer_const_declarations #https://dart-lang.github.io/linter/lints/prefer_const_declarations.html
+     - prefer_const_literals_to_create_immutables #https://dart-lang.github.io/linter/lints/prefer_const_literals_to_create_immutables.html
 
 analyzer:
 #   exclude:

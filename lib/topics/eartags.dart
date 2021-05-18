@@ -59,7 +59,7 @@ class Eartags extends TopicBase {
         namespace: Namespaces.animalTracing);
 
     if (children == null) {
-      throw XmlMissingElementException(
+      throw const XmlMissingElementException(
           'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
     }
     return GetEarTagOrdersResponse.fromXml(children);

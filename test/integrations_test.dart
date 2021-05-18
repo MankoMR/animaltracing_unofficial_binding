@@ -20,7 +20,7 @@ void main() {
             'IPA2021_Koloska',
             2055,
             123456789,
-            DateTime.now().subtract(Duration(days: 300)),
+            DateTime.now().subtract(const Duration(days: 300)),
             DateTime.now(),
             [1, 2]);
         final response = await eartagOperations.getEarTagOrders(parameters, '');
