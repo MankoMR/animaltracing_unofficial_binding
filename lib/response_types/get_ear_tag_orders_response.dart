@@ -59,6 +59,7 @@ class GetEarTagOrdersResponse extends ResponseData {
           'EarTagOrderDataItem',
           Namespaces.animalTracing,
           (element) => EarTagOrderData.fromXml(element),
+          // ignore: deprecated_member_use_from_same_package
           NullabilityType.required);
     }
     return GetEarTagOrdersResponse(result, resultDetails);
