@@ -32,7 +32,6 @@ abstract class SoapClient {
       SoapRequest soapRequest, String authorizationToken);
 
   /// Called to create a SoapClient independent of the platform.
-  factory SoapClient.create(Duration? timeOutDuration) {
-    return createClient(timeOutDuration);
-  }
+  factory SoapClient.create(Duration? timeOutDuration) =>
+      createClient(timeOutDuration);
 }

@@ -14,6 +14,7 @@ linter:
      - implementation_imports
      - avoid_relative_lib_imports
      - prefer_relative_imports
+     - prefer_expression_function_bodies # consider
      - unnecessary_const
      - avoid_catching_errors
      - avoid_print
