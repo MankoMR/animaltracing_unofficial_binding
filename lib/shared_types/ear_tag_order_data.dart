@@ -60,6 +60,8 @@ class EarTagOrderData extends ResponseData {
       this.notificationId,
       this.earTagType,
       this.amount,
+      // This will be fixed in another rewrite.
+      // ignore: avoid_positional_boolean_parameters
       this.isExpress,
       this.orderStatus,
       this.orderStatusDate,

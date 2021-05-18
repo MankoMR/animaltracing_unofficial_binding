@@ -17,6 +17,7 @@ linter:
      - prefer_expression_function_bodies # consider
      - unnecessary_const
      - avoid_catching_errors
+     - avoid_positional_boolean_parameters # avoid
      - avoid_print
      - avoid_void_async
      - cancel_subscriptions
