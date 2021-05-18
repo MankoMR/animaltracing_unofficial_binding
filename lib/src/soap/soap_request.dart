@@ -44,6 +44,7 @@ class SoapRequest {
         requestData.generateWith(builder, null);
       });
     });
+    // ignore: lines_longer_than_80_chars
     //TODO: Revisit when text from User is sent. There could be problems with whitespace.
     return builder.buildDocument();
   }

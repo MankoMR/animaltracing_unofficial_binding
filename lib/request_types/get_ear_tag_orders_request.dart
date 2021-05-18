@@ -9,7 +9,7 @@ import '../core/core.dart';
 import '../src/xml_utils/generation.dart';
 import '../topics/eartags.dart';
 
-/// Holds the necessary information to call [getEarTagOrders] in [Eartags].
+/// Holds the necessary information to call [Eartags.getEarTagOrders].
 class GetEarTagOrdersRequest extends RequestData {
   /// The [manufacturerKey] to identify which program calls an operation.
   final String? manufacturerKey;

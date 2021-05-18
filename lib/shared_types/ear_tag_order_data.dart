@@ -119,7 +119,8 @@ class EarTagOrderData extends ResponseData {
 }
 
 /// Is used to make the testing code more succinct without polluting
-/// [EarTagOrderData] with code which could only be helpful in limited scenarios.
+/// [EarTagOrderData] with code which could only be helpful in limited
+/// scenarios.
 @visibleForTesting
 extension EarTagOrderDataResultTestHelp on EarTagOrderData {
   @visibleForTesting

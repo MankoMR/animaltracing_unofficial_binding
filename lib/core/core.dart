@@ -18,8 +18,8 @@ abstract class TopicBase {
   ServiceEndpointConfiguration get serviceEndpointConfiguration;
 }
 
-/// Base class which must be implemented by all data types which can be sent with
-/// a request.
+/// Base class which must be implemented by all data types which can be sent
+/// with a request.
 ///
 /// If a data types contains other classes which implement [RequestData],
 /// [generateWith] must be called at the approriate position in [generateWith]
@@ -53,7 +53,8 @@ abstract class ResponseData {
   /// Exceptions thrown must implement [MalFormedResponseException]
   factory ResponseData.fromXml(XmlElement element) {
     throw UnimplementedError(
-        'call constructor from classes which extend or implement from ResponseData');
+        'call constructor from classes which extend or implement from '
+        'ResponseData');
   }
 }
 

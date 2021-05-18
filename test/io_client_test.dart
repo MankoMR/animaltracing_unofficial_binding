@@ -40,9 +40,9 @@ void main() {
       }, tags: ['errors'], timeout: Timeout(Duration(seconds: 5)), skip: true);
     });
     test(
-        'ServiceEndpointConfiguration pointing to not existing Service throws SocketException',
-        () {
-      final client = IOClient(Duration(milliseconds: 500));
+        'ServiceEndpointConfiguration pointing to not existing Service throws '
+        'SocketException', () {
+      final client = IOClient(const Duration(milliseconds: 500));
       final soapRequest = SoapRequest(
           ServiceEndpointConfiguration('localhost', 4042,
               'Livestock/AnimalTracing/3', Duration(milliseconds: 500)),

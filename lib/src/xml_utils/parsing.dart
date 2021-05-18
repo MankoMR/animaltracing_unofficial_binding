@@ -94,8 +94,9 @@ extension ValueExtraction on XmlElement {
         list.add(itemConstructor(element));
       } else {
         throw FormatException(
-            '${name.local} from ${name.namespaceUri} should not contain ${element.name.local} from '
-            '${element.name.namespaceUri}. It should contain $childrenName from $childrenNamespace.',
+            '${name.local} from ${name.namespaceUri} should not contain '
+            '${element.name.local} from ${element.name.namespaceUri}. '
+            'It should contain $childrenName from $childrenNamespace.',
             element.toXmlString(pretty: true));
       }
     }

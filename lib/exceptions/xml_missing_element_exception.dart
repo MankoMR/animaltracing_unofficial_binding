@@ -19,7 +19,6 @@ class XmlMissingElementException extends FormatException {
 
   /// Returns readable Expression of the Exception
   @override
-  String toString() {
-    return '${super.toString()}: Missing $elementName from $nameSpace. $message';
-  }
+  String toString() =>
+      '${super.toString()}: Missing $elementName from $nameSpace. $message';
 }

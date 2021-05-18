@@ -20,10 +20,12 @@ class SoapResponse {
   /// Tries to parse [envelope] as soap:Envelope and does some
   /// preliminary checks.
   ///
-  /// It will throw [XmlParseException] or [XmlMissingElementException] if [envelope] is not a valid soap:Envelope
+  /// It will throw [XmlParseException] or [XmlMissingElementException] if
+  /// [envelope] is not a valid soap:Envelope
   /// according the following [specification][spec].
   ///
-  /// It will throw [SoapException] according to the Exception-Model of the library.
+  /// It will throw [SoapException] according to the Exception-Model of the
+  /// library.
   ///
   /// [spec]: https://www.w3.org/2003/05/soap-envelope/
   SoapResponse(String envelope) {

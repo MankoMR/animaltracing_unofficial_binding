@@ -21,7 +21,6 @@ class SoapException {
 
   /// Returns readable Expression of the Exception
   @override
-  String toString() {
-    return '${super.toString()}: Envelope contained fault of type $errorCode: $message';
-  }
+  String toString() => '${super.toString()}: Envelope contained fault of '
+      'type $errorCode: $message';
 }
