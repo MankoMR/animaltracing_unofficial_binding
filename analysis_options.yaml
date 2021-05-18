@@ -16,6 +16,7 @@ linter:
      - avoid_print
      - avoid_void_async
      - cancel_subscriptions
+     - cascade_invocations #https://dart-lang.github.io/linter/lints/cascade_invocations.html
      - leading_newlines_in_multiline_strings #https://dart-lang.github.io/linter/lints/leading_newlines_in_multiline_strings.html
      - only_throw_errors #https://dart-lang.github.io/linter/lints/only_throw_errors.html
      - prefer_const_constructors #https://dart-lang.github.io/linter/lints/prefer_const_constructors.html

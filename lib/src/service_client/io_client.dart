@@ -35,8 +35,7 @@ class IOClient extends SoapClient {
   @override
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken) async {
-    final client = HttpClient();
-    client.connectionTimeout = timeOutDuration;
+    final client = HttpClient()..connectionTimeout = timeOutDuration;
     final request = await client.post(
         soapRequest.serviceEndpointConfiguration.host,
         soapRequest.serviceEndpointConfiguration.port,

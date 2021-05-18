@@ -58,30 +58,26 @@ class GetEarTagOrdersRequest extends RequestData {
       buildNullableElement(builder, 'p_ManufacturerKey',
           Namespaces.animalTracing, NullabilityType.nullable, manufacturerKey);
 
-      builder.element('p_LCID',
-          namespace: Namespaces.animalTracing, nest: lcid);
-
-      builder.element('p_TVDNumber',
-          namespace: Namespaces.animalTracing, nest: tvdNumber);
-
-      builder.element('p_SearchDateFrom',
+      builder
+        ..element('p_LCID', namespace: Namespaces.animalTracing, nest: lcid)
+        ..element('p_TVDNumber',
+            namespace: Namespaces.animalTracing, nest: tvdNumber)
+        ..element('p_SearchDateFrom',
+            namespace: Namespaces.animalTracing,
+            nest: searchDateFrom.toIso8601String())
+        ..element('p_SearchDateTo',
+            namespace: Namespaces.animalTracing,
+            nest: searchDateTo.toIso8601String())
+        ..element(
+          'p_ArticleFilter',
           namespace: Namespaces.animalTracing,
-          nest: searchDateFrom.toIso8601String());
-
-      builder.element('p_SearchDateTo',
-          namespace: Namespaces.animalTracing,
-          nest: searchDateTo.toIso8601String());
-
-      builder.element(
-        'p_ArticleFilter',
-        namespace: Namespaces.animalTracing,
-        nest: () {
-          for (final articleType in articleFilter) {
-            builder.element('IntItem',
-                namespace: Namespaces.animalTracing, nest: articleType);
-          }
-        },
-      );
+          nest: () {
+            for (final articleType in articleFilter) {
+              builder.element('IntItem',
+                  namespace: Namespaces.animalTracing, nest: articleType);
+            }
+          },
+        );
     });
   }
 }

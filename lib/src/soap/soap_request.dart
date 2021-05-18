@@ -31,18 +31,19 @@ class SoapRequest {
     builder.element('Envelope',
         namespace: Namespaces.soap,
         namespaces: Namespaces.nameSpacesNames, nest: () {
-      builder.element('Header', namespace: Namespaces.soap, nest: () {
-        builder.element('Action',
-            namespace: Namespaces.addressing, nest: serviceOperation);
-        final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
-            '${serviceEndpointConfiguration.port}/'
-            '${serviceEndpointConfiguration.path}';
-        builder.element('To',
-            namespace: Namespaces.addressing, nest: serviceEndpoint);
-      });
-      builder.element('Body', namespace: Namespaces.soap, nest: () {
-        requestData.generateWith(builder, null);
-      });
+      builder
+        ..element('Header', namespace: Namespaces.soap, nest: () {
+          builder.element('Action',
+              namespace: Namespaces.addressing, nest: serviceOperation);
+          final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
+              '${serviceEndpointConfiguration.port}/'
+              '${serviceEndpointConfiguration.path}';
+          builder.element('To',
+              namespace: Namespaces.addressing, nest: serviceEndpoint);
+        })
+        ..element('Body', namespace: Namespaces.soap, nest: () {
+          requestData.generateWith(builder, null);
+        });
     });
     // ignore: lines_longer_than_80_chars
     //TODO: Revisit when text from User is sent. There could be problems with whitespace.
