@@ -8,7 +8,7 @@ import 'package:animaltracing_unofficial_binding/src/internal/soap_client/envelo
 import 'package:animaltracing_unofficial_binding/src/internal/xml_utils/shared.dart';
 import 'package:test/test.dart';
 
-import 'test_utils.dart';
+import '../../test_utils/test_utils.dart';
 
 void main() {
   group('SoapRequest', () {

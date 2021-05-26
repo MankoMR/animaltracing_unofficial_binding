@@ -7,7 +7,7 @@ import 'package:animaltracing_unofficial_binding/eartags.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
-import '../../test_utils.dart';
+import '../../test_utils/test_utils.dart';
 
 void main() {
   group('GetEarTagOrders Operation', () {

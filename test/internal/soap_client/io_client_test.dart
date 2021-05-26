@@ -11,7 +11,7 @@ import 'package:animaltracing_unofficial_binding/src/internal/soap_client/envelo
 import 'package:animaltracing_unofficial_binding/src/internal/soap_client/plattform_implementations/io_client.dart';
 import 'package:test/test.dart';
 
-import 'test_utils.dart';
+import '../../test_utils/test_utils.dart';
 
 void main() {
   group('IOClient', () {
