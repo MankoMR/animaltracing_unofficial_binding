@@ -9,8 +9,8 @@ import 'envelopes/soap_response.dart';
 //Use implementation depending which library is available.
 //The mechanism is inspired from https://github.com/dart-lang/http/blob/master/lib/src/client.dart
 import 'plattform_implementations/creation_stub.dart'
-    if (dart.library.html) 'browser_client.dart'
-    if (dart.library.io) 'io_client.dart';
+    if (dart.library.html) 'plattform_implementations/browser_client.dart'
+    if (dart.library.io) 'plattform_implementations/io_client.dart';
 
 export 'envelopes/soap_request.dart';
 export 'envelopes/soap_response.dart';
