@@ -3,10 +3,7 @@
  * Filename: get_ear_tag_orders_test.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/request_types/get_ear_tag_orders_request.dart';
-import 'package:animaltracing_unofficial_binding/response_types/get_ear_tag_orders_response.dart';
-import 'package:animaltracing_unofficial_binding/shared_types/ear_tag_order_data.dart';
-import 'package:animaltracing_unofficial_binding/shared_types/processing_result.dart';
+import 'package:animaltracing_unofficial_binding/eartags.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 

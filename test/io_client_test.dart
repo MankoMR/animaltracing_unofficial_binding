@@ -6,11 +6,9 @@
 
 import 'dart:io';
 
-import 'package:animaltracing_unofficial_binding/core/core.dart';
-import 'package:animaltracing_unofficial_binding/exceptions/http_exception.dart';
-import 'package:animaltracing_unofficial_binding/exceptions/soap_exception.dart';
-import 'package:animaltracing_unofficial_binding/src/service_client/io_client.dart';
-import 'package:animaltracing_unofficial_binding/src/soap/soap_request.dart';
+import 'package:animaltracing_unofficial_binding/animaltracing_unofficial_binding.dart';
+import 'package:animaltracing_unofficial_binding/src/internal/soap_client/envelopes/soap_request.dart';
+import 'package:animaltracing_unofficial_binding/src/internal/soap_client/plattform_implementations/io_client.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';

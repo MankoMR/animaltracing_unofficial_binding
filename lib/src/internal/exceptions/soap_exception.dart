@@ -4,8 +4,6 @@
  * Project: animaltracing_unofficial_binding
  */
 
-import '../src/xml_utils/generation.dart';
-
 /// Gets thrown when soap:Envelope contains a soap:Error.
 class SoapException implements Exception {
   /// See [Namespaces] for possible values.

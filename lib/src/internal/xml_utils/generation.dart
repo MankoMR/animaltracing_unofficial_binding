@@ -6,7 +6,7 @@
 
 import 'package:xml/xml.dart';
 
-import '../../core/core.dart';
+import '../base_types.dart';
 import 'shared.dart';
 
 export 'shared.dart';

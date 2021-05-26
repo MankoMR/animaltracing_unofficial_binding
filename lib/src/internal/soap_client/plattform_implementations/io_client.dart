@@ -8,14 +8,11 @@ import 'dart:io';
 
 import 'package:xml/xml.dart';
 
-import '../../core/core.dart';
 import '../../exceptions/http_exception.dart';
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/string_decoding_exception.dart';
 import '../../exceptions/xml_missing_element_exception.dart';
-import '../soap/soap_request.dart';
-import '../soap/soap_response.dart';
-import 'soap_client.dart';
+import '../soap_client.dart';
 
 /// Used in case when access to the dart:io library is available.
 ///

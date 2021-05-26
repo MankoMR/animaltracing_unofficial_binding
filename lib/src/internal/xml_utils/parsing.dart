@@ -6,7 +6,7 @@
 
 import 'package:xml/xml.dart';
 
-import '../../exceptions/xml_missing_element_exception.dart';
+import '../exceptions/xml_missing_element_exception.dart';
 import 'shared.dart';
 
 export 'shared.dart';

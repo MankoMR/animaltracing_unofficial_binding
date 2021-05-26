@@ -4,8 +4,6 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import '../soap/soap_request.dart';
-
 /// Contains the used xml-namespaces from AnimalTracing.
 class Namespaces {
   ///Namespace for soap:Envelope

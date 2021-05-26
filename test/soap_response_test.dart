@@ -4,9 +4,8 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'package:animaltracing_unofficial_binding/exceptions/soap_exception.dart';
-import 'package:animaltracing_unofficial_binding/exceptions/xml_missing_element_exception.dart';
-import 'package:animaltracing_unofficial_binding/src/soap/soap_response.dart';
+import 'package:animaltracing_unofficial_binding/animaltracing_unofficial_binding.dart';
+import 'package:animaltracing_unofficial_binding/src/internal/soap_client/envelopes/soap_response.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 

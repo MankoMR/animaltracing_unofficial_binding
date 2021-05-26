@@ -3,7 +3,7 @@
  * Filename: processing_result_test.dart
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/shared_types/processing_result.dart';
+import 'package:animaltracing_unofficial_binding/src/common_types/processing_result.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 

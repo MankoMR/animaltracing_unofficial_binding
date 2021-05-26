@@ -3,9 +3,9 @@
  * Filename: 
  * Project: animaltracing_unofficial_binding.
  */
-import 'package:animaltracing_unofficial_binding/core/core.dart';
-import 'package:animaltracing_unofficial_binding/src/soap/soap_request.dart';
-import 'package:animaltracing_unofficial_binding/src/xml_utils/shared.dart';
+import 'package:animaltracing_unofficial_binding/animaltracing_unofficial_binding.dart';
+import 'package:animaltracing_unofficial_binding/src/internal/soap_client/envelopes/soap_request.dart';
+import 'package:animaltracing_unofficial_binding/src/internal/xml_utils/shared.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';

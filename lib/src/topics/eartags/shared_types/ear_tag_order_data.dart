@@ -6,8 +6,8 @@
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
-import '../core/core.dart';
-import '../src/xml_utils/parsing.dart';
+import '../../../internal/base_types.dart';
+import '../../../internal/xml_utils/parsing.dart';
 
 /// Represents an eartag order from a farm.
 ///

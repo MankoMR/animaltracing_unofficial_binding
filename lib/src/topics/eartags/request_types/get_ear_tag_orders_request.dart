@@ -6,9 +6,8 @@
 
 import 'package:xml/xml.dart';
 
-import '../core/core.dart';
-import '../src/xml_utils/generation.dart';
-import '../topics/eartags.dart';
+import '../../../internal/base_types.dart';
+import '../../../internal/xml_utils/generation.dart';
 
 /// Holds the necessary information to call [Eartags.getEarTagOrders].
 class GetEarTagOrdersRequest extends RequestData {

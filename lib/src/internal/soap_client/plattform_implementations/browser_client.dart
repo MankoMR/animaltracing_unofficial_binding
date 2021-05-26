@@ -3,9 +3,7 @@
  * Filename: browser_client.dart
  * Project: animaltracing_unofficial_binding.
  */
-import '../soap/soap_request.dart';
-import '../soap/soap_response.dart';
-import 'soap_client.dart';
+import '../soap_client.dart';
 
 /// Implementation of [SoapClient] for when library is used in the browser.
 class BrowserClient extends SoapClient {

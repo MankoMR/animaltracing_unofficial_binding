@@ -5,11 +5,11 @@
  */
 import 'package:xml/xml.dart';
 
-import '../core/core.dart';
+import '../../../common_types/processing_result.dart';
+import '../../../internal/base_types.dart';
+import '../../../internal/xml_utils/parsing.dart';
 import '../request_types/get_ear_tag_orders_request.dart';
 import '../shared_types/ear_tag_order_data.dart';
-import '../shared_types/processing_result.dart';
-import '../src/xml_utils/parsing.dart';
 
 /// The response to getEarTagOrders.
 ///

@@ -5,8 +5,9 @@
  */
 import 'package:xml/xml.dart';
 
-import '../../core/core.dart';
-import '../../src/xml_utils/shared.dart';
+import '../../../../animaltracing_unofficial_binding.dart';
+import '../../base_types.dart';
+import '../../xml_utils/generation.dart';
 
 /// Contains all the information needed to call a service operation.
 class SoapRequest {

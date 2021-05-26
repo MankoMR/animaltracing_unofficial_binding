@@ -1,12 +1,13 @@
 /*
  * Copyright (c) 2021, Manuel Koloska. All Rights reserved.
- * Filename: core.dart
+ * Filename: base_types.dart
  * Projekt animaltracing_unofficial_binding.
  */
-import 'dart:io';
 
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
+
+import '../../animaltracing_unofficial_binding.dart';
 
 /// Base class for all Topics.
 ///
@@ -55,42 +56,4 @@ abstract class ResponseData {
         'call constructor from classes which extend or implement from '
         'ResponseData');
   }
-}
-
-/// Holds information to connect a service endpoint
-class ServiceEndpointConfiguration {
-  /// Name of the host.
-  ///
-  /// Could be ipAddress or domain name.
-  final String host;
-
-  /// The port number on which the service is available.
-  final int port;
-
-  /// Path of the webadress.
-  ///
-  /// Example: Livestock/AnimalTracing/3
-  ///
-  /// There should be no '/' at the beginning.
-  final String path;
-
-  /// Gets and sets the connection timeout.
-  ///
-  /// When connecting to a new host exceeds this timeout, a [SocketException]
-  /// is thrown. The timeout applies only to connections initiated after the
-  /// timeout is set.
-  ///
-  /// When this is `null`, the OS default timeout is used. The default is
-  /// `null`.
-  ///
-  /// See [HttpClient.connectionTimeout] for more details.
-  final Duration? timeOutDuration;
-
-  /// Create [ServiceEndpointConfiguration].
-  ///
-  /// [path] should not start with '/' at the beginning.
-  ///
-  /// See documentation of the members for additional infos.
-  ServiceEndpointConfiguration(
-      this.host, this.port, this.path, this.timeOutDuration);
 }

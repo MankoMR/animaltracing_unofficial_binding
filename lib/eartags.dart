@@ -7,14 +7,17 @@ import 'dart:io';
 
 import 'package:xml/xml.dart';
 
-import '../core/core.dart';
-import '../exceptions/soap_exception.dart';
-import '../exceptions/xml_missing_element_exception.dart';
-import '../request_types/get_ear_tag_orders_request.dart';
-import '../response_types/get_ear_tag_orders_response.dart';
-import '../src/service_client/soap_client.dart';
-import '../src/soap/soap_request.dart';
-import '../src/xml_utils/shared.dart';
+import 'animaltracing_unofficial_binding.dart';
+import 'src/internal/base_types.dart';
+import 'src/internal/soap_client/soap_client.dart';
+import 'src/internal/xml_utils/shared.dart';
+import 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
+import 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
+
+export 'src/common_types/processing_result.dart';
+export 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
+export 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
+export 'src/topics/eartags/shared_types/ear_tag_order_data.dart';
 
 /// Eartags contains all service operations that involve eartags.
 ///

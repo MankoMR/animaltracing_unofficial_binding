@@ -4,7 +4,7 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'soap_client.dart';
+import '../soap_client.dart';
 
 /// Global function needed to instantiate correct implementation of [SoapClient]
 SoapClient createClient(Duration? timeOutDuration) =>
