@@ -29,5 +29,5 @@ void main() {
         expect(response.resultDetails?.first.amount, 7);
       });
     });
-  }, tags: ['integration'], skip: true);
+  }, tags: ['integration-test'], skip: true);
 }
