@@ -19,7 +19,7 @@ export 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
 export 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
 export 'src/topics/eartags/shared_types/ear_tag_order_data.dart';
 
-/// Eartags contains all service operations that involve eartags.
+/// Contains all service operations that involve eartags.
 ///
 class Eartags extends TopicBase {
   /// Stores the configuration for connecting to a service endpoint.
