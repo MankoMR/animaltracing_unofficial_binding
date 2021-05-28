@@ -72,7 +72,6 @@ class EarTagOrderData extends ResponseData {
 
   /// Used to create [EarTagOrderData] from a service response.
   factory EarTagOrderData.fromXml(XmlElement element) {
-    final notificationId = element.extractValue<BigInt>(
     final notificationId = element.extractPrimitiveValue<BigInt>(
         'NotificationID', Namespaces.animalTracing);
 
