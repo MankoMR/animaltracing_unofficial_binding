@@ -17,24 +17,44 @@ export 'shared.dart';
 /// ResponseData.
 typedef ItemConstructor<T> = T Function(XmlElement element);
 
+/// Contains functions to support parsing Xml.
+extension ValidationChecks on XmlElement? {
+  /// Checks that the [isOptional] and [isNullable] properties
+  /// of an XmlElement are as expected according to the WSDL of AnimalTracing.
+  ///
+  /// Also returns null when  XmlElement hast attribute '''nil''' with a value
+  /// of '''true'''.
+  ///
+  /// Throws a [XmlMissingElementException] when XmlElement is not optional but
+  /// is null. [name] and [nameSpace] are required as parameters for
+  /// the exception.
+  XmlElement? nullabilityPass(String name, String nameSpace,
+      {bool isNullable = false, bool isOptional = false}) {
+    if (isOptional && this == null) {
+      return null;
+    }
+    if (this == null) {
+      throw XmlMissingElementException(
+          name, nameSpace, 'Is a required Element.');
+    }
+    if (isNullable &&
+        this!.getAttribute('nil', namespace: Namespaces.schemaInstance) ==
+            'true') {
+      return null;
+    }
+    return this;
+  }
+}
+
 /// Helper functions to extract a value from xml.
 extension ValueExtraction on XmlElement {
   /// This Function is purposely doing multiple things. This is to simplify the
   /// parsing in the Response Types and to maximize the reusability of code.
   T? extractValue<T>(String name, String nameSpace,
       {bool isNillable = false, bool isElementOptional = false}) {
-    final element = getElement(name, namespace: nameSpace);
-
-    if (isElementOptional && element == null) {
-      return null;
-    }
+    final element =
+        getElement(name, namespace: nameSpace).nullabilityPass(name, nameSpace);
     if (element == null) {
-      throw XmlMissingElementException(
-          name, nameSpace, 'Is a required Element.');
-    }
-    if (isNillable &&
-        element.getAttribute('nil', namespace: Namespaces.schemaInstance) ==
-            'true') {
       return null;
     }
     if (element.innerText.isEmpty) {
