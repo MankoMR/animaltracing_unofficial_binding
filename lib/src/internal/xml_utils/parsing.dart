@@ -48,12 +48,24 @@ extension ValidationChecks on XmlElement? {
 
 /// Helper functions to extract a value from xml.
 extension ValueExtraction on XmlElement {
-  /// This Function is purposely doing multiple things. This is to simplify the
-  /// parsing in the Response Types and to maximize the reusability of code.
-    final element =
-        getElement(name, namespace: nameSpace).nullabilityPass(name, nameSpace);
+  /// Extracts an [int?] from the children Element with the specified [name] and
+  /// [nameSpace].
+  ///
+  /// [isNullable] and [isOptional] should be set according to specification in
+  /// the WSDL of AnimalTracing.
+  XmlElement? extractXmlElement(String name, String nameSpace,
+      {bool isNullable = false, bool isOptional = false}) {
+    final element = getElement(name, namespace: nameSpace).nullabilityPass(
+        name, nameSpace,
+        isNullable: isNullable, isOptional: isOptional);
+    return element;
+  }
+
   T? extractPrimitiveValue<T>(String name, String nameSpace,
       {bool isNullable = false, bool isOptional = false}) {
+    final element = getElement(name, namespace: nameSpace).nullabilityPass(
+        name, nameSpace,
+        isNullable: isNullable, isOptional: isOptional);
     if (element == null) {
       return null;
     }
