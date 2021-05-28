@@ -11,10 +11,10 @@ import 'shared.dart';
 
 export 'shared.dart';
 
-/// Function signature definition used in [ValueExtraction].extractList.
+/// Function signature definition used in [ValueExtraction.extractList].
 ///
-/// Implementers of this Function will usually return type extending
-/// ResponseData.
+/// Implementers of this Function will usually return a object implementing
+/// [ResponseData].
 typedef ItemConstructor<T> = T Function(XmlElement element);
 
 /// Contains functions to support parsing Xml.
