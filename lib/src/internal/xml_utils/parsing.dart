@@ -48,11 +48,18 @@ extension ValidationChecks on XmlElement? {
 
 /// Helper functions to extract a value from xml.
 extension ValueExtraction on XmlElement {
-  /// Extracts an [int?] from the children Element with the specified [name] and
-  /// [nameSpace].
+  /// Extracts first [XmlElement] from this with the specified
+  /// [name] and [nameSpace].
   ///
   /// [isNullable] and [isOptional] should be set according to specification in
   /// the WSDL of AnimalTracing.
+  ///
+  /// Might throw [XmlMissingElementException]. See [nullabilityPass].
+  ///
+  /// Important: Add tests for the function if implementation gets additional
+  /// code. Currently [extractXmlElement] is tested through testing
+  /// [nullabilityPass] since this function only a wrapper
+  /// around [nullabilityPass].
   XmlElement? extractXmlElement(String name, String nameSpace,
       {bool isNullable = false, bool isOptional = false}) {
     final element = getElement(name, namespace: nameSpace).nullabilityPass(
@@ -61,13 +68,16 @@ extension ValueExtraction on XmlElement {
     return element;
   }
 
-  /// Extracts an value of type [T] from the children Element with the specified
-  /// [name] and [nameSpace].
+  /// Extracts an value of type [T] from the first children Element with the
+  /// specified [name] and [nameSpace].
   ///
   /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
   ///
   /// [isNullable] and [isOptional] should be set according to specification in
   /// the WSDL of AnimalTracing.
+  ///
+  /// Might throw [XmlMissingElementException]. See [nullabilityPass]. Throws
+  /// [FormatException] if parsing failed.
   ///
   /// Note: If parsing of an additional Type is added, the following conditions
   /// needs to be meet:
@@ -86,13 +96,17 @@ extension ValueExtraction on XmlElement {
     if (element == null) {
       return null;
     }
+
+    //Throw exception if [element] contains something other than text,cdata or
+    // comments.
     final disallowedElements = element.children.where((element) =>
         //Those Elements will be interpreted
         !(element.nodeType == XmlNodeType.TEXT ||
             element.nodeType == XmlNodeType.CDATA ||
             //Those Elements will be ignored
-            element.nodeType == XmlNodeType.ATTRIBUTE ||
-            element.nodeType == XmlNodeType.COMMENT));
+            element.nodeType == XmlNodeType.COMMENT ||
+            //Attributes are ignored as well, since there are not in the body.
+            element.nodeType == XmlNodeType.ATTRIBUTE));
 
     if (disallowedElements.isNotEmpty) {
       throw FormatException('$name from $nameSpace should not contain something'
@@ -100,10 +114,10 @@ extension ValueExtraction on XmlElement {
           'ignored).');
     }
 
+    // Handle case when the text in [element] is split with an [XmlComment].
     final interpretedElements = element.children.where((element) =>
         element.nodeType == XmlNodeType.TEXT ||
         element.nodeType == XmlNodeType.CDATA);
-
     final buffer = StringBuffer();
     for (final element in interpretedElements) {
       buffer.write(element.text);
