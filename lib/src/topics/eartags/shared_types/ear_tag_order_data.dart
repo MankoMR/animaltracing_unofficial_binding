@@ -73,38 +73,39 @@ class EarTagOrderData extends ResponseData {
   /// Used to create [EarTagOrderData] from a service response.
   factory EarTagOrderData.fromXml(XmlElement element) {
     final notificationId = element.extractValue<BigInt>(
+    final notificationId = element.extractPrimitiveValue<BigInt>(
         'NotificationID', Namespaces.animalTracing);
 
-    final earTagType =
-        element.extractValue<int>('EarTagType', Namespaces.animalTracing);
+    final earTagType = element.extractPrimitiveValue<int>(
+        'EarTagType', Namespaces.animalTracing);
 
     final amount =
-        element.extractValue<int>('Amount', Namespaces.animalTracing);
+        element.extractPrimitiveValue<int>('Amount', Namespaces.animalTracing);
 
-    final isExpress =
-        element.extractValue<bool>('IsExpress', Namespaces.animalTracing);
+    final isExpress = element.extractPrimitiveValue<bool>(
+        'IsExpress', Namespaces.animalTracing);
 
-    final orderStatus =
-        element.extractValue<int>('OrderStatus', Namespaces.animalTracing);
+    final orderStatus = element.extractPrimitiveValue<int>(
+        'OrderStatus', Namespaces.animalTracing);
 
-    final orderStatusDate = element.extractValue<DateTime>(
+    final orderStatusDate = element.extractPrimitiveValue<DateTime>(
         'OrderStatusDate', Namespaces.animalTracing);
 
-    final earTagNumberFrom = element.extractValue<String>(
+    final earTagNumberFrom = element.extractPrimitiveValue<String>(
         'EarTagNumberFrom', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
 
-    final earTagNumberTo = element.extractValue<String>(
+    final earTagNumberTo = element.extractPrimitiveValue<String>(
         'EarTagNumberTo', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
 
-    final text1 = element.extractValue<String>(
+    final text1 = element.extractPrimitiveValue<String>(
         'Text1', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
 
-    final text2 = element.extractValue<String>(
+    final text2 = element.extractPrimitiveValue<String>(
         'Text2', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
 
     return EarTagOrderData(
         notificationId!,

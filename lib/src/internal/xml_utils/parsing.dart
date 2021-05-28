@@ -50,10 +50,10 @@ extension ValidationChecks on XmlElement? {
 extension ValueExtraction on XmlElement {
   /// This Function is purposely doing multiple things. This is to simplify the
   /// parsing in the Response Types and to maximize the reusability of code.
-  T? extractValue<T>(String name, String nameSpace,
-      {bool isNillable = false, bool isElementOptional = false}) {
     final element =
         getElement(name, namespace: nameSpace).nullabilityPass(name, nameSpace);
+  T? extractPrimitiveValue<T>(String name, String nameSpace,
+      {bool isNullable = false, bool isOptional = false}) {
     if (element == null) {
       return null;
     }
