@@ -61,6 +61,23 @@ extension ValueExtraction on XmlElement {
     return element;
   }
 
+  /// Extracts an value of type [T] from the children Element with the specified
+  /// [name] and [nameSpace].
+  ///
+  /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
+  ///
+  /// [isNullable] and [isOptional] should be set according to specification in
+  /// the WSDL of AnimalTracing.
+  ///
+  /// Note: If parsing of an additional Type is added, the following conditions
+  /// needs to be meet:
+  /// * The type has a constructor that takes a String which
+  /// represents a possible instance of the type.
+  /// * An empty String must not represent a valid instance of the type. In
+  ///   this needs to be verified by writing a Test.
+  /// * The String representation of a
+  /// value of the Type is easy to understand and parse.
+  ///
   T? extractPrimitiveValue<T>(String name, String nameSpace,
       {bool isNullable = false, bool isOptional = false}) {
     final element = getElement(name, namespace: nameSpace).nullabilityPass(
