@@ -140,4 +140,11 @@ extension EarTagOrderDataResultTestHelp on EarTagOrderData {
       earTagNumberTo == other.earTagNumberTo &&
       text1 == other.text1 &&
       text2 == other.text2;
+
+  /// Returns a String with the information stored in [EarTagOrderData].
+  String toStringRepresentation() =>
+      '$EarTagOrderData{id: $notificationId, type:$earTagType, '
+      'amt:$amount, exprs:$isExpress, status: $orderStatus, '
+      'stDate:$orderStatusDate, from:$earTagNumberFrom, to:$earTagNumberTo, '
+      'txt1:$text1, txt2:$text2}';
 }

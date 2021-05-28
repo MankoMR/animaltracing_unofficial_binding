@@ -58,11 +58,12 @@ void main() {
 ''';
       final parsedXml = XmlDocument.parse(rawXml);
       final typedData = EarTagOrderData.fromXml(parsedXml.rootElement);
+      final expectedData = EarTagOrderData(BigInt.one, 1, 7, false, 2,
+          DateTime(2021, 4, 26, 13, 56, 46), null, null, null, null);
 
-      expect(
-          typedData.areSame(EarTagOrderData(BigInt.one, 1, 7, false, 2,
-              DateTime(2021, 4, 26, 13, 56, 46), null, null, null, null)),
-          true);
+      expect(typedData.areSame(expectedData), true,
+          reason: 'parsed: \n${typedData.toStringRepresentation()}\n'
+              'expected:\n${expectedData.toStringRepresentation()}');
     });
   });
 }
