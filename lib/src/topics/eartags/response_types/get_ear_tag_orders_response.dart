@@ -34,24 +34,24 @@ class GetEarTagOrdersResponse extends ResponseData {
           'GetEarTagOrdersResponse from ${Namespaces.animalTracing}',
           element.toXmlString(pretty: true));
     }
-    final getEarTagOrdersResultElement = element.extractValue<XmlElement>(
+    final getEarTagOrdersResultElement = element.extractXmlElement(
         'GetEarTagOrdersResult', Namespaces.animalTracing,
-        isNillable: true, isElementOptional: true);
+        isNullable: true, isOptional: true);
     if (getEarTagOrdersResultElement == null) {
       return const GetEarTagOrdersResponse(null, null);
     }
 
-    final resultElement = getEarTagOrdersResultElement.extractValue<XmlElement>(
+    final resultElement = getEarTagOrdersResultElement.extractXmlElement(
         'Result', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
     ProcessingResult? result;
     if (resultElement != null) {
       result = ProcessingResult.fromXml(resultElement);
     }
 
-    final resultDetailsElement = getEarTagOrdersResultElement
-        .extractValue<XmlElement>('Resultdetails', Namespaces.animalTracing,
-            isNillable: true);
+    final resultDetailsElement = getEarTagOrdersResultElement.extractXmlElement(
+        'Resultdetails', Namespaces.animalTracing,
+        isNullable: true);
 
     List<EarTagOrderData>? resultDetails;
     if (resultDetailsElement != null) {

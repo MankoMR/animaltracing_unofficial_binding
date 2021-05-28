@@ -81,8 +81,6 @@ extension ValueExtraction on XmlElement {
           return value as T;
         case DateTime:
           return DateTime.parse(value) as T;
-        case XmlElement:
-          return element as T;
         default:
           throw UnimplementedError('Implement conversion to $T');
       }
