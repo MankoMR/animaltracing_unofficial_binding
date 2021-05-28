@@ -29,7 +29,7 @@ extension ValidationChecks on XmlElement? {
   /// is null. [name] and [nameSpace] are required as parameters for
   /// the exception.
   XmlElement? nullabilityPass(String name, String nameSpace,
-      {bool isNullable = false, bool isOptional = false}) {
+      {required bool isNullable, required bool isOptional}) {
     if (isOptional && this == null) {
       return null;
     }
