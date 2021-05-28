@@ -86,10 +86,38 @@ extension ValueExtraction on XmlElement {
     if (element == null) {
       return null;
     }
-    if (element.innerText.isEmpty) {
-      throw FormatException('$name from $nameSpace needs to contain a value.');
+    final disallowedElements = element.children.where((element) =>
+        //Those Elements will be interpreted
+        !(element.nodeType == XmlNodeType.TEXT ||
+            element.nodeType == XmlNodeType.CDATA ||
+            //Those Elements will be ignored
+            element.nodeType == XmlNodeType.ATTRIBUTE ||
+            element.nodeType == XmlNodeType.COMMENT));
+
+    if (disallowedElements.isNotEmpty) {
+      throw FormatException('$name from $nameSpace should not contain something'
+          'other than XML of type Text, CDATA or Comment (Comments will be '
+          'ignored).');
     }
-    final value = element.innerText;
+
+    final interpretedElements = element.children.where((element) =>
+        element.nodeType == XmlNodeType.TEXT ||
+        element.nodeType == XmlNodeType.CDATA);
+
+    final buffer = StringBuffer();
+    for (final element in interpretedElements) {
+      buffer.write(element.text);
+    }
+    final value = buffer.toString();
+    buffer.clear();
+
+    if (value.isEmpty && !isNullable) {
+      throw FormatException(
+          '$name from $nameSpace needs to contain a value. value:');
+    }
+    if (value.isEmpty && isNullable) {
+      return null;
+    }
     //Catch all Format exceptions to enrich with additional information
     try {
       switch (T) {
@@ -110,8 +138,13 @@ extension ValueExtraction on XmlElement {
           return value as T;
         case DateTime:
           return DateTime.parse(value) as T;
+        case dynamic:
+          throw UnsupportedError('The Type of the value to extract needs to be '
+              'specified. It can not be dynamic');
         default:
-          throw UnimplementedError('Implement conversion to $T');
+          throw UnsupportedError('Parsing of $T is not supported. There might'
+              'be another Extension method that supports extraction of T. See'
+              'documentation.');
       }
     } on FormatException catch (exception) {
       throw FormatException(
