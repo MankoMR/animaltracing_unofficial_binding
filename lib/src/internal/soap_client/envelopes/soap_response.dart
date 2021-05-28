@@ -11,11 +11,14 @@ import '../../xml_utils/parsing.dart';
 
 /// SoapResponse is the parsed content of an soap:Envelope.
 class SoapResponse {
+  late final XmlElement _body;
+  late final XmlElement? _header;
+
   /// Contains the message for a service operation.
-  late final XmlElement body;
+  XmlElement get body => _body;
 
   /// Might contain some metadata in addition to the message.
-  late final XmlElement? header;
+  XmlElement? get header => _header;
 
   /// Tries to parse [envelope] as soap:Envelope and does some
   /// preliminary checks.
@@ -36,13 +39,13 @@ class SoapResponse {
         rootElement.name.local != 'Envelope') {
       throw const XmlMissingElementException('Envelope', Namespaces.soap, null);
     }
-    header = rootElement.getElement('Header', namespace: Namespaces.soap);
+    _header = rootElement.getElement('Header', namespace: Namespaces.soap);
     final supposedBody =
         rootElement.getElement('Body', namespace: Namespaces.soap);
     if (supposedBody == null) {
       throw const XmlMissingElementException('Body', Namespaces.soap, null);
     } else {
-      body = supposedBody;
+      _body = supposedBody;
     }
     _throwIfContainsFault(body);
   }
