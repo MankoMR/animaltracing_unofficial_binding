@@ -4,9 +4,8 @@
  * Project: animaltracing_unofficial_binding.
  */
 
-import 'package:animaltracing_unofficial_binding/core/core.dart';
-import 'package:animaltracing_unofficial_binding/request_types/get_ear_tag_orders_request.dart';
-import 'package:animaltracing_unofficial_binding/topics/eartags.dart';
+import 'package:animaltracing_unofficial_binding/animaltracing_unofficial_binding.dart';
+import 'package:animaltracing_unofficial_binding/eartags.dart';
 import 'package:test/test.dart';
 
 void main() {
