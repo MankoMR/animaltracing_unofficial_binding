@@ -36,7 +36,7 @@ void main() {
           const XmlElement? nullElement = null;
           expect(() => nullElement.nullabilityPass('test', 'test'),
               throwsA(const TypeMatcher<XmlMissingElementException>()));
-        });
+        }, tags: ['exception-model']);
       });
     });
   });

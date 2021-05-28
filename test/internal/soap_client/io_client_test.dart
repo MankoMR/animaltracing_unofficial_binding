@@ -35,7 +35,7 @@ void main() {
             throwsA(const TypeMatcher<HttpException>()));
         //TODO: remove skipping test once reason Test fails is clear
       },
-          tags: ['errors'],
+          tags: ['exception-model'],
           timeout: const Timeout(Duration(seconds: 5)),
           skip: true);
     });
@@ -50,7 +50,7 @@ void main() {
           MockRequestData());
       expect(() async => client.sendRequest(soapRequest, 'authorizationToken'),
           throwsA(const TypeMatcher<SocketException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     group('HttpStatusCodeNot200Setup', () {
       late HttpServer server;
       setUp(() async {
@@ -69,7 +69,7 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
-      }, tags: ['errors']);
+      }, tags: ['exception-model']);
     });
     group('HttpStatusCodeNot200WithSoapEnvelopeSetup', () {
       late HttpServer server;
@@ -105,7 +105,7 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<SoapException>()));
-      }, tags: ['errors']);
+      }, tags: ['exception-model']);
     });
   }, onPlatform: const {'!dart-vm': Skip('Might not support IOClient')});
 }

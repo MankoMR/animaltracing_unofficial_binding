@@ -4,6 +4,6 @@
 
 tags:
   # Tests which test part of the exception-model are tagged with errors
-  errors:
+  exception-model:
   # Integration-Tests are tagged with this tag.
   integration-test:
