@@ -55,7 +55,7 @@ void main() {
       });
       group('.extractPrimitiveValue', () {
         group(
-            'Parsing an empy String to an instance of T as done in '
+            'Parsing an empty String to an instance of T as done in '
             'extractPrimitiveValue<T> throws FormatException or returns null:',
             () {
           test('int parsing of empty String throws FormatException', () {
@@ -140,7 +140,7 @@ void main() {
                 throwsFormatException);
           });
           test(
-              'Parsing element with content separated by XML-Commment returns '
+              'Parsing element with content separated by XML-Comment returns '
               'correct value', () {
             const childName = 'Test';
             const childNamespace = 'testSpace';
