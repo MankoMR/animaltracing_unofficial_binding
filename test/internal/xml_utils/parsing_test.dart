@@ -92,9 +92,9 @@ void main() {
             void runExtractionWithInjectedContent(String content) {
               final input = '<RootElement xlmns:childNs="testSpace">'
                   '<childNs:Test>Val${content}ue</childNs:Test></RootElement>';
-              final element = XmlDocument.parse(input).rootElement;
-              final value =
-                  element.extractPrimitiveValue<String>('Test', 'testSpace');
+              XmlDocument.parse(input)
+                  .rootElement
+                  .extractPrimitiveValue<String>('Test', 'testSpace');
             }
 
             //declaration
@@ -131,7 +131,6 @@ void main() {
               'contains no text', () {
             const childName = 'Test';
             const childNamespace = 'testSpace';
-            const value = 'value';
             final element = createElementWithNestedValue(
                 childName, childNamespace, (builder) => () => null);
 
