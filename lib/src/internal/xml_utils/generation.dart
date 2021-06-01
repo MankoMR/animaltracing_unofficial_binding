@@ -102,12 +102,16 @@ extension XmlBuilding on XmlBuilder {
   }
 }
 
-/// Defines the way in which an element is null in xml.
+/// Defines Options for how to map a null value in dart to a null value in xml.
 enum NullabilityType {
   /// The XmlElement is optional.
+  ///
+  /// If a Object is null, no corresponding [XmlElement] will be created.
   optionalElement,
 
-  /// The XmlElement has attribute 'nill' set to 'true'.
+  /// The XmlElement gets created but gets attribute 'nill' set to 'true'.
+  ///
+  /// It should not contain nested elements.
   nullable,
 
   /// The XmlElement is required to exist and have a value.
