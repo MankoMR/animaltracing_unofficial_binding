@@ -10,7 +10,7 @@ import 'package:xml/xml.dart';
 import 'animaltracing_unofficial_binding.dart';
 import 'src/internal/base_types.dart';
 import 'src/internal/soap_client/soap_client.dart';
-import 'src/internal/xml_utils/shared.dart';
+import 'src/internal/xml_utils/parsing.dart';
 import 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
 import 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
 
@@ -58,13 +58,8 @@ class Eartags extends TopicBase {
         await SoapClient.create(serviceEndpointConfiguration.timeOutDuration)
             .sendRequest(soapRequest, authorizationToken);
 
-    final children = response.body.getElement('GetEarTagOrdersResponse',
-        namespace: Namespaces.animalTracing);
-
-    if (children == null) {
-      throw const XmlMissingElementException(
-          'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
-    }
+    final children = response.body.extractXmlElement(
+        'GetEarTagOrdersResponse', Namespaces.animalTracing)!;
     return GetEarTagOrdersResponse.fromXml(children);
   }
 }
