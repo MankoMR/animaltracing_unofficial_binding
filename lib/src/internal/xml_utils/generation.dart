@@ -54,9 +54,9 @@ extension XmlBuilding on XmlBuilder {
             attribute('nil', 'true', namespace: Namespaces.schemaInstance);
           });
           break;
-        case NullabilityType.required:
+        default:
           throw UnsupportedError(
-              'Should not be called with a nullabilityType set to required');
+              '$nullability is not supported by this Function.');
       }
     } else {
       element(name, namespace: namespace, nest: nest);
@@ -70,16 +70,14 @@ extension XmlBuilding on XmlBuilder {
   /// while [itemBuilder] defines how an item from [list] is mapped to xml. See
   /// [ItemXmlGenerator].
   ///
-  /// [nullability] determines how an empty [list] is handled. If its set
-  /// to [NullabilityType.nullable], the created [XmlElement] gets the
-  /// following attribute if [list] is empty: 'nil="true"'.
-  ///
-  /// If [nullability] is set to  [NullabilityType.optionalElement] and if
-  /// [list] is empty, no [XmlElement] is created.
-  ///
-  /// [nullability] set to [NullabilityType.required] is not supported and
-  /// throws an [UnsupportedError].
-  ///
+  /// [nullability] determines how an empty [list] is handled:
+  /// * If [nullability] is set to [NullabilityType.nullable] and [list] is
+  ///   empty, the created [XmlElement] gets the following
+  ///   attribute: 'nil="true"'.
+  /// * If [nullability] is set to  [NullabilityType.optionalElement] and
+  ///   [list] is empty, no [XmlElement] is created.
+  /// * If [nullability] is set to [NullabilityType.required] and the [list]
+  ///   is empty, an empty [XmlElement] is created.
   void elementList<T extends Object>(
     String name,
     String namespace, {
@@ -88,7 +86,11 @@ extension XmlBuilding on XmlBuilder {
     required ItemXmlGenerator<T> itemBuilder,
   }) {
     if (list.isEmpty) {
-      nullableElement(name, namespace: namespace, nullability: nullability);
+      if (nullability == NullabilityType.required) {
+        element(name, namespace: namespace);
+      } else {
+        nullableElement(name, namespace: namespace, nullability: nullability);
+      }
     } else {
       nullableElement(name, namespace: namespace, nullability: nullability,
           nest: () {

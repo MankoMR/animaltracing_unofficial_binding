@@ -72,7 +72,7 @@ class GetEarTagOrdersRequest extends RequestData {
         ..elementList<int>(
           'p_ArticleFilter',
           Namespaces.animalTracing,
-          nullability: NullabilityType.nullable,
+          nullability: NullabilityType.required,
           list: articleFilter,
           itemBuilder: (builder, articleType) {
             builder.element('IntItem',
