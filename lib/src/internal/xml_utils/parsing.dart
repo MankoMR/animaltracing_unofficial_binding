@@ -13,8 +13,8 @@ export 'shared.dart';
 
 /// Function signature definition used in [ValueExtraction.extractList].
 ///
-/// Implementers of this Function will usually return a object implementing
-/// [ResponseData].
+/// Implementation of this Signature should parse [element] and return [T] that
+/// represents [element].
 typedef ItemConstructor<T> = T Function(XmlElement element);
 
 /// Contains functions to support parsing Xml.
@@ -100,17 +100,17 @@ extension ValueExtraction on XmlElement {
     //Throw exception if [element] contains something other than text,cdata or
     // comments.
     final disallowedElements = element.children.where((element) =>
-        //Those Elements will be interpreted
+        //Those Elements are interpreted
         !(element.nodeType == XmlNodeType.TEXT ||
             element.nodeType == XmlNodeType.CDATA ||
-            //Those Elements will be ignored
+            //Those Elements are ignored
             element.nodeType == XmlNodeType.COMMENT ||
             //Attributes are ignored as well, since there are not in the body.
             element.nodeType == XmlNodeType.ATTRIBUTE));
 
     if (disallowedElements.isNotEmpty) {
       throw FormatException('$name from $nameSpace should not contain something'
-          'other than XML of type Text, CDATA or Comment (Comments will be '
+          'other than XML of type Text, CDATA or Comment (Comments are be '
           'ignored).');
     }
 
