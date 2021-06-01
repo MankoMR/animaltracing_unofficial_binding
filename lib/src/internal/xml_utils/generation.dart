@@ -101,3 +101,15 @@ extension XmlBuilding on XmlBuilder {
     }
   }
 }
+
+/// Defines the way in which an element is null in xml.
+enum NullabilityType {
+  /// The XmlElement is optional.
+  optionalElement,
+
+  /// The XmlElement has attribute 'nill' set to 'true'.
+  nullable,
+
+  /// The XmlElement is required to exist and have a value.
+  required,
+}
