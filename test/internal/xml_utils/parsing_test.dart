@@ -54,7 +54,6 @@ void main() {
         //Documentation of function.
       });
       group('.extractPrimitiveValue', () {
-        test('returns null in appropriate Situation', () {});
         group(
             'Parsing an empy String to an instance of T as done in '
             'extractPrimitiveValue<T> throws FormatException or returns null:',
@@ -75,6 +74,110 @@ void main() {
             expect(() => parseBool(''), throwsFormatException);
           });
         });
+        group('Value Extraction works as intended:', () {
+          test('throws UnsupportedError when T is not supported', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = 'value';
+            final element = createElementWithNestedValue(
+                childName, childNamespace, (builder) => value);
+            expect(
+                () => element.extractPrimitiveValue(childName, childNamespace),
+                throwsUnsupportedError);
+          });
+
+          test(
+              'Parsing element with not supported XML-Content throws '
+              'FormatException', () {
+            void runExtractionWithInjectedContent(String content) {
+              final input = '<RootElement xlmns:childNs="testSpace">'
+                  '<childNs:Test>Val${content}ue</childNs:Test></RootElement>';
+              final element = XmlDocument.parse(input).rootElement;
+              final value =
+                  element.extractPrimitiveValue<String>('Test', 'testSpace');
+            }
+
+            //declaration
+            expect(
+                () => runExtractionWithInjectedContent("<?xml version='1.0'?>"),
+                throwsFormatException);
+            //doctype
+            expect(() => runExtractionWithInjectedContent('<!DOCTYPE html>'),
+                throwsFormatException);
+            //processing instruction
+            expect(() => runExtractionWithInjectedContent('<?pi test?>'),
+                throwsFormatException);
+            //element
+            expect(() => runExtractionWithInjectedContent('<book>bla</book>'),
+                throwsFormatException);
+          });
+          test('Parsing element with attributes does not throw', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = 'value';
+            final element = createElementWithNestedValue(
+                childName,
+                childNamespace,
+                (builder) => () => builder
+                  ..attribute('Attribute', 'attributeValue')
+                  ..text(value));
+            expect(
+                element.extractPrimitiveValue<String>(
+                    childName, childNamespace),
+                equals(value));
+          });
+          test(
+              'Throws FormatException when element is empty and element '
+              'contains no text', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = 'value';
+            final element = createElementWithNestedValue(
+                childName, childNamespace, (builder) => () => null);
+
+            expect(
+                () => element.extractPrimitiveValue<String>(
+                    childName, childNamespace),
+                throwsFormatException);
+          });
+          test(
+              'Parsing element with content separated by XML-Commment returns '
+              'correct value', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = 'value';
+            final element = createElementWithNestedValue(
+                childName,
+                childNamespace,
+                (builder) => () => builder
+                  ..attribute('Attribute', 'attributeValue')
+                  ..text('val')
+                  ..comment('commentText')
+                  ..text('ue'));
+
+            expect(
+                element.extractPrimitiveValue<String>(
+                    childName, childNamespace),
+                equals(value));
+          });
+          test(
+              'Parsing element with mixed elements (TextElement or CDATA) '
+              'returns correct value', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = 'value';
+            final element = createElementWithNestedValue(
+                childName,
+                childNamespace,
+                (builder) => () => builder
+                  ..attribute('Attribute', 'attributeValue')
+                  ..text('val')
+                  ..cdata('ue'));
+
+            expect(
+                element.extractPrimitiveValue<String>(
+                    childName, childNamespace),
+                equals(value));
           });
         });
         group('of type Int', () {
@@ -102,7 +205,7 @@ void main() {
                 childName, childNamespace, (builder) => value);
             expect(
                 element.extractPrimitiveValue<int>(childName, childNamespace),
-                value);
+                equals(value));
           });
         });
         group('of type BigInt', () {
@@ -127,7 +230,7 @@ void main() {
             expect(
                 element.extractPrimitiveValue<BigInt>(
                     childName, childNamespace),
-                value);
+                equals(value));
           });
         });
         group('of type DateTime', () {
@@ -152,7 +255,7 @@ void main() {
             expect(
                 element.extractPrimitiveValue<DateTime>(
                     childName, childNamespace),
-                value);
+                equals(value));
           });
         });
         group('of type bool', () {
