@@ -162,6 +162,8 @@ extension ValueExtraction on XmlElement {
   /// [childrenNamespace] determine which children [XmlElement]s are passed to
   /// the [itemConstructor].
   ///
+  /// Children not of type [XmlElement] will be ignored.
+  ///
   /// [itemConstructor] creates [T] from element that are named as
   /// [childrenName] from [childrenNamespace]. [XmlELement] with other names are
   /// ignored.
