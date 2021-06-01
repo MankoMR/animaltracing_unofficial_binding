@@ -71,9 +71,10 @@ void main() {
             const empty = '';
             expect(() => DateTime.parse(empty), throwsFormatException);
           });
-          test('BigInt parsing of empty String throws FormatException', () {
-            const empty = '';
-            expect(() => BigInt.parse(empty), throwsFormatException);
+          test('bool parsing of empty String throws FormatException', () {
+            expect(() => parseBool(''), throwsFormatException);
+          });
+        });
           });
         });
         group('of type Int', () {
@@ -152,6 +153,30 @@ void main() {
                 element.extractPrimitiveValue<DateTime>(
                     childName, childNamespace),
                 value);
+          });
+        });
+        group('of type bool', () {
+          test('throws FormatException in appropriate Situation', () {
+            void extractValue(
+                    XmlElement element, String name, String nameSpace) =>
+                element.extractPrimitiveValue<bool>(name, nameSpace);
+
+            testExtractValueThrowsFormatException(
+                extractValue, (builder) => null);
+            testExtractValueThrowsFormatException(
+                extractValue, (builder) => 'NotABool');
+            testExtractValueThrowsFormatException(
+                extractValue, (builder) => 'tr ue');
+          });
+          test('returns correct Value', () {
+            const childName = 'Test';
+            const childNamespace = 'testSpace';
+            const value = true;
+            final element = createElementWithNestedValue(
+                childName, childNamespace, (builder) => value);
+            expect(
+                element.extractPrimitiveValue<bool>(childName, childNamespace),
+                equals(value));
           });
         });
       });

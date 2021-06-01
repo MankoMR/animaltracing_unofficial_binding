@@ -140,14 +140,7 @@ extension ValueExtraction on XmlElement {
         case BigInt:
           return BigInt.parse(value) as T;
         case bool:
-          final processedValue = value.trim().toLowerCase();
-          if (processedValue == 'true') {
-            return true as T;
-          } else if (processedValue == 'false') {
-            return false as T;
-          } else {
-            throw FormatException('Could not parse source as bool.', value);
-          }
+          return parseBool(value) as T;
         case String:
           return value as T;
         case DateTime:
@@ -204,5 +197,17 @@ extension ValueExtraction on XmlElement {
       default:
         throw UnimplementedError('Handle additional $listNullabilityTyp');
     }
+  }
+}
+
+/// Tries parsing [source] to a bool.
+bool parseBool(String source) {
+  final processedValue = source.trim().toLowerCase();
+  if (processedValue == 'true') {
+    return true;
+  } else if (processedValue == 'false') {
+    return false;
+  } else {
+    throw FormatException('Could not parse source as bool.', source);
   }
 }
