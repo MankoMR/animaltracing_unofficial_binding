@@ -88,7 +88,7 @@ extension ValueExtraction on XmlElement {
   /// * The String representation of a
   /// value of the Type is easy to understand and parse.
   ///
-  T? extractPrimitiveValue<T>(String name, String nameSpace,
+  T? extractPrimitiveValue<T extends Object>(String name, String nameSpace,
       {bool isNullable = false, bool isOptional = false}) {
     final element = getElement(name, namespace: nameSpace).nullabilityPass(
         name, nameSpace,
@@ -152,9 +152,6 @@ extension ValueExtraction on XmlElement {
           return value as T;
         case DateTime:
           return DateTime.parse(value) as T;
-        case dynamic:
-          throw UnsupportedError('The Type of the value to extract needs to be '
-              'specified. It can not be dynamic');
         default:
           throw UnsupportedError('Parsing of $T is not supported. There might'
               'be another Extension method that supports extraction of T. See'
@@ -176,7 +173,7 @@ extension ValueExtraction on XmlElement {
   /// children.
   ///
   /// [listNullabilityTyp] will be removed in a later version.
-  List<T>? extractList<T>(
+  List<T>? extractList<T extends Object>(
       String childrenName,
       String childrenNamespace,
       ItemConstructor<T> itemConstructor,
