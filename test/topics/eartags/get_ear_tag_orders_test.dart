@@ -12,11 +12,11 @@ import '../../test_utils/test_utils.dart';
 void main() {
   group('GetEarTagOrders Operation', () {
     test('GetEarTagOrdersRequest builds valid xml', () async {
-      await expectIsValidXml(
+      await expectGeneratesValidXml(
           GetEarTagOrdersRequest('Test', 1, 100, DateTime(1), DateTime(2), [2]),
           null);
 
-      await expectIsValidXml(
+      await expectGeneratesValidXml(
           GetEarTagOrdersRequest(null, 1, 100, DateTime(1), DateTime(2), [2]),
           null);
     });
@@ -63,7 +63,7 @@ void main() {
       </tns:GetEarTagOrdersResponse>''';
 
       //Checks is valid xml.
-      expect((await validateXml(rawXml)).isValidXml, true);
+      await expectIsValidXml(rawXml);
 
       final parsedXml = XmlDocument.parse(rawXml);
       final typedData = GetEarTagOrdersResponse.fromXml(parsedXml.rootElement);

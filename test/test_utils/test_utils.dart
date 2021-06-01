@@ -46,12 +46,22 @@ Future<HttpServer> createServer(RequestHandler requestHandler) async {
   return server;
 }
 
-/// Validates [data] against the schemas contained in the wsdl-Definiton of
+/// Validates [data] against the schemas contained in the WSDL of
 /// AnimalTracing.
 ///
 /// Throws [UnsupportedError] if something is fundamentally wrong.
-Future<void> expectIsValidXml(RequestData data, String? elementName) async {
+Future<void> expectGeneratesValidXml(
+    RequestData data, String? elementName) async {
   final result = await validateXml(generateXml(data, elementName));
+  expect(result.isValidXml, true, reason: result.message);
+}
+
+/// Validates [rawXml] against the schemas contained in the WSDL of
+/// Animaltracing.
+///
+/// Throws [UnsupportedError] if something is fundamentally wrong.
+Future<void> expectIsValidXml(String rawXml) async {
+  final result = await validateXml(rawXml);
   expect(result.isValidXml, true, reason: result.message);
 }
 
