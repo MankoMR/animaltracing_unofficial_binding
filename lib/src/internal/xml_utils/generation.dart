@@ -11,85 +11,91 @@ import 'shared.dart';
 
 export 'shared.dart';
 
+/// Implementers of this Function have to generate the XML representation of T
+/// according to the WSDL for AnimalTracing.
+///
+/// To generate the XML, [builder] should be used.
+///
+/// Function signature definition is used in [XmlBuilding.buildList] to generate
+/// XML for a list of T.
+typedef ItemXmlGenerator<T> = void Function(XmlBuilder builder, T value);
+
 /// Helper functions  to simplify generating xml in classes which
 /// implement [RequestData].
-extension XmlBuilding on RequestData {
-  ///Adds an [XmlElement] to the call hierarchy of [builder].
+extension XmlBuilding on XmlBuilder {
+  /// Adds an [XmlElement] to the call hierarchy of [builder].
   ///
-  ///[elementName] and [namespace] determine name of the [XmlElement] to create,
-  ///while [value] is the content of the [XmlElement]. See [XmlBuilder.element]
-  ///for more details as to what values should be assigned to  [value].
+  /// [name] and [namespace] determine name of the [XmlElement] to create,
+  /// while [nest] is the content of the [XmlElement]. See [XmlBuilder.element]
+  /// for more details as to what values should be assigned to  [nest].
   ///
-  /// [nullabilityType] determines how a null value will be handled. If its set
-  /// to [NullabilityType.nullable], the created [XmlElement] will get the
-  /// following attribute if [value] is null: 'nil="true"'.
+  /// [nullability] determines how a null value is be handled. If its set
+  /// to [NullabilityType.nullable], the created [XmlElement] gets the
+  /// following attribute if [nest] is null: 'nil="true"'.
   ///
-  /// If [nullabilityType] is set to  [NullabilityType.optionalElement] and if
-  /// [value] is null, no [XmlElement] will be created.
+  /// If [nullability] is set to  [NullabilityType.optionalElement] and if
+  /// [nest] is null, no [XmlElement] is created.
   ///
-  /// [nullabilityType] set to [NullabilityType.required] is not supported and
-  /// will throw an [UnsupportedError].
+  /// [nullability] set to [NullabilityType.required] is not supported and
+  /// throws an [UnsupportedError].
   ///
-  void buildNullableElement(
-    XmlBuilder builder,
-    String elementName,
-    String namespace,
-    NullabilityType nullabilityType,
-    Object? value,
-  ) {
-    if (value == null) {
-      switch (nullabilityType) {
+  void nullableElement(
+    String name, {
+    required String namespace,
+    Object? nest,
+    required NullabilityType nullability,
+  }) {
+    if (nest == null) {
+      switch (nullability) {
         case NullabilityType.optionalElement:
           return;
         case NullabilityType.nullable:
-          builder.element(
-            elementName,
-            namespace: namespace,
-            nest: () {
-              //I had to look at code from the mockservice to get the correct
-              // Xml-Attribute name for element which are marked with
-              // nillable="true" in the wsdl-Definition file
-              //and the specific namespace in schemaInstanceNameSpace
-              builder.attribute('nil', 'true',
-                  namespace: Namespaces.schemaInstance);
-            },
-          );
+          element(name, namespace: namespace, nest: () {
+            attribute('nil', 'true', namespace: Namespaces.schemaInstance);
+          });
           break;
         case NullabilityType.required:
           throw UnsupportedError(
               'Should not be called with a nullabilityType set to required');
       }
     } else {
-      builder.element(elementName, namespace: namespace, nest: value);
+      element(name, namespace: namespace, nest: nest);
+    }
+  }
+
+  /// Adds an [XmlElement] to the call hierarchy of [builder].
+  ///
+  /// [name] and [namespace] determine the name of the [XmlElement] that holds
+  /// the content of the [list],
+  /// while [itemBuilder] defines how an item from [list] is mapped to xml. See
+  /// [ItemXmlGenerator].
+  ///
+  /// [nullability] determines how an empty [list] is handled. If its set
+  /// to [NullabilityType.nullable], the created [XmlElement] gets the
+  /// following attribute if [list] is empty: 'nil="true"'.
+  ///
+  /// If [nullability] is set to  [NullabilityType.optionalElement] and if
+  /// [list] is empty, no [XmlElement] is created.
+  ///
+  /// [nullability] set to [NullabilityType.required] is not supported and
+  /// throws an [UnsupportedError].
+  ///
+  void elementList<T extends Object>(
+    String name,
+    String namespace, {
+    required NullabilityType nullability,
+    required List<T> list,
+    required ItemXmlGenerator<T> itemBuilder,
+  }) {
+    if (list.isEmpty) {
+      nullableElement(name, namespace: namespace, nullability: nullability);
+    } else {
+      nullableElement(name, namespace: namespace, nullability: nullability,
+          nest: () {
+        for (final item in list) {
+          itemBuilder(this, item);
+        }
+      });
     }
   }
 }
-
-/*
-///May be used in code that will be implemented later. Used as reference.
-typedef ItemBuilder<T> = void Function(XmlBuilder builder, T value);
-void buildList<T>(
-  XmlBuilder builder,
-  String elementName,
-  String namespace,
-  NullabilityType nullabilityType,
-  List<T>? values,
-  ItemBuilder<T> itemBuilder,
-) {
-  if (values == null) {
-    builder.element(
-      elementName,
-      namespace: namespace,
-      nest: () {
-        builder.attribute('isNill', 'true');
-      },
-    );
-  } else {
-    builder.element(elementName, namespace: namespace, nest: () {
-      for (final value in values) {
-        itemBuilder(builder, value);
-      }
-    });
-  }
-}
- */
