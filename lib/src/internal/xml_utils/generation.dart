@@ -37,7 +37,7 @@ extension XmlBuilding on XmlBuilder {
   /// [nest] is null, no [XmlElement] is created.
   ///
   /// [nullability] set to [NullabilityType.required] is not supported and
-  /// throws an [UnsupportedError].
+  /// throws an [UnsupportedError]. Call [this.element()] instead.
   ///
   void nullableElement(
     String name, {
