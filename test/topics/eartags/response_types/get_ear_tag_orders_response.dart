@@ -115,8 +115,6 @@ void main() {
     });
     test('parsing with ResultDetails empty', () async {
       const result = ProcessingResult(1, null, 1);
-      final resultDetails = EarTagOrderData(BigInt.one, 1, 7, false, 2,
-          DateTime(2021, 4, 26, 13, 56, 46, 412533), null, null, null, null);
       final rawXml = '''
       <tns:GetEarTagOrdersResponse xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <tns:GetEarTagOrdersResult>
