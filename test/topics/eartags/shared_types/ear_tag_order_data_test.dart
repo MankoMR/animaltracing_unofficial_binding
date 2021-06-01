@@ -11,6 +11,23 @@ import '../../../test_utils/test_utils.dart';
 
 void main() {
   group('EarTagOrderData', () {
+    test('xml generation and parsing does not change values', () {
+      final source = EarTagOrderData(BigInt.two, 1, 2, true, 3, DateTime(2021),
+          'CH00', 'CH01', 'text1', 'text2');
+      final rawXml = generateXml(source, null);
+      final parsedXml = XmlDocument.parse(rawXml).rootElement;
+      final parsed = EarTagOrderData.fromXml(parsedXml);
+
+      expect(source.areSame(parsed), equals(true));
+    });
+    test('builds valid xml', () {
+      final data = EarTagOrderData(BigInt.two, 1, 2, true, 3, DateTime(2021),
+          'CH00', 'CH01', 'text1', 'text2');
+      expectGeneratesValidXml(data, null);
+      final minimalData = EarTagOrderData(
+          BigInt.two, 1, 2, true, 3, DateTime(2021), null, null, null, null);
+      expectGeneratesValidXml(minimalData, null);
+    });
     test('parses all fields', () async {
       const rawXml = '''
                <tns:EarTagOrderData xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

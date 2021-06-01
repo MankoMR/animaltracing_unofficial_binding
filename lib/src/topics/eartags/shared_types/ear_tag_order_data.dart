@@ -7,12 +7,13 @@ import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../../../internal/base_types.dart';
+import '../../../internal/xml_utils/generation.dart';
 import '../../../internal/xml_utils/parsing.dart';
 
 /// Represents an eartag order from a farm.
 ///
 /// Is often used by service operations in [Eartags].
-class EarTagOrderData extends ResponseData {
+class EarTagOrderData extends ResponseData implements RequestData {
   /// The identification number of an order.
   ///
   /// Is used as parameter in some service operations like deleteEarTagOrder.
@@ -117,6 +118,54 @@ class EarTagOrderData extends ResponseData {
         earTagNumberTo,
         text1,
         text2);
+  }
+
+  @override
+  void generateWith(XmlBuilder builder, String? elementName) {
+    builder.element(
+      elementName ?? 'EarTagOrderData',
+      namespace: Namespaces.animalTracing,
+      namespaces: Namespaces.nameSpacesNames,
+      nest: () {
+        builder
+          ..element('NotificationID',
+              namespace: Namespaces.animalTracing, nest: notificationId)
+          ..element('EarTagType',
+              namespace: Namespaces.animalTracing, nest: earTagType)
+          ..element('Amount', namespace: Namespaces.animalTracing, nest: amount)
+          ..element('IsExpress',
+              namespace: Namespaces.animalTracing, nest: isExpress)
+          ..element('OrderStatus',
+              namespace: Namespaces.animalTracing, nest: orderStatus)
+          ..element('OrderStatusDate',
+              namespace: Namespaces.animalTracing,
+              nest: orderStatusDate.toIso8601String())
+          ..nullableElement(
+            'EarTagNumberFrom',
+            namespace: Namespaces.animalTracing,
+            nullability: NullabilityType.nullable,
+            nest: earTagNumberFrom,
+          )
+          ..nullableElement(
+            'EarTagNumberTo',
+            namespace: Namespaces.animalTracing,
+            nullability: NullabilityType.nullable,
+            nest: earTagNumberTo,
+          )
+          ..nullableElement(
+            'Text1',
+            namespace: Namespaces.animalTracing,
+            nullability: NullabilityType.nullable,
+            nest: text1,
+          )
+          ..nullableElement(
+            'Text2',
+            namespace: Namespaces.animalTracing,
+            nullability: NullabilityType.nullable,
+            nest: text2,
+          );
+      },
+    );
   }
 }
 
