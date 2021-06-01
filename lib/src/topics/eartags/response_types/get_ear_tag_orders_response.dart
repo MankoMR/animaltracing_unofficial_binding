@@ -19,7 +19,7 @@ class GetEarTagOrdersResponse extends ResponseData {
   final ProcessingResult? result;
 
   /// List of filtered eartag orders according to [GetEarTagOrdersRequest].
-  final List<EarTagOrderData>? resultDetails;
+  final List<EarTagOrderData> resultDetails;
 
   /// Create [GetEarTagOrdersResponse]
   const GetEarTagOrdersResponse(this.result, this.resultDetails);
@@ -38,7 +38,7 @@ class GetEarTagOrdersResponse extends ResponseData {
         'GetEarTagOrdersResult', Namespaces.animalTracing,
         isNullable: true, isOptional: true);
     if (getEarTagOrdersResultElement == null) {
-      return const GetEarTagOrdersResponse(null, null);
+      return const GetEarTagOrdersResponse(null, []);
     }
 
     final resultElement = getEarTagOrdersResultElement.extractXmlElement(
@@ -53,15 +53,12 @@ class GetEarTagOrdersResponse extends ResponseData {
         'Resultdetails', Namespaces.animalTracing,
         isNullable: true);
 
-    List<EarTagOrderData>? resultDetails;
-    if (resultDetailsElement != null) {
-      resultDetails = resultDetailsElement.extractList<EarTagOrderData>(
-          'EarTagOrderDataItem',
-          Namespaces.animalTracing,
-          (element) => EarTagOrderData.fromXml(element),
-          // ignore: deprecated_member_use_from_same_package
-          NullabilityType.required);
-    }
+    final resultDetails = resultDetailsElement?.extractList<EarTagOrderData>(
+            'EarTagOrderDataItem',
+            Namespaces.animalTracing,
+            (element) => EarTagOrderData.fromXml(element)) ??
+        [];
+
     return GetEarTagOrdersResponse(result, resultDetails);
   }
 }

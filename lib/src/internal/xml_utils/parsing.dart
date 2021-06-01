@@ -162,41 +162,23 @@ extension ValueExtraction on XmlElement {
   /// [childrenNamespace] determine which children [XmlElement]s are passed to
   /// the [itemConstructor].
   ///
-  /// [itemConstructor] is the method which creates a [T] per selected
-  /// children.
+  /// [itemConstructor] creates [T] from element that are named as
+  /// [childrenName] from [childrenNamespace]. [XmlELement] with other names are
+  /// ignored.
   ///
-  /// [listNullabilityTyp] will be removed in a later version.
-  List<T>? extractList<T extends Object>(
-      String childrenName,
-      String childrenNamespace,
-      ItemConstructor<T> itemConstructor,
-      [@Deprecated('Handling of NullabilityType of the list should be done '
-          'outside of this function.')
-          NullabilityType listNullabilityTyp = NullabilityType.required]) {
+  /// This does not handle  of nullability of the rootElement or of the
+  /// children Elements. This has to be done before or after calling this or
+  /// within [itemConstructor].
+  List<T> extractList<T extends Object>(String childrenName,
+      String childrenNamespace, ItemConstructor<T> itemConstructor) {
     final list = <T>[];
-    for (final element in children
-        .where((node) => node.nodeType == XmlNodeType.ELEMENT)
-        .cast<XmlElement>()) {
+    for (final element in children.whereType<XmlElement>()) {
       if (element.name.local == childrenName &&
           element.name.namespaceUri == childrenNamespace) {
         list.add(itemConstructor(element));
-      } else {
-        throw FormatException(
-            '${name.local} from ${name.namespaceUri} should not contain '
-            '${element.name.local} from ${element.name.namespaceUri}. '
-            'It should contain $childrenName from $childrenNamespace.',
-            element.toXmlString(pretty: true));
       }
     }
-    switch (listNullabilityTyp) {
-      case NullabilityType.optionalElement:
-      case NullabilityType.nullable:
-        return list.isEmpty ? null : list;
-      case NullabilityType.required:
-        return list;
-      default:
-        throw UnimplementedError('Handle additional $listNullabilityTyp');
-    }
+    return list;
   }
 }
 

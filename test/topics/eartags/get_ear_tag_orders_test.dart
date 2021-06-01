@@ -69,7 +69,7 @@ void main() {
       final typedData = GetEarTagOrdersResponse.fromXml(parsedXml.rootElement);
 
       expect(typedData.result!.areSame(result), true);
-      final parsedResultDetails = typedData.resultDetails![0];
+      final parsedResultDetails = typedData.resultDetails[0];
       expect(parsedResultDetails.areSame(resultDetails), true);
     });
   });

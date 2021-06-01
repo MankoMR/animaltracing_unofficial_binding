@@ -24,9 +24,9 @@ void main() {
             [1, 2]);
         final response = await eartagOperations.getEarTagOrders(parameters, '');
         expect(response.result?.status, 1);
-        expect(response.resultDetails?.length, 2);
-        expect(response.resultDetails?.first.notificationId, BigInt.one);
-        expect(response.resultDetails?.first.amount, 7);
+        expect(response.resultDetails.length, 2);
+        expect(response.resultDetails.first.notificationId, BigInt.one);
+        expect(response.resultDetails.first.amount, 7);
       });
     });
   }, tags: ['integration-test'], skip: true);
