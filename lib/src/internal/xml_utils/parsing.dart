@@ -183,6 +183,8 @@ extension ValueExtraction on XmlElement {
 }
 
 /// Tries parsing [source] to a bool.
+///
+/// Throws [FormatException] if parsing was not successful.
 bool parseBool(String source) {
   final processedValue = source.trim().toLowerCase();
   if (processedValue == 'true') {
