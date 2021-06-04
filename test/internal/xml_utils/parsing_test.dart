@@ -82,7 +82,8 @@ void main() {
             final element = createElementWithNestedValue(
                 childName, childNamespace, (builder) => value);
             expect(
-                () => element.extractPrimitiveValue(childName, childNamespace),
+                () => element.extractNestedPrimitiveValue(
+                    childName, childNamespace),
                 throwsUnsupportedError);
           });
 
@@ -94,7 +95,7 @@ void main() {
                   '<childNs:Test>Val${content}ue</childNs:Test></RootElement>';
               XmlDocument.parse(input)
                   .rootElement
-                  .extractPrimitiveValue<String>('Test', 'testSpace');
+                  .extractNestedPrimitiveValue<String>('Test', 'testSpace');
             }
 
             //declaration
@@ -122,7 +123,7 @@ void main() {
                   ..attribute('Attribute', 'attributeValue')
                   ..text(value));
             expect(
-                element.extractPrimitiveValue<String>(
+                element.extractNestedPrimitiveValue<String>(
                     childName, childNamespace),
                 equals(value));
           });
@@ -135,7 +136,7 @@ void main() {
                 childName, childNamespace, (builder) => () => null);
 
             expect(
-                () => element.extractPrimitiveValue<String>(
+                () => element.extractNestedPrimitiveValue<String>(
                     childName, childNamespace),
                 throwsFormatException);
           });
@@ -155,7 +156,7 @@ void main() {
                   ..text('ue'));
 
             expect(
-                element.extractPrimitiveValue<String>(
+                element.extractNestedPrimitiveValue<String>(
                     childName, childNamespace),
                 equals(value));
           });
@@ -174,7 +175,7 @@ void main() {
                   ..cdata('ue'));
 
             expect(
-                element.extractPrimitiveValue<String>(
+                element.extractNestedPrimitiveValue<String>(
                     childName, childNamespace),
                 equals(value));
           });
@@ -183,7 +184,7 @@ void main() {
           test('throws FormatException in appropriate Situation', () {
             void extractValue(
                     XmlElement element, String name, String nameSpace) =>
-                element.extractPrimitiveValue<int>(name, nameSpace);
+                element.extractNestedPrimitiveValue<int>(name, nameSpace);
 
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => null);
@@ -203,7 +204,8 @@ void main() {
             final element = createElementWithNestedValue(
                 childName, childNamespace, (builder) => value);
             expect(
-                element.extractPrimitiveValue<int>(childName, childNamespace),
+                element.extractNestedPrimitiveValue<int>(
+                    childName, childNamespace),
                 equals(value));
           });
         });
@@ -211,7 +213,7 @@ void main() {
           test('throws FormatException in appropriate Situation', () {
             void extractValue(
                     XmlElement element, String name, String nameSpace) =>
-                element.extractPrimitiveValue<BigInt>(name, nameSpace);
+                element.extractNestedPrimitiveValue<BigInt>(name, nameSpace);
 
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => null);
@@ -227,7 +229,7 @@ void main() {
             final element = createElementWithNestedValue(
                 childName, childNamespace, (builder) => value);
             expect(
-                element.extractPrimitiveValue<BigInt>(
+                element.extractNestedPrimitiveValue<BigInt>(
                     childName, childNamespace),
                 equals(value));
           });
@@ -236,7 +238,7 @@ void main() {
           test('throws FormatException in appropriate Situation', () {
             void extractValue(
                     XmlElement element, String name, String nameSpace) =>
-                element.extractPrimitiveValue<BigInt>(name, nameSpace);
+                element.extractNestedPrimitiveValue<BigInt>(name, nameSpace);
 
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => null);
@@ -252,7 +254,7 @@ void main() {
             final element = createElementWithNestedValue(childName,
                 childNamespace, (builder) => value.toIso8601String());
             expect(
-                element.extractPrimitiveValue<DateTime>(
+                element.extractNestedPrimitiveValue<DateTime>(
                     childName, childNamespace),
                 equals(value));
           });
@@ -261,7 +263,7 @@ void main() {
           test('throws FormatException in appropriate Situation', () {
             void extractValue(
                     XmlElement element, String name, String nameSpace) =>
-                element.extractPrimitiveValue<bool>(name, nameSpace);
+                element.extractNestedPrimitiveValue<bool>(name, nameSpace);
 
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => null);
@@ -277,7 +279,8 @@ void main() {
             final element = createElementWithNestedValue(
                 childName, childNamespace, (builder) => value);
             expect(
-                element.extractPrimitiveValue<bool>(childName, childNamespace),
+                element.extractNestedPrimitiveValue<bool>(
+                    childName, childNamespace),
                 equals(value));
           });
         });

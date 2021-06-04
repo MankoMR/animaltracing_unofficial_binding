@@ -88,7 +88,8 @@ extension ValueExtraction on XmlElement {
   /// * The String representation of a
   /// value of the Type is easy to understand and parse.
   ///
-  T? extractPrimitiveValue<T extends Object>(String name, String nameSpace,
+  T? extractNestedPrimitiveValue<T extends Object>(
+      String name, String nameSpace,
       {bool isNullable = false, bool isOptional = false}) {
     final element = getElement(name, namespace: nameSpace).nullabilityPass(
         name, nameSpace,

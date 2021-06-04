@@ -32,15 +32,15 @@ class ProcessingResult extends ResponseData {
 
   /// Used to create [ProcessingResult] from a service response.
   factory ProcessingResult.fromXml(XmlElement element) {
-    final code =
-        element.extractPrimitiveValue<int>('Code', Namespaces.animalTracing);
+    final code = element.extractNestedPrimitiveValue<int>(
+        'Code', Namespaces.animalTracing);
 
-    final description = element.extractPrimitiveValue<String>(
+    final description = element.extractNestedPrimitiveValue<String>(
         'Description', Namespaces.animalTracing,
         isNullable: true);
 
-    final status =
-        element.extractPrimitiveValue<int>('Status', Namespaces.animalTracing);
+    final status = element.extractNestedPrimitiveValue<int>(
+        'Status', Namespaces.animalTracing);
 
     return ProcessingResult(code!, description, status!);
   }

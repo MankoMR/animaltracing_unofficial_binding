@@ -73,37 +73,37 @@ class EarTagOrderData extends ResponseData implements RequestData {
 
   /// Used to create [EarTagOrderData] from a service response.
   factory EarTagOrderData.fromXml(XmlElement element) {
-    final notificationId = element.extractPrimitiveValue<BigInt>(
+    final notificationId = element.extractNestedPrimitiveValue<BigInt>(
         'NotificationID', Namespaces.animalTracing);
 
-    final earTagType = element.extractPrimitiveValue<int>(
+    final earTagType = element.extractNestedPrimitiveValue<int>(
         'EarTagType', Namespaces.animalTracing);
 
-    final amount =
-        element.extractPrimitiveValue<int>('Amount', Namespaces.animalTracing);
+    final amount = element.extractNestedPrimitiveValue<int>(
+        'Amount', Namespaces.animalTracing);
 
-    final isExpress = element.extractPrimitiveValue<bool>(
+    final isExpress = element.extractNestedPrimitiveValue<bool>(
         'IsExpress', Namespaces.animalTracing);
 
-    final orderStatus = element.extractPrimitiveValue<int>(
+    final orderStatus = element.extractNestedPrimitiveValue<int>(
         'OrderStatus', Namespaces.animalTracing);
 
-    final orderStatusDate = element.extractPrimitiveValue<DateTime>(
+    final orderStatusDate = element.extractNestedPrimitiveValue<DateTime>(
         'OrderStatusDate', Namespaces.animalTracing);
 
-    final earTagNumberFrom = element.extractPrimitiveValue<String>(
+    final earTagNumberFrom = element.extractNestedPrimitiveValue<String>(
         'EarTagNumberFrom', Namespaces.animalTracing,
         isNullable: true);
 
-    final earTagNumberTo = element.extractPrimitiveValue<String>(
+    final earTagNumberTo = element.extractNestedPrimitiveValue<String>(
         'EarTagNumberTo', Namespaces.animalTracing,
         isNullable: true);
 
-    final text1 = element.extractPrimitiveValue<String>(
+    final text1 = element.extractNestedPrimitiveValue<String>(
         'Text1', Namespaces.animalTracing,
         isNullable: true);
 
-    final text2 = element.extractPrimitiveValue<String>(
+    final text2 = element.extractNestedPrimitiveValue<String>(
         'Text2', Namespaces.animalTracing,
         isNullable: true);
 
