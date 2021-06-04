@@ -50,8 +50,8 @@ void main() {
     });
     group('ValueExtractionExtension', () {
       group('.extractXmlElement', () {
-        //Add test only when there are significant changes implementation. See
-        //Documentation of function.
+        //Add test only when there are significant changes to the
+        // implementation. See Documentation of function and of nullabilityPass.
       });
       group('.extractPrimitiveValue', () {
         group(
@@ -76,14 +76,11 @@ void main() {
         });
         group('Value Extraction works as intended:', () {
           test('throws UnsupportedError when T is not supported', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
-            const value = 'value';
-            final element = createElementWithNestedValue(
-                childName, childNamespace, (builder) => value);
+            final element = createElementWithValue(
+                'Test', 'testSpace', (builder) => builder.text('value'));
             expect(
-                () => element.extractNestedPrimitiveValue(
-                    childName, childNamespace),
+                // ignore: unnecessary_lambdas
+                () => element.extractPrimitiveValue(),
                 throwsUnsupportedError);
           });
 
@@ -91,11 +88,11 @@ void main() {
               'Parsing element with not supported XML-Content throws '
               'FormatException', () {
             void runExtractionWithInjectedContent(String content) {
-              final input = '<RootElement xlmns:childNs="testSpace">'
-                  '<childNs:Test>Val${content}ue</childNs:Test></RootElement>';
+              final input = '<RootElement '
+                  'xlmns:childNs="testSpace">val${content}ue</RootElement>';
               XmlDocument.parse(input)
                   .rootElement
-                  .extractNestedPrimitiveValue<String>('Test', 'testSpace');
+                  .extractPrimitiveValue<String>();
             }
 
             //declaration
@@ -113,157 +110,118 @@ void main() {
                 throwsFormatException);
           });
           test('Parsing element with attributes does not throw', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             const value = 'value';
-            final element = createElementWithNestedValue(
-                childName,
-                childNamespace,
-                (builder) => () => builder
+            final element = createElementWithValue(
+                'Test',
+                'testSpace',
+                (builder) => builder
                   ..attribute('Attribute', 'attributeValue')
                   ..text(value));
-            expect(
-                element.extractNestedPrimitiveValue<String>(
-                    childName, childNamespace),
-                equals(value));
+            expect(element.extractPrimitiveValue<String>(), equals(value));
           });
           test(
               'Throws FormatException when element is empty and element '
               'contains no text', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
-            final element = createElementWithNestedValue(
-                childName, childNamespace, (builder) => () => null);
+            final element =
+                createElementWithValue('Test', 'testSpace', (builder) {});
 
-            expect(
-                () => element.extractNestedPrimitiveValue<String>(
-                    childName, childNamespace),
+            expect(() => element.extractPrimitiveValue<String>(),
                 throwsFormatException);
           });
           test(
               'Parsing element with content separated by XML-Comment returns '
               'correct value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             const value = 'value';
-            final element = createElementWithNestedValue(
-                childName,
-                childNamespace,
-                (builder) => () => builder
+            final element = createElementWithValue(
+                'Test',
+                'testSpace',
+                (builder) => builder
                   ..attribute('Attribute', 'attributeValue')
                   ..text('val')
                   ..comment('commentText')
                   ..text('ue'));
 
-            expect(
-                element.extractNestedPrimitiveValue<String>(
-                    childName, childNamespace),
-                equals(value));
+            expect(element.extractPrimitiveValue<String>(), equals(value));
           });
           test(
               'Parsing element with mixed elements (TextElement or CDATA) '
               'returns correct value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             const value = 'value';
-            final element = createElementWithNestedValue(
-                childName,
-                childNamespace,
-                (builder) => () => builder
+            final element = createElementWithValue(
+                'Test',
+                'testSpace',
+                (builder) => builder
                   ..attribute('Attribute', 'attributeValue')
                   ..text('val')
                   ..cdata('ue'));
 
-            expect(
-                element.extractNestedPrimitiveValue<String>(
-                    childName, childNamespace),
-                equals(value));
+            expect(element.extractPrimitiveValue<String>(), equals(value));
           });
         });
         group('of type Int', () {
           test('throws FormatException in appropriate Situation', () {
-            void extractValue(
-                    XmlElement element, String name, String nameSpace) =>
-                element.extractNestedPrimitiveValue<int>(name, nameSpace);
+            void extractValue(XmlElement element) =>
+                element.extractPrimitiveValue<int>();
 
+            testExtractValueThrowsFormatException(extractValue, (builder) {});
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => null);
+                extractValue, (builder) => builder.text('NotANumber'));
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => 'NotANumber');
-            testExtractValueThrowsFormatException(
-                extractValue, (builder) => '123.4');
+                extractValue, (builder) => builder.text('123.4'));
             testExtractValueThrowsFormatException(
                 extractValue,
-                (builder) => '123000000000000000'
-                    '00000000000000000000000000000000000004');
+                (builder) => builder.text('123000000000000000'
+                    '00000000000000000000000000000000000004'));
           });
           test('returns correct Value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             const value = 123456789;
-            final element = createElementWithNestedValue(
-                childName, childNamespace, (builder) => value);
-            expect(
-                element.extractNestedPrimitiveValue<int>(
-                    childName, childNamespace),
-                equals(value));
+            final element = createElementWithValue(
+                'Test', 'testSpace', (builder) => builder.text(value));
+            expect(element.extractPrimitiveValue<int>(), equals(value));
           });
         });
         group('of type BigInt', () {
           test('throws FormatException in appropriate Situation', () {
-            void extractValue(
-                    XmlElement element, String name, String nameSpace) =>
-                element.extractNestedPrimitiveValue<BigInt>(name, nameSpace);
+            void extractValue(XmlElement element) =>
+                element.extractPrimitiveValue<BigInt>();
 
+            testExtractValueThrowsFormatException(extractValue, (builder) {});
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => null);
+                extractValue, (builder) => builder.text('NotANumber'));
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => 'NotANumber');
-            testExtractValueThrowsFormatException(
-                extractValue, (builder) => '123.4');
+                extractValue, (builder) => builder.text('123.4'));
           });
           test('returns correct Value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             final value = BigInt.from(12321321312312);
-            final element = createElementWithNestedValue(
-                childName, childNamespace, (builder) => value);
-            expect(
-                element.extractNestedPrimitiveValue<BigInt>(
-                    childName, childNamespace),
-                equals(value));
+            final element = createElementWithValue(
+                'Test', 'testSpace', (builder) => builder.text(value));
+            expect(element.extractPrimitiveValue<BigInt>(), equals(value));
           });
         });
         group('of type DateTime', () {
           test('throws FormatException in appropriate Situation', () {
-            void extractValue(
-                    XmlElement element, String name, String nameSpace) =>
-                element.extractNestedPrimitiveValue<BigInt>(name, nameSpace);
+            void extractValue(XmlElement element) =>
+                element.extractPrimitiveValue<BigInt>();
 
+            testExtractValueThrowsFormatException(extractValue, (builder) {});
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => null);
+                extractValue, (builder) => builder.text('NotADate'));
             testExtractValueThrowsFormatException(
-                extractValue, (builder) => 'NotADate');
-            testExtractValueThrowsFormatException(extractValue,
-                (builder) => '20210000000000000000-04-26T13:56:46');
+                extractValue,
+                (builder) =>
+                    builder.text('20210000000000000000-04-26T13:56:46'));
           });
           test('returns correct Value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             final value = DateTime.now();
-            final element = createElementWithNestedValue(childName,
-                childNamespace, (builder) => value.toIso8601String());
-            expect(
-                element.extractNestedPrimitiveValue<DateTime>(
-                    childName, childNamespace),
-                equals(value));
+            final element = createElementWithValue('Test', 'testSpace',
+                (builder) => builder.text(value.toIso8601String()));
+            expect(element.extractPrimitiveValue<DateTime>(), equals(value));
           });
         });
         group('of type bool', () {
           test('throws FormatException in appropriate Situation', () {
-            void extractValue(
-                    XmlElement element, String name, String nameSpace) =>
-                element.extractNestedPrimitiveValue<bool>(name, nameSpace);
+            void extractValue(XmlElement element) =>
+                element.extractPrimitiveValue<bool>();
 
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => null);
@@ -273,16 +231,29 @@ void main() {
                 extractValue, (builder) => 'tr ue');
           });
           test('returns correct Value', () {
-            const childName = 'Test';
-            const childNamespace = 'testSpace';
             const value = true;
-            final element = createElementWithNestedValue(
-                childName, childNamespace, (builder) => value);
-            expect(
-                element.extractNestedPrimitiveValue<bool>(
-                    childName, childNamespace),
-                equals(value));
+            final element = createElementWithValue(
+                'Test', 'testSpace', (builder) => builder.text(value));
+            expect(element.extractPrimitiveValue<bool>(), equals(value));
           });
+        });
+      });
+      group('.extractNestedPrimitiveValue', () {
+        // Add more tests if implementation changes. See extractXmlElement,
+        // extractPrimitiveValue and function itself
+        test('extracts value of specified Element', () {
+          const childName = 'Child';
+          const namespace = 'TestNamespace';
+          const value = 'TestValue';
+          final element = createElementWithValue('Test', namespace, (builder) {
+            builder
+              ..element('FirstChild', namespace: namespace, nest: 'OtherValue')
+              ..element(childName, namespace: namespace, nest: value)
+              ..element('LastChild', namespace: namespace, nest: 'OtherValue');
+          });
+          expect(
+              element.extractNestedPrimitiveValue<String>(childName, namespace),
+              equals(value));
         });
       });
       group('.extractList', () {
@@ -360,32 +331,23 @@ void main() {
 }
 
 void testExtractValueThrowsFormatException(
-    void Function(XmlElement, String childName, String childNameSpace)
-        parsingStep,
-    Object? Function(XmlBuilder) childNest) {
-  const childName = 'Test';
-  const childNamespace = 'testSpace';
-  final element =
-      createElementWithNestedValue(childName, childNamespace, childNest);
-  expect(() => parsingStep(element, childName, childNamespace),
-      throwsFormatException);
+    void Function(XmlElement element) parsingStep,
+    void Function(XmlBuilder) nest) {
+  final element = createElementWithValue('Test', 'http://test.com', nest);
+  expect(() => parsingStep(element), throwsFormatException);
 }
 
-XmlElement createElementWithNestedValue(String childName, String childNameSpace,
-    Object? Function(XmlBuilder) childNest,
-    {String parentName = 'RootElement', String? rootNameSpace}) {
+XmlElement createElementWithValue(
+    String name, String namespace, void Function(XmlBuilder) nest) {
   final builder = XmlBuilder();
-  builder.element(parentName, namespace: rootNameSpace, namespaces: {
-    ...Namespaces.nameSpacesNames,
-    if (!Namespaces.nameSpacesNames.containsKey(childNameSpace))
-      childNameSpace: 'childNs',
-    if (rootNameSpace != null &&
-        !Namespaces.nameSpacesNames.containsKey(childNameSpace))
-      rootNameSpace: 'rootNs',
-  }, nest: () {
-    builder.element(childName,
-        namespace: childNameSpace, nest: childNest(builder));
-  });
+  builder.element(name,
+      namespace: namespace,
+      namespaces: {
+        ...Namespaces.nameSpacesNames,
+        if (!Namespaces.nameSpacesNames.containsKey(namespace))
+          namespace: 'testNs',
+      },
+      nest: () => nest(builder));
 
   return builder.buildDocument().rootElement;
 }
