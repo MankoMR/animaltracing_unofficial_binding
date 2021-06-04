@@ -223,8 +223,7 @@ void main() {
             void extractValue(XmlElement element) =>
                 element.extractPrimitiveValue<bool>();
 
-            testExtractValueThrowsFormatException(
-                extractValue, (builder) => null);
+            testExtractValueThrowsFormatException(extractValue, (builder) {});
             testExtractValueThrowsFormatException(
                 extractValue, (builder) => 'NotABool');
             testExtractValueThrowsFormatException(
