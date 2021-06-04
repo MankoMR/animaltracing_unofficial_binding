@@ -48,8 +48,8 @@ extension ValidationChecks on XmlElement? {
 
 /// Helper functions to extract a value from xml.
 extension ValueExtraction on XmlElement {
-  /// Extracts first [XmlElement] from this with the specified
-  /// [name] and [nameSpace].
+  /// Extracts the first [XmlElement] from this with the specified
+  /// [name] and [namespace].
   ///
   /// [isNullable] and [isOptional] should be set according to specification in
   /// the WSDL of AnimalTracing.
@@ -68,7 +68,9 @@ extension ValueExtraction on XmlElement {
     return element;
   }
 
-  /// Extracts a value of type [T] from the text of this.
+  /// Extracts a value of type [T] from the [text] of this. [XmlCDATA] and
+  /// [XmlComment] are are handled appropriate, however other [XmlNodeType]
+  /// in [text] can cause an [FormatException]
   ///
   /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
   ///
@@ -154,8 +156,9 @@ extension ValueExtraction on XmlElement {
     }
   }
 
+  /// specified [name] and [namespace].
+
   /// Extracts an value of type [T] from the first children Element with the
-  /// specified [name] and [nameSpace].
   ///
   /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
   ///
