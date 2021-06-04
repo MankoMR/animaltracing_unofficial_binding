@@ -15,6 +15,8 @@ import '../../test_utils/test_utils.dart';
 
 void main() {
   group('IOClient', () {
+    //TODO: rework Test using spawnHybridUri
+    //See:https://pub.dev/documentation/test_api/latest/test_api.scaffolding/spawnHybridUri.html
     group('TimeOutSetup', () {
       late HttpServer server;
       setUp(() async {
@@ -33,7 +35,6 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
-        //TODO: remove skipping test once reason Test fails is clear
       },
           tags: ['exception-model'],
           timeout: const Timeout(Duration(seconds: 5)),

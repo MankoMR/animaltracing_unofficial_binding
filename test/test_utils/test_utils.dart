@@ -83,7 +83,7 @@ Future<ValidationResult> validateXml(String xml) async {
   final encodedXml = base64.encode(xml.codeUnits);
 
   // ignore: lines_longer_than_80_chars
-  //Todo: Change after project is finished and support for additional systems will be added.
+  //Todo: Change when support for additional systems will be added.
   final processingResult = await Process.run(
       r'.\tool\xml_validator\windows-x86\animaltracing_xml_validator.exe',
       ['--xmlBase64=$encodedXml']);
