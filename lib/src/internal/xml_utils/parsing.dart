@@ -68,16 +68,15 @@ extension ValueExtraction on XmlElement {
     return element;
   }
 
-  /// Extracts an value of type [T] from the first children Element with the
-  /// specified [name] and [nameSpace].
+  /// Extracts a value of type [T] from the text of this.
   ///
   /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
   ///
-  /// [isNullable] and [isOptional] should be set according to specification in
-  /// the WSDL of AnimalTracing.
+  /// [isNullable] should be set according to specification in
+  /// the WSDL of AnimalTracing. Checking the Optionality of the element should
+  /// be done before calling this method.
   ///
-  /// Might throw [XmlMissingElementException]. See [nullabilityPass]. Throws
-  /// [FormatException] if parsing failed.
+  ///  Throws [FormatException] if parsing failed.
   ///
   /// Note: If parsing of an additional Type is added, the following conditions
   /// needs to be meet:
@@ -88,19 +87,12 @@ extension ValueExtraction on XmlElement {
   /// * The String representation of a
   /// value of the Type is easy to understand and parse.
   ///
-  T? extractNestedPrimitiveValue<T extends Object>(
-      String name, String nameSpace,
-      {bool isNullable = false, bool isOptional = false}) {
-    final element = getElement(name, namespace: nameSpace).nullabilityPass(
-        name, nameSpace,
-        isNullable: isNullable, isOptional: isOptional);
-    if (element == null) {
-      return null;
-    }
-
+  T? extractPrimitiveValue<T extends Object>({
+    bool isNullable = false,
+  }) {
     //Throw exception if [element] contains something other than text,cdata or
     // comments.
-    final disallowedElements = element.children.where((element) =>
+    final disallowedElements = children.where((element) =>
         //Those Elements are interpreted
         !(element.nodeType == XmlNodeType.TEXT ||
             element.nodeType == XmlNodeType.CDATA ||
@@ -110,13 +102,14 @@ extension ValueExtraction on XmlElement {
             element.nodeType == XmlNodeType.ATTRIBUTE));
 
     if (disallowedElements.isNotEmpty) {
-      throw FormatException('$name from $nameSpace should not contain something'
+      throw FormatException(
+          '${name.local} from ${name.namespaceUri} should not contain something'
           'other than XML of type Text, CDATA or Comment (Comments are be '
           'ignored).');
     }
 
     // Handle case when the text in [element] is split with an [XmlComment].
-    final interpretedElements = element.children.where((element) =>
+    final interpretedElements = children.where((element) =>
         element.nodeType == XmlNodeType.TEXT ||
         element.nodeType == XmlNodeType.CDATA);
     final buffer = StringBuffer();
@@ -128,7 +121,8 @@ extension ValueExtraction on XmlElement {
 
     if (value.isEmpty && !isNullable) {
       throw FormatException(
-          '$name from $nameSpace needs to contain a value. value:');
+          '${name.local} from ${name.namespaceUri} needs to contain a value. '
+          'value: "$text"');
     }
     if (value.isEmpty && isNullable) {
       return null;
@@ -153,10 +147,33 @@ extension ValueExtraction on XmlElement {
       }
     } on FormatException catch (exception) {
       throw FormatException(
-          '$name of $nameSpace contains invalid value: ${exception.message}',
+          '${name.local} from ${name.namespaceUri} contains invalid value: '
+          '${exception.message}',
           exception.source,
           exception.offset);
     }
+  }
+
+  /// Extracts an value of type [T] from the first children Element with the
+  /// specified [name] and [nameSpace].
+  ///
+  /// [T] can be following Types: [bool], [int], [String], [BigInt], [DateTime]
+  ///
+  /// [isNullable] and [isOptional] should be set according to specification in
+  /// the WSDL of AnimalTracing.
+  ///
+  /// Might throw [XmlMissingElementException]. See [nullabilityPass]. Throws
+  /// [FormatException] if parsing failed.
+  ///
+  T? extractNestedPrimitiveValue<T extends Object>(
+      String name, String nameSpace,
+      {bool isNullable = false, bool isOptional = false}) {
+    final element = extractXmlElement(name, nameSpace,
+        isNullable: isNullable, isOptional: isOptional);
+    if (element == null) {
+      return null;
+    }
+    element.extractPrimitiveValue(isNullable: isNullable);
   }
 
   /// Extracts  a List of type [T] from this, where [childrenName] and
