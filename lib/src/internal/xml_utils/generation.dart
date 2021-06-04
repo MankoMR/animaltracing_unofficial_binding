@@ -79,8 +79,8 @@ extension XmlBuilding on XmlBuilder {
   /// * If [nullability] is set to [NullabilityType.required] and the [list]
   ///   is empty, an empty [XmlElement] is created.
   void elementList<T extends Object>(
-    String name,
-    String namespace, {
+    String name, {
+    required String namespace,
     required NullabilityType nullability,
     required List<T> list,
     required ItemXmlGenerator<T> itemBuilder,

@@ -71,7 +71,7 @@ class GetEarTagOrdersRequest extends RequestData {
             nest: searchDateTo.toIso8601String())
         ..elementList<int>(
           'p_ArticleFilter',
-          Namespaces.animalTracing,
+          namespace: Namespaces.animalTracing,
           nullability: NullabilityType.required,
           list: articleFilter,
           itemBuilder: (builder, articleType) {
