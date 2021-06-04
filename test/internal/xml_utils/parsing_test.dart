@@ -285,6 +285,76 @@ void main() {
           });
         });
       });
+      group('.extractList', () {
+        test('extracts correct values', () {
+          const rootName = 'Test';
+          const nameSpace = 'testNs';
+          const itemName = 'Int';
+          final builder = XmlBuilder();
+          builder.element(rootName,
+              namespace: nameSpace,
+              namespaces: {nameSpace: 'childNs'}, nest: () {
+            builder
+              ..element(itemName, namespace: nameSpace, nest: '1')
+              ..element(itemName, namespace: nameSpace, nest: '2')
+              ..comment('TestComment')
+              ..cdata('TestCdata')
+              ..text('TestText')
+              ..element(itemName, namespace: nameSpace, nest: '3');
+          });
+          final rootElement = builder.buildDocument().rootElement;
+
+          final list = rootElement.extractList<int>(itemName, nameSpace,
+              (element) => element.extractPrimitiveValue<int>()!);
+          expect(list, equals([1, 2, 3]),
+              reason: '${rootElement.toXmlString(pretty: true)}\nlist: $list');
+        });
+        test('ignores children not of type XmlElement', () {
+          const rootName = 'Test';
+          const nameSpace = 'testNs';
+          const itemName = 'Int';
+          final builder = XmlBuilder();
+          builder.element(rootName,
+              namespace: nameSpace,
+              namespaces: {nameSpace: 'childNs'}, nest: () {
+            builder
+              ..element(itemName, namespace: nameSpace, nest: '1')
+              ..element(itemName, namespace: nameSpace, nest: '2')
+              ..comment('TestComment')
+              ..cdata('TestCdata')
+              ..text('TestText')
+              ..element(itemName, namespace: nameSpace, nest: '3');
+          });
+          final rootElement = builder.buildDocument().rootElement;
+
+          final list = rootElement.extractList<int>(itemName, nameSpace,
+              (element) => element.extractPrimitiveValue<int>()!);
+
+          expect(list.length, equals(3),
+              reason: '${rootElement.toXmlString(pretty: true)}\nlist: $list');
+        });
+        test('returns empty list if not items could be parsed', () {
+          const rootName = 'Test';
+          const nameSpace = 'testNs';
+          const itemName = 'Int';
+          final builder = XmlBuilder();
+          builder.element(rootName,
+              namespace: nameSpace,
+              namespaces: {nameSpace: 'childNs'}, nest: () {
+            builder
+              ..comment('TestComment')
+              ..cdata('TestCdata')
+              ..text('TestText');
+          });
+          final rootElement = builder.buildDocument().rootElement;
+
+          final list = rootElement.extractList<int>(itemName, nameSpace,
+              (element) => element.extractPrimitiveValue<int>()!);
+
+          expect(list.length, equals(0),
+              reason: '${rootElement.toXmlString(pretty: true)}\nlist: $list');
+        });
+      });
     });
   });
 }
