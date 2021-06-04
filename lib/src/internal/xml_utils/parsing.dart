@@ -176,7 +176,7 @@ extension ValueExtraction on XmlElement {
     if (element == null) {
       return null;
     }
-    element.extractPrimitiveValue(isNullable: isNullable);
+    return element.extractPrimitiveValue<T>(isNullable: isNullable);
   }
 
   /// Extracts  a List of type [T] from this, where [childrenName] and
