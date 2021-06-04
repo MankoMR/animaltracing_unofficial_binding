@@ -22,8 +22,8 @@ extension ValidationChecks on XmlElement? {
   /// Checks that the [isOptional] and [isNullable] properties
   /// of an XmlElement are as expected according to the WSDL of AnimalTracing.
   ///
-  /// Also returns null when  XmlElement hast attribute '''nil''' with a value
-  /// of '''true'''.
+  /// Also returns null when  XmlElement hast attribute `nil` with a value
+  /// of `true`.
   ///
   /// Throws a [XmlMissingElementException] when XmlElement is not optional but
   /// is null. [name] and [nameSpace] are required as parameters for

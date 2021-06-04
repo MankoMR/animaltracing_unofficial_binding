@@ -11,7 +11,7 @@ import '../../../internal/xml_utils/parsing.dart';
 import '../request_types/get_ear_tag_orders_request.dart';
 import '../shared_types/ear_tag_order_data.dart';
 
-/// The response to getEarTagOrders.
+/// The response to calling [Eartags.getEarTagOrders].
 ///
 /// Look at [ProcessingResult] and [EarTagOrderData] for more information.
 class GetEarTagOrdersResponse extends ResponseData {

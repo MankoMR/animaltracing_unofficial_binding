@@ -8,7 +8,7 @@ class ConnectionConfiguration {
   /// Address of the Endpoint to connect to that implements
   /// the Api of Animaltracing.
   ///
-  ///Example: '''Uri.http('localhost:4040', 'Livestock/AnimalTracing/3')'''
+  ///Example: ```Uri.http('localhost:4040', 'Livestock/AnimalTracing/3')```
   final Uri endpoint;
 
   /// Gets and sets the connection timeout.
