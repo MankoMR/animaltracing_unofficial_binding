@@ -179,25 +179,25 @@ extension ValueExtraction on XmlElement {
     return element.extractPrimitiveValue<T>(isNullable: isNullable);
   }
 
-  /// Extracts  a List of type [T] from this, where [childrenName] and
-  /// [childrenNamespace] determine which children [XmlElement]s are passed to
+  /// Extracts  a List of type [T] from this, where [itemName] and
+  /// [itemNamespace] determine which children [XmlElement]s are passed to
   /// the [itemConstructor].
   ///
   /// Children not of type [XmlElement] will be ignored.
   ///
   /// [itemConstructor] creates [T] from element that are named as
-  /// [childrenName] from [childrenNamespace]. [XmlELement] with other names are
+  /// [itemName] from [itemNamespace]. [XmlELement] with other names are
   /// ignored.
   ///
-  /// This does not handle  of nullability of the rootElement or of the
-  /// children Elements. This has to be done before or after calling this or
-  /// within [itemConstructor].
-  List<T> extractList<T extends Object>(String childrenName,
-      String childrenNamespace, ItemConstructor<T> itemConstructor) {
+  /// This does not handle the nullability of [this] or of the
+  /// [children] Elements. The handling of nullability has to be done before or
+  /// after calling this or within [itemConstructor].
+  List<T> extractList<T extends Object>(String itemName, String itemNamespace,
+      ItemConstructor<T> itemConstructor) {
     final list = <T>[];
     for (final element in children.whereType<XmlElement>()) {
-      if (element.name.local == childrenName &&
-          element.name.namespaceUri == childrenNamespace) {
+      if (element.name.local == itemName &&
+          element.name.namespaceUri == itemNamespace) {
         list.add(itemConstructor(element));
       }
     }
