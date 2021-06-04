@@ -42,8 +42,8 @@ extension XmlBuilding on XmlBuilder {
   void nullableElement(
     String name, {
     required String namespace,
-    Object? nest,
     required NullabilityType nullability,
+    Object? nest,
   }) {
     if (nest == null) {
       switch (nullability) {
