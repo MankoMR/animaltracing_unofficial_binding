@@ -14,7 +14,8 @@ void main() {
   group('SoapRequest', () {
     test('root element is soap:Envelop', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test', null),
+              ConnectionConfiguration(
+                  endpoint: Uri.http('localhost:1', 'test')),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();
@@ -30,7 +31,8 @@ void main() {
     });
     test('soap:Header contains action and to with correct value', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test', null),
+              ConnectionConfiguration(
+                  endpoint: Uri.http('localhost:1', 'test')),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();
@@ -48,7 +50,8 @@ void main() {
     });
     test('soap:Body contains correct data', () {
       final envelope = SoapRequest(
-              ServiceEndpointConfiguration('localhost', 1, 'test', null),
+              ConnectionConfiguration(
+                  endpoint: Uri.http('localhost:1', 'test')),
               'serviceOperation',
               MockRequestData())
           .generateEnvelope();

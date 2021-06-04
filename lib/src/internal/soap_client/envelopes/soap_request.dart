@@ -12,7 +12,7 @@ import '../../xml_utils/generation.dart';
 /// Contains all the information needed to call a service operation.
 class SoapRequest {
   /// Information about the service endpoint.
-  final ServiceEndpointConfiguration serviceEndpointConfiguration;
+  final ConnectionConfiguration connectionConfiguration;
 
   /// Which service operation will be called.
   final String serviceOperation;
@@ -20,10 +20,10 @@ class SoapRequest {
   /// Information required to call the service operation.
   final RequestData requestData;
 
-  /// Creates a [SoapRequest] with [serviceEndpointConfiguration],
+  /// Creates a [SoapRequest] with [connectionConfiguration],
   /// [serviceOperation] and [requestData] set to corresponding values.
-  SoapRequest(this.serviceEndpointConfiguration, this.serviceOperation,
-      this.requestData);
+  SoapRequest(
+      this.connectionConfiguration, this.serviceOperation, this.requestData);
 
   /// Generates the content of message which will be sent to the service.
   XmlDocument generateEnvelope() {
@@ -34,13 +34,12 @@ class SoapRequest {
         namespaces: Namespaces.nameSpacesNames, nest: () {
       builder
         ..element('Header', namespace: Namespaces.soap, nest: () {
-          builder.element('Action',
-              namespace: Namespaces.addressing, nest: serviceOperation);
-          final serviceEndpoint = '${serviceEndpointConfiguration.host}:'
-              '${serviceEndpointConfiguration.port}/'
-              '${serviceEndpointConfiguration.path}';
-          builder.element('To',
-              namespace: Namespaces.addressing, nest: serviceEndpoint);
+          builder
+            ..element('Action',
+                namespace: Namespaces.addressing, nest: serviceOperation)
+            ..element('To',
+                namespace: Namespaces.addressing,
+                nest: connectionConfiguration.endpoint.toString());
         })
         ..element('Body', namespace: Namespaces.soap, nest: () {
           requestData.generateWith(builder, null);

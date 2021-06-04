@@ -44,8 +44,9 @@ void main() {
         'SocketException', () {
       final client = IOClient(const Duration(milliseconds: 500));
       final soapRequest = SoapRequest(
-          ServiceEndpointConfiguration('localhost', 4042,
-              'Livestock/AnimalTracing/3', const Duration(milliseconds: 500)),
+          ConnectionConfiguration(
+              endpoint: Uri.http('localhost:4042', 'Livestock/AnimalTracing/3'),
+              connectionTimeout: const Duration(milliseconds: 500)),
           'serviceOperation',
           MockRequestData());
       expect(() async => client.sendRequest(soapRequest, 'authorizationToken'),

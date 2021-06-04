@@ -10,8 +10,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('Integration Tests', () {
-    final endPointConfiguration = ServiceEndpointConfiguration(
-        'localhost', 4040, '/Livestock/AnimalTracing/3', null);
+    final endPointConfiguration = ConnectionConfiguration(
+        endpoint: Uri.http('localhost:4040', 'Livestock/AnimalTracing/3'));
     group('Eartags', () {
       test('getEarTagOrders can communicate with mock-service', () async {
         final eartagOperations = Eartags(endPointConfiguration);

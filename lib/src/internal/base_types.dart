@@ -11,12 +11,12 @@ import '../../animaltracing_unofficial_binding.dart';
 
 /// Base class for all Topics.
 ///
-/// Specifies how to get the [ServiceEndpointConfiguration]
+/// Specifies how to get the [ConnectionConfiguration]
 abstract class TopicBase {
   ///Contains necessary information for connecting to a service-endpoint.
   ///
-  /// See [ServiceEndpointConfiguration] for more information.
-  ServiceEndpointConfiguration get serviceEndpointConfiguration;
+  /// See [ConnectionConfiguration] for more information.
+  ConnectionConfiguration get connectionConfiguration;
 }
 
 /// Base class which must be implemented by all data types which can be sent

@@ -24,13 +24,13 @@ export 'src/topics/eartags/shared_types/ear_tag_order_data.dart';
 class Eartags extends TopicBase {
   /// Stores the configuration for connecting to a service endpoint.
   @override
-  final ServiceEndpointConfiguration serviceEndpointConfiguration;
+  final ConnectionConfiguration connectionConfiguration;
 
-  /// Creates [Eartags] with [serviceEndpointConfiguration].
+  /// Creates [Eartags] with [connectionConfiguration].
   ///
-  /// Storing [serviceEndpointConfiguration] in a topic reduces the overhead to
+  /// Storing [connectionConfiguration] in a topic reduces the overhead to
   /// to use the service operations.
-  Eartags(this.serviceEndpointConfiguration);
+  Eartags(this.connectionConfiguration);
 
   /// Get the eartag-orders made in a certain time span.
   ///
@@ -52,10 +52,10 @@ class Eartags extends TopicBase {
       GetEarTagOrdersRequest requestData, String authorizationToken) async {
     const serviceOperationName =
         'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1/AnimalTracingPortType/GetEarTagOrders';
-    final soapRequest = SoapRequest(
-        serviceEndpointConfiguration, serviceOperationName, requestData);
+    final soapRequest =
+        SoapRequest(connectionConfiguration, serviceOperationName, requestData);
     final response =
-        await SoapClient.create(serviceEndpointConfiguration.timeOutDuration)
+        await SoapClient.create(connectionConfiguration.connectionTimeout)
             .sendRequest(soapRequest, authorizationToken);
 
     final children = response.body.extractXmlElement(
