@@ -7,11 +7,30 @@ import 'package:animaltracing_unofficial_binding/eartags.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
+import '../../../test_utils/test_utils.dart';
+
 void main() {
   group('EarTagOrderData', () {
-    test('parses all fields', () {
+    test('xml generation and parsing does not change values', () {
+      final source = EarTagOrderData(BigInt.two, 1, 2, true, 3, DateTime(2021),
+          'CH00', 'CH01', 'text1', 'text2');
+      final rawXml = generateXml(source, null);
+      final parsedXml = XmlDocument.parse(rawXml).rootElement;
+      final parsed = EarTagOrderData.fromXml(parsedXml);
+
+      expect(source.areSame(parsed), equals(true));
+    });
+    test('builds valid xml', () {
+      final data = EarTagOrderData(BigInt.two, 1, 2, true, 3, DateTime(2021),
+          'CH00', 'CH01', 'text1', 'text2');
+      expectGeneratesValidXml(data, null);
+      final minimalData = EarTagOrderData(
+          BigInt.two, 1, 2, true, 3, DateTime(2021), null, null, null, null);
+      expectGeneratesValidXml(minimalData, null);
+    });
+    test('parses all fields', () async {
       const rawXml = '''
-               <tns:EarTagOrderDataItem xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               <tns:EarTagOrderData xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                   <tns:NotificationID>1</tns:NotificationID>
                   <tns:EarTagType>1</tns:EarTagType>
                   <tns:Amount>7</tns:Amount>
@@ -22,8 +41,9 @@ void main() {
                   <tns:EarTagNumberTo>CH10000017</tns:EarTagNumberTo>
                   <tns:Text1>Text1</tns:Text1>
                   <tns:Text2>Text2</tns:Text2>
-               </tns:EarTagOrderDataItem>
+               </tns:EarTagOrderData>
 ''';
+      await expectIsValidXml(rawXml);
       final parsedXml = XmlDocument.parse(rawXml);
       final typedData = EarTagOrderData.fromXml(parsedXml.rootElement);
 
@@ -41,9 +61,9 @@ void main() {
               'Text2')),
           true);
     });
-    test('parses required fields', () {
+    test('parses required fields', () async {
       const rawXml = '''
-               <tns:EarTagOrderDataItem xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               <tns:EarTagOrderData xmlns:tns="http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                   <tns:NotificationID>1</tns:NotificationID>
                   <tns:EarTagType>1</tns:EarTagType>
                   <tns:Amount>7</tns:Amount>
@@ -54,15 +74,17 @@ void main() {
                   <tns:EarTagNumberTo xsi:nil="true"/>
                   <tns:Text1 xsi:nil="true"/>
                   <tns:Text2 xsi:nil="true"/>
-               </tns:EarTagOrderDataItem>
+               </tns:EarTagOrderData>
 ''';
+      await expectIsValidXml(rawXml);
       final parsedXml = XmlDocument.parse(rawXml);
       final typedData = EarTagOrderData.fromXml(parsedXml.rootElement);
+      final expectedData = EarTagOrderData(BigInt.one, 1, 7, false, 2,
+          DateTime(2021, 4, 26, 13, 56, 46), null, null, null, null);
 
-      expect(
-          typedData.areSame(EarTagOrderData(BigInt.one, 1, 7, false, 2,
-              DateTime(2021, 4, 26, 13, 56, 46), null, null, null, null)),
-          true);
+      expect(typedData.areSame(expectedData), true,
+          reason: 'parsed: \n${typedData.toStringRepresentation()}\n'
+              'expected:\n${expectedData.toStringRepresentation()}');
     });
   });
 }

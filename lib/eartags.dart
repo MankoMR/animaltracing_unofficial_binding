@@ -10,7 +10,7 @@ import 'package:xml/xml.dart';
 import 'animaltracing_unofficial_binding.dart';
 import 'src/internal/base_types.dart';
 import 'src/internal/soap_client/soap_client.dart';
-import 'src/internal/xml_utils/shared.dart';
+import 'src/internal/xml_utils/parsing.dart';
 import 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
 import 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
 
@@ -19,18 +19,18 @@ export 'src/topics/eartags/request_types/get_ear_tag_orders_request.dart';
 export 'src/topics/eartags/response_types/get_ear_tag_orders_response.dart';
 export 'src/topics/eartags/shared_types/ear_tag_order_data.dart';
 
-/// Eartags contains all service operations that involve eartags.
+/// Contains all service operations that involve eartags.
 ///
 class Eartags extends TopicBase {
   /// Stores the configuration for connecting to a service endpoint.
   @override
-  final ServiceEndpointConfiguration serviceEndpointConfiguration;
+  final ConnectionConfiguration connectionConfiguration;
 
-  /// Creates [Eartags] with [serviceEndpointConfiguration].
+  /// Creates [Eartags] with [connectionConfiguration].
   ///
-  /// Storing [serviceEndpointConfiguration] in a topic reduces the overhead to
+  /// Storing [connectionConfiguration] in a topic reduces the overhead to
   /// to use the service operations.
-  Eartags(this.serviceEndpointConfiguration);
+  Eartags(this.connectionConfiguration);
 
   /// Get the eartag-orders made in a certain time span.
   ///
@@ -52,19 +52,14 @@ class Eartags extends TopicBase {
       GetEarTagOrdersRequest requestData, String authorizationToken) async {
     const serviceOperationName =
         'http://www.admin.ch/xmlns/Services/evd/Livestock/AnimalTracing/1/AnimalTracingPortType/GetEarTagOrders';
-    final soapRequest = SoapRequest(
-        serviceEndpointConfiguration, serviceOperationName, requestData);
+    final soapRequest =
+        SoapRequest(connectionConfiguration, serviceOperationName, requestData);
     final response =
-        await SoapClient.create(serviceEndpointConfiguration.timeOutDuration)
+        await SoapClient.create(connectionConfiguration.connectionTimeout)
             .sendRequest(soapRequest, authorizationToken);
 
-    final children = response.body.getElement('GetEarTagOrdersResponse',
-        namespace: Namespaces.animalTracing);
-
-    if (children == null) {
-      throw const XmlMissingElementException(
-          'GetEarTagOrdersResponse', Namespaces.animalTracing, null);
-    }
+    final children = response.body.extractXmlElement(
+        'GetEarTagOrdersResponse', Namespaces.animalTracing)!;
     return GetEarTagOrdersResponse.fromXml(children);
   }
 }

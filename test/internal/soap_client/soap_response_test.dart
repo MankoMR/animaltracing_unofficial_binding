@@ -15,24 +15,24 @@ void main() {
       const invalidXml = '<<>';
       expect(() => SoapResponse(invalidXml),
           throwsA(const TypeMatcher<XmlParserException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     test('throws not XmlParseException with valid Xml', () {
       const invalidXml = '<Hello/>';
       expect(() => SoapResponse(invalidXml),
           throwsA(isNot(isA<XmlParserException>())));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     test('throws  XmlMissingElementException when something is missing', () {
       const invalidXml = '<Hello/>';
       expect(() => SoapResponse(invalidXml),
           throwsA(isA<XmlMissingElementException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     test('throws  XmlMissingElementException when soap:Body is missing', () {
       const envelopeWithMissingBody = '''
       <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
       </env:Envelope>''';
       expect(() => SoapResponse(envelopeWithMissingBody),
           throwsA(isA<XmlMissingElementException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     test(
         'throws  XmlMissingElementException when soap:Reason is missing '
         '(partially)', () {
@@ -50,7 +50,7 @@ void main() {
       </env:Envelope>''';
       expect(() => SoapResponse(envelopeWithmissingReasong),
           throwsA(isA<XmlMissingElementException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     test('throws SoapException', () {
       const envelopeWithFault = '''
       <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">

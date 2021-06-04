@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'package:xml/xml.dart';
 
+import '../../../../animaltracing_unofficial_binding.dart';
 import '../../exceptions/http_exception.dart';
 import '../../exceptions/soap_exception.dart';
 import '../../exceptions/string_decoding_exception.dart';
@@ -22,7 +23,7 @@ class IOClient extends SoapClient {
   IOClient(Duration? timeOutDuration) : super(timeOutDuration);
 
   /// Sends the [soapRequest] to the service as specified in
-  /// [ServiceEndpointConfiguration].
+  /// [ConnectionConfiguration].
   ///
   /// May throw the following exceptions: [SoapException],[HttpException],
   /// [StringDecodingException],[XmlParserException],
@@ -33,10 +34,8 @@ class IOClient extends SoapClient {
   Future<SoapResponse> sendRequest(
       SoapRequest soapRequest, String authorizationToken) async {
     final client = HttpClient()..connectionTimeout = timeOutDuration;
-    final request = await client.post(
-        soapRequest.serviceEndpointConfiguration.host,
-        soapRequest.serviceEndpointConfiguration.port,
-        soapRequest.serviceEndpointConfiguration.path);
+    final request =
+        await client.postUrl(soapRequest.connectionConfiguration.endpoint);
     request.headers.contentType =
         ContentType('application', 'soap+xml', charset: 'utf-8');
     request.headers

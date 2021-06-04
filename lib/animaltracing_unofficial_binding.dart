@@ -4,21 +4,12 @@ export 'src/internal/exceptions/string_decoding_exception.dart';
 export 'src/internal/exceptions/xml_missing_element_exception.dart';
 
 /// Holds information to connect a service endpoint
-class ServiceEndpointConfiguration {
-  /// Name of the host.
+class ConnectionConfiguration {
+  /// Address of the Endpoint to connect to that implements
+  /// the Api of Animaltracing.
   ///
-  /// Could be ipAddress or domain name.
-  final String host;
-
-  /// The port number on which the service is available.
-  final int port;
-
-  /// Path of the webadress.
-  ///
-  /// Example: Livestock/AnimalTracing/3
-  ///
-  /// There should be no '/' at the beginning.
-  final String path;
+  ///Example: ```Uri.http('localhost:4040', 'Livestock/AnimalTracing/3')```
+  final Uri endpoint;
 
   /// Gets and sets the connection timeout.
   ///
@@ -30,13 +21,11 @@ class ServiceEndpointConfiguration {
   /// `null`.
   ///
   /// See [HttpClient.connectionTimeout] for more details.
-  final Duration? timeOutDuration;
+  final Duration? connectionTimeout;
 
-  /// Create [ServiceEndpointConfiguration].
+  /// Create [ConnectionConfiguration].
   ///
-  /// [path] should not start with '/' at the beginning.
   ///
   /// See documentation of the members for additional infos.
-  ServiceEndpointConfiguration(
-      this.host, this.port, this.path, this.timeOutDuration);
+  ConnectionConfiguration({required this.endpoint, this.connectionTimeout});
 }

@@ -10,8 +10,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('Integration Tests', () {
-    final endPointConfiguration = ServiceEndpointConfiguration(
-        'localhost', 4040, '/Livestock/AnimalTracing/3', null);
+    final endPointConfiguration = ConnectionConfiguration(
+        endpoint: Uri.http('localhost:4040', 'Livestock/AnimalTracing/3'));
     group('Eartags', () {
       test('getEarTagOrders can communicate with mock-service', () async {
         final eartagOperations = Eartags(endPointConfiguration);
@@ -24,10 +24,10 @@ void main() {
             [1, 2]);
         final response = await eartagOperations.getEarTagOrders(parameters, '');
         expect(response.result?.status, 1);
-        expect(response.resultDetails?.length, 2);
-        expect(response.resultDetails?.first.notificationId, BigInt.one);
-        expect(response.resultDetails?.first.amount, 7);
+        expect(response.resultDetails.length, 2);
+        expect(response.resultDetails.first.notificationId, BigInt.one);
+        expect(response.resultDetails.first.amount, 7);
       });
     });
-  }, tags: ['integration'], skip: true);
+  }, tags: ['integration-test'], skip: true);
 }

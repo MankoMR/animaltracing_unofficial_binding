@@ -11,7 +11,7 @@ import '../../../internal/xml_utils/parsing.dart';
 import '../request_types/get_ear_tag_orders_request.dart';
 import '../shared_types/ear_tag_order_data.dart';
 
-/// The response to getEarTagOrders.
+/// The response to calling [Eartags.getEarTagOrders].
 ///
 /// Look at [ProcessingResult] and [EarTagOrderData] for more information.
 class GetEarTagOrdersResponse extends ResponseData {
@@ -19,7 +19,7 @@ class GetEarTagOrdersResponse extends ResponseData {
   final ProcessingResult? result;
 
   /// List of filtered eartag orders according to [GetEarTagOrdersRequest].
-  final List<EarTagOrderData>? resultDetails;
+  final List<EarTagOrderData> resultDetails;
 
   /// Create [GetEarTagOrdersResponse]
   const GetEarTagOrdersResponse(this.result, this.resultDetails);
@@ -34,34 +34,31 @@ class GetEarTagOrdersResponse extends ResponseData {
           'GetEarTagOrdersResponse from ${Namespaces.animalTracing}',
           element.toXmlString(pretty: true));
     }
-    final getEarTagOrdersResultElement = element.extractValue<XmlElement>(
+    final getEarTagOrdersResultElement = element.extractXmlElement(
         'GetEarTagOrdersResult', Namespaces.animalTracing,
-        isNillable: true, isElementOptional: true);
+        isNullable: true, isOptional: true);
     if (getEarTagOrdersResultElement == null) {
-      return const GetEarTagOrdersResponse(null, null);
+      return const GetEarTagOrdersResponse(null, []);
     }
 
-    final resultElement = getEarTagOrdersResultElement.extractValue<XmlElement>(
+    final resultElement = getEarTagOrdersResultElement.extractXmlElement(
         'Result', Namespaces.animalTracing,
-        isNillable: true);
+        isNullable: true);
     ProcessingResult? result;
     if (resultElement != null) {
       result = ProcessingResult.fromXml(resultElement);
     }
 
-    final resultDetailsElement = getEarTagOrdersResultElement
-        .extractValue<XmlElement>('Resultdetails', Namespaces.animalTracing,
-            isNillable: true);
+    final resultDetailsElement = getEarTagOrdersResultElement.extractXmlElement(
+        'Resultdetails', Namespaces.animalTracing,
+        isNullable: true);
 
-    List<EarTagOrderData>? resultDetails;
-    if (resultDetailsElement != null) {
-      resultDetails = resultDetailsElement.extractList<EarTagOrderData>(
-          'EarTagOrderDataItem',
-          Namespaces.animalTracing,
-          (element) => EarTagOrderData.fromXml(element),
-          // ignore: deprecated_member_use_from_same_package
-          NullabilityType.required);
-    }
+    final resultDetails = resultDetailsElement?.extractList<EarTagOrderData>(
+            'EarTagOrderDataItem',
+            Namespaces.animalTracing,
+            (element) => EarTagOrderData.fromXml(element)) ??
+        [];
+
     return GetEarTagOrdersResponse(result, resultDetails);
   }
 }

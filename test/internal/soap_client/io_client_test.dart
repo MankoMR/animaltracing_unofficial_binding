@@ -15,6 +15,8 @@ import '../../test_utils/test_utils.dart';
 
 void main() {
   group('IOClient', () {
+    //TODO: rework Test using spawnHybridUri
+    //See:https://pub.dev/documentation/test_api/latest/test_api.scaffolding/spawnHybridUri.html
     group('TimeOutSetup', () {
       late HttpServer server;
       setUp(() async {
@@ -33,9 +35,8 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
-        //TODO: remove skipping test once reason Test fails is clear
       },
-          tags: ['errors'],
+          tags: ['exception-model'],
           timeout: const Timeout(Duration(seconds: 5)),
           skip: true);
     });
@@ -44,13 +45,14 @@ void main() {
         'SocketException', () {
       final client = IOClient(const Duration(milliseconds: 500));
       final soapRequest = SoapRequest(
-          ServiceEndpointConfiguration('localhost', 4042,
-              'Livestock/AnimalTracing/3', const Duration(milliseconds: 500)),
+          ConnectionConfiguration(
+              endpoint: Uri.http('localhost:4042', 'Livestock/AnimalTracing/3'),
+              connectionTimeout: const Duration(milliseconds: 500)),
           'serviceOperation',
           MockRequestData());
       expect(() async => client.sendRequest(soapRequest, 'authorizationToken'),
           throwsA(const TypeMatcher<SocketException>()));
-    }, tags: ['errors']);
+    }, tags: ['exception-model']);
     group('HttpStatusCodeNot200Setup', () {
       late HttpServer server;
       setUp(() async {
@@ -69,7 +71,7 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<HttpException>()));
-      }, tags: ['errors']);
+      }, tags: ['exception-model']);
     });
     group('HttpStatusCodeNot200WithSoapEnvelopeSetup', () {
       late HttpServer server;
@@ -105,7 +107,7 @@ void main() {
         expect(
             () async => client.sendRequest(soapRequest, 'authorizationToken'),
             throwsA(const TypeMatcher<SoapException>()));
-      }, tags: ['errors']);
+      }, tags: ['exception-model']);
     });
   }, onPlatform: const {'!dart-vm': Skip('Might not support IOClient')});
 }

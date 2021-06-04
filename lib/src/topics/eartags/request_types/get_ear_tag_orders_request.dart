@@ -55,10 +55,11 @@ class GetEarTagOrdersRequest extends RequestData {
     builder.element(elementName ?? 'GetEarTagOrders',
         namespace: Namespaces.animalTracing,
         namespaces: Namespaces.nameSpacesNames, nest: () {
-      buildNullableElement(builder, 'p_ManufacturerKey',
-          Namespaces.animalTracing, NullabilityType.nullable, manufacturerKey);
-
       builder
+        ..nullableElement('p_ManufacturerKey',
+            namespace: Namespaces.animalTracing,
+            nest: manufacturerKey,
+            nullability: NullabilityType.nullable)
         ..element('p_LCID', namespace: Namespaces.animalTracing, nest: lcid)
         ..element('p_TVDNumber',
             namespace: Namespaces.animalTracing, nest: tvdNumber)
@@ -68,14 +69,14 @@ class GetEarTagOrdersRequest extends RequestData {
         ..element('p_SearchDateTo',
             namespace: Namespaces.animalTracing,
             nest: searchDateTo.toIso8601String())
-        ..element(
+        ..elementList<int>(
           'p_ArticleFilter',
           namespace: Namespaces.animalTracing,
-          nest: () {
-            for (final articleType in articleFilter) {
-              builder.element('IntItem',
-                  namespace: Namespaces.animalTracing, nest: articleType);
-            }
+          nullability: NullabilityType.required,
+          list: articleFilter,
+          itemBuilder: (builder, articleType) {
+            builder.element('IntItem',
+                namespace: Namespaces.animalTracing, nest: articleType);
           },
         );
     });

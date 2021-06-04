@@ -30,8 +30,8 @@ const _portNumber = 4041;
 
 /// ServiceEndpointConfiguration used to connect temporary test servers. See
 /// [createServer].
-final testServerConfiguration =
-    ServiceEndpointConfiguration('localhost', _portNumber, 'test', null);
+final testServerConfiguration = ConnectionConfiguration(
+    endpoint: Uri.http('localhost:$_portNumber', 'test'));
 
 /// Sets up a Server with the following Configuration:
 /// IPAddress: loopbackIPv4, port: 4041
@@ -46,12 +46,23 @@ Future<HttpServer> createServer(RequestHandler requestHandler) async {
   return server;
 }
 
-/// Validates [data] against the schemas contained in the wsdl-Definiton of
+/// Validates [data] against the schemas contained in the WSDL of
 /// AnimalTracing.
 ///
 /// Throws [UnsupportedError] if something is fundamentally wrong.
-Future<void> expectIsValidXml(RequestData data, String? elementName) async {
-  final result = await validateXml(generateXml(data, elementName));
+Future<void> expectGeneratesValidXml(
+    RequestData data, String? elementName) async {
+  final rawXml = generateXml(data, elementName);
+  final result = await validateXml(rawXml);
+  expect(result.isValidXml, true, reason: '$rawXml\n${result.message}');
+}
+
+/// Validates [rawXml] against the schemas contained in the WSDL of
+/// Animaltracing.
+///
+/// Throws [UnsupportedError] if something is fundamentally wrong.
+Future<void> expectIsValidXml(String rawXml) async {
+  final result = await validateXml(rawXml);
   expect(result.isValidXml, true, reason: result.message);
 }
 
@@ -72,7 +83,7 @@ Future<ValidationResult> validateXml(String xml) async {
   final encodedXml = base64.encode(xml.codeUnits);
 
   // ignore: lines_longer_than_80_chars
-  //Todo: Change after project is finished and support for additional systems will be added.
+  //Todo: Change when support for additional systems will be added.
   final processingResult = await Process.run(
       r'.\tool\xml_validator\windows-x86\animaltracing_xml_validator.exe',
       ['--xmlBase64=$encodedXml']);
