@@ -21,6 +21,7 @@ void main() {
       late HttpServer server;
       setUp(() async {
         server = await createServer((request) async {
+          // ignore: inference_failure_on_instance_creation
           await Future.delayed(const Duration(days: 10));
           await request.response.close();
         });

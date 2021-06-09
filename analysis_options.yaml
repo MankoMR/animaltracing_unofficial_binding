@@ -162,7 +162,13 @@ linter:
      - package_names #https://dart-lang.github.io/linter/lints/package_names.html
      - sort_pub_dependencies #https://dart-lang.github.io/linter/lints/sort_pub_dependencies.html
 
-
 analyzer:
+  strong-mode:
+    implicit-casts: false
+    #implicit-dynamic: false
+  language:
+    strict-raw-types: true
+    strict-inference: true
+
 #   exclude:
 #     - path/to/excluded/files/**
