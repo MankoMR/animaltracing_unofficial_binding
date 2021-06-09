@@ -20,6 +20,11 @@ than the original templated code is not licensed under the BSD-style License.
 See [init-repository](https://github.com/MankoMR/animaltracing_unofficial_binding/pull/1) for more
 details.
 
+Before I want to make the library publicly available, some work needs to be done:
+
+* Decide which License will be used.
+* Add templates for issues and pullrequests.
+* Copy/Make development guidelines  available on the repository.
 ## Example
 
 An example for how to call a service operation. The code is also available under
@@ -67,7 +72,6 @@ void printDetails(List<EarTagOrderData> details) {
       ..write(order.isExpress ? 'Express Delivery' : '');
     //etc...
   }
-  // ignore: avoid_print
   print(buffer.toString());
   buffer.clear();
 }
